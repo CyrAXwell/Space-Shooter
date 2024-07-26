@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06613796811236c40917f350fab32b0b, type: 3}
+  m_Name: DEF Gem
+  m_EditorClassIdentifier: 
+  gemName: DEF GEM
+  gemNameColor: '#3557d2'
+  gemStat: 3
+  gemStatIncrease: 1
+  gemIcon: {fileID: -359374192, guid: c23f33d0315f0064a8c921be2fe13d22, type: 3}
+  numberSubStatsProbability: f401000088130000ac0d0000e8030000
+  subStatsNames:
+  - HP
+  - ATK
+  - DEF
+  - CRIT DMG
+  - CRIT RATE
+  subStatsHP: 010000000200000003000000
+  subStatsATK: 010000000200000003000000
+  subStatsDEF: 010000000100000002000000
+  subStatsCRITDMG: f401000058020000bc020000
+  subStatsCRITRate: c8000000fa0000005e010000

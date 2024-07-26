@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b5e795ea5a8974cba21253a66b1b36, type: 3}
+  m_Name: Shield cooldown Upgrade
+  m_EditorClassIdentifier: 
+  nameUpgrade: Shield cooldown upgrade
+  value: 0a000000140000001e00000028000000
+  percentage: 1
+  floating: 0
+  description: <color=#6abe30>-X</color> sec "Shield" cooldown
+  slotType: Shield stats
+  typeColor: '#3557d2'
+  upgradeIcon: {fileID: -1568116224, guid: c84bd0caf0139334a97399116f68afe8, type: 3}

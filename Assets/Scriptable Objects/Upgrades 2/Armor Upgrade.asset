@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b5e795ea5a8974cba21253a66b1b36, type: 3}
+  m_Name: Armor Upgrade
+  m_EditorClassIdentifier: 
+  nameUpgrade: Armor upgrade
+  value: 01000000020000000300000004000000
+  percentage: 0
+  floating: 0
+  description: <color=#6abe30>+X</color> Armor
+  slotType: Base stats
+  typeColor: '#847e87'
+  upgradeIcon: {fileID: 1892305465, guid: c84bd0caf0139334a97399116f68afe8, type: 3}
