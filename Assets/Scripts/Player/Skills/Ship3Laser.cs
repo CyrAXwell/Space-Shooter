@@ -109,15 +109,15 @@ public class Ship3Laser : MonoBehaviour
             if (hits[i].collider != null) 
             {
                 if (hits[i].collider.CompareTag("Enemy") && canDamage) {
-                    hits[i].collider.GetComponent<Enemy>().TakeDamage(player.activeATK + additionalDamage, player.activeCRITRate, player.activeCRITDMG);
+                    hits[i].collider.GetComponent<Enemy>().TakeDamage(player._activeATK + additionalDamage, player._activeCRITRate, player._activeCRITDMG);
                     StartCoroutine(CanLaserDamage(timeBetweenTakeDamage)); 
                 }
                 if (hits[i].collider.CompareTag("EnemyShield") && canDamage) {
-                    hits[i].collider.GetComponent<EnemyShieldStats>().TakeDamage(player.activeATK + additionalDamage);
+                    hits[i].collider.GetComponent<EnemyShieldStats>().TakeDamage(player._activeATK + additionalDamage);
                     StartCoroutine(CanLaserDamage(timeBetweenTakeDamage));
                 }
                 if (hits[i].collider.CompareTag("Boss") && canDamage) {
-                    hits[i].collider.GetComponent<Boss>().TakeDamage(player.activeATK + additionalDamage, player.activeCRITRate, player.activeCRITDMG);
+                    hits[i].collider.GetComponent<Boss>().TakeDamage(player._activeATK + additionalDamage, player._activeCRITRate, player._activeCRITDMG);
                     StartCoroutine(CanLaserDamage(timeBetweenTakeDamage));
                 }
                 

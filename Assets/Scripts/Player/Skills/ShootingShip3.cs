@@ -59,9 +59,9 @@ public class ShootingShip3 : MonoBehaviour
   
             GameObject bulletOne = Instantiate(bulletPrefab, firePointOne.position, transform.rotation);
             bulletStats = bulletOne.GetComponent<Bullet>();
-            bulletStats.damage = playerStats.activeATK;
-            bulletStats.critChance = playerStats.activeCRITRate;
-            bulletStats.critDamage = playerStats.activeCRITDMG;
+            bulletStats.damage = playerStats._activeATK;
+            bulletStats.critChance = playerStats._activeCRITRate;
+            bulletStats.critDamage = playerStats._activeCRITDMG;
         }
         
     }

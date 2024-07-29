@@ -84,9 +84,9 @@ public class Ship2ExplosionBullets : MonoBehaviour
         
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bulletStats = bullet.GetComponent<ExplosionBullet>();
-        bulletStats.damage = playerStats.activeATK + additionalDamage;
-        bulletStats.critChance = playerStats.activeCRITRate;
-        bulletStats.critDamage = playerStats.activeCRITDMG;
+        bulletStats.damage = playerStats._activeATK + additionalDamage;
+        bulletStats.critChance = playerStats._activeCRITRate;
+        bulletStats.critDamage = playerStats._activeCRITDMG;
     }
 
     private IEnumerator ReloadShot(float interval)

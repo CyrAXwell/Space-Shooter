@@ -126,7 +126,7 @@ public class WaveManager : MonoBehaviour
                 player.GetComponent<Ship1RapidFire>().ResetRapidFireSkill(); 
                 break;
         }
-        player.GetComponent<Player>().FullHeal();
+        player.GetComponent<Player>().MaxHeal();
 
     }
 
@@ -170,7 +170,7 @@ public class WaveManager : MonoBehaviour
         }
 
         ClearObjects();
-        player.GetComponent<Player>().FullHeal();
+        player.GetComponent<Player>().MaxHeal();
         UpdateWaveDisplay();
         UnPauseGame();
     }

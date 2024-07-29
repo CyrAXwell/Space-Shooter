@@ -71,16 +71,16 @@ public class Shooting : MonoBehaviour
 
             GameObject bulletOne = Instantiate(bulletPrefab, firePointOne.position, transform.rotation);
             bulletStats = bulletOne.GetComponent<Bullet>();
-            bulletStats.damage = playerStats.activeATK + rapidFireDamage;
-            bulletStats.critChance = playerStats.activeCRITRate;
-            bulletStats.critDamage = playerStats.activeCRITDMG;
+            bulletStats.damage = playerStats._activeATK + rapidFireDamage;
+            bulletStats.critChance = playerStats._activeCRITRate;
+            bulletStats.critDamage = playerStats._activeCRITDMG;
             //Debug.Log("damage - " + bulletStats.damage);
 
             GameObject bulletTwo = Instantiate(bulletPrefab, firePointTwo.position, transform.rotation);
             bulletStats = bulletTwo.GetComponent<Bullet>();
-            bulletStats.damage = playerStats.activeATK + rapidFireDamage;
-            bulletStats.critChance = playerStats.activeCRITRate;
-            bulletStats.critDamage = playerStats.activeCRITDMG;
+            bulletStats.damage = playerStats._activeATK + rapidFireDamage;
+            bulletStats.critChance = playerStats._activeCRITRate;
+            bulletStats.critDamage = playerStats._activeCRITDMG;
 
             //Instantiate(bulletPrefab, firePoint1.position, transform.rotation);
 

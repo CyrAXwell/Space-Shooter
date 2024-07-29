@@ -4,111 +4,81 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameObject deathEffect;
-
+    [SerializeField] private GameObject deathEffect;
+    [SerializeField] private AudioSource hitSound;
 
     private Ship1Stats ShipStats;
-    [Header("Player stats")]
-    private int health;
-    private int maxHealth;
-    private int def;
-    [HideInInspector] public int damage;
-    [HideInInspector] public int critDamage;
-    [HideInInspector] public int critChance;
-    
-    private int lvl = 1;
-    private int xP = 0;
-    private int maxXP = 10;
-    //[HideInInspector]
+    private int _level = 1;
+    private int _exp = 0;
+    private int _maxExp = 10;
 
+    private int _health;
+    private int _maxHealth;
+    private int _def;
+    private int _damage;
+    private int _critDamage;
+    private int _critChance;
 
-    //[SerializeField] private GameObject gemManager;
-    [HideInInspector] public int activeMaxHP;
-    [HideInInspector] public int activeHP;
-    [HideInInspector] public int activeATK;
-    [HideInInspector] public int activeDEF;
-    [HideInInspector] public int activeCRITDMG;
-    [HideInInspector] public int activeCRITRate;
+    private int _activeMaxHP;
+    private int _activeHP;
+    private int _activeATK;
+    private int _activeDEF;
+    private int _activeCRITDMG;
+    private int _activeCRITRate;
 
-    
-
-
-    
-
-    //[SerializeField] private GameObject uiHealthBar;
-
-    [Header("UI parameters")]
-    private GameObject uiHealthBar;
-    private HealthBar healthBar;
-    private GameObject shipParameters;
-    private GameObject uiXPBar;
-    private XPBar xPBar;
+    private GameObject _uiHealthBar;
+    private HealthBar _healthBar;
+    private GameObject _shipParameters;
+    private GameObject _uiXPBar;
+    private XPBar _xPBar;
     private GameObject levelUpMenu;
-
-    [SerializeField] AudioSource hitSound;
-
 
     void Start()
     {
         ShipStats = GetComponent<Ship1Stats>();
 
-        maxHealth = ShipStats.basemMaxHp;
-        health = maxHealth;
-        def = ShipStats.baseDef;
-        damage = ShipStats.baseDamage;
-        critChance = ShipStats.baseCritChance;
-        critDamage = ShipStats.baseCritDamage;
+        _maxHealth = ShipStats.basemMaxHp;
+        _health = _maxHealth;
+        _def = ShipStats.baseDef;
+        _damage = ShipStats.baseDamage;
+        _critChance = ShipStats.baseCritChance;
+        _critDamage = ShipStats.baseCritDamage;
 
-        //gemManager.GetComponent<GemManager>().CalculeteStats();
-        activeHP = health;
-        activeMaxHP = maxHealth;
-        activeATK = damage;
-        activeDEF = def;
-        activeCRITDMG = critDamage;
-        activeCRITRate = critChance;
-        //UpdateGemStats(0,0,0,0,0);
+        _activeHP = _health;
+        _activeMaxHP = _maxHealth;
+        _activeATK = _damage;
+        _activeDEF = _def;
+        _activeCRITDMG = _critDamage;
+        _activeCRITRate = _critChance;
         
         
-        uiHealthBar = GameObject.Find("HP");
-        uiXPBar = GameObject.Find("XP");
+        _uiHealthBar = GameObject.Find("HP");
+        _uiXPBar = GameObject.Find("XP");
         levelUpMenu = GameObject.Find("Canvas").transform.GetChild(2).gameObject;
         
-        shipParameters = GameObject.Find("Ship parameters");
-        healthBar = uiHealthBar.GetComponent<HealthBar>();
-        xPBar = uiXPBar.GetComponent<XPBar>();
-        //healthBar.SetMaxHealt(maxHealth);
-        xPBar.SetXP(xP, maxXP);
-        xPBar.SetLvl(lvl);
-        healthBar.SetHealth(activeHP, activeMaxHP);
+        _shipParameters = GameObject.Find("Ship parameters");
+        _healthBar = _uiHealthBar.GetComponent<HealthBar>();
+        _xPBar = _uiXPBar.GetComponent<XPBar>();
 
-        shipParameters.GetComponent<ShipParameters>().PrintStats(activeMaxHP, activeATK, activeDEF, activeCRITDMG, activeCRITRate);
+        _xPBar.SetXP(_exp, _maxExp);
+        _xPBar.SetLvl(_level);
+        _healthBar.SetHealth(_activeHP, _activeMaxHP);
+
+        _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
     }
 
-    // void Update()
-    // {
-    //     if(Input.GetKeyDown("x"))
-    //     {
-    //         GetXP(5);
-    //     }
-    // }
-
-    public void TakeDamage(int dmg)
+    public void TakeDamage(int damage)
     {
         hitSound.Play();
-        if(dmg <= activeDEF)
-        {
-            activeHP -= 1;
-        }else{
-            activeHP -= dmg - activeDEF;
-        }
+
+        _activeHP -= damage <= _activeDEF ? 1 : damage - _activeDEF;
         
-        if(activeHP <= health)
-        {
-            health = activeHP;
-        }
-        //HealthBar healthBar = uiHealthBar.GetComponent<HealthBar>();
-        healthBar.SetHealth(activeHP, activeMaxHP);
-        if(activeHP <= 0)
+        if(_activeHP <= _health)
+            _health = _activeHP;
+
+        _healthBar.SetHealth(_activeHP, _activeMaxHP);
+
+        if(_activeHP <= 0)
         {
             Death();
         }
@@ -116,132 +86,128 @@ public class Player : MonoBehaviour
 
     void Death()
     {
-        
         GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(effect, 0.5f);
         GameObject.Find("GameManager").GetComponent<GameOverScreen>().GameOver();
-        //Destroy(gameObject);
-    }
-
-
-    public void GetXP(int addXP)
-    {
-        xP += addXP;
-        if(xP >= maxXP)
-        {
-
-            lvlUP();
-        }
-        xPBar.SetXP(xP, maxXP);
     }
 
     public void UpdateGemStats(int hpGem, int atkGem, int defGem, int critdmgGem, int critrateGem)
     {
-        Debug.Log("input atk " +atkGem);
-        Debug.Log("damage " +damage);
-        activeMaxHP = maxHealth + hpGem;
-        activeHP = activeMaxHP;
-        //activeHP = health + hpGem;
-        activeATK = damage + atkGem;
-        Debug.Log("activeATK " + activeATK);
-        activeDEF = def + defGem;
-        activeCRITDMG = critDamage + critdmgGem;
-        activeCRITRate = critChance + critrateGem;
-        //FullHeal();
-        healthBar.SetHealth(activeHP, activeMaxHP);
-        Debug.Log("activeATK+ " + activeATK);
-        shipParameters.GetComponent<ShipParameters>().PrintStats(activeMaxHP, activeATK, activeDEF, activeCRITDMG, activeCRITRate);
+        _activeMaxHP = _maxHealth + hpGem;
+        _activeHP = _activeMaxHP;
 
+        _activeATK = _damage + atkGem;
+        _activeDEF = _def + defGem;
+        _activeCRITDMG = _critDamage + critdmgGem;
+        _activeCRITRate = _critChance + critrateGem;
+
+        _healthBar.SetHealth(_activeHP, _activeMaxHP);
+
+        _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+    }
+
+    public void GetXP(int addXP)
+    {
+        _exp += addXP;
+        if(_exp >= _maxExp)
+            lvlUP();
+
+        _xPBar.SetXP(_exp, _maxExp);
+    }
+
+    private int GetTargetExperience(int level)
+    {
+        return (_level + 3) * (_level + 3);
     }
 
     public void lvlUP()
     {
-        lvl ++;
-        if(xP > maxXP)
+        _level ++;
+        if(_exp > _maxExp)
         {
-            xP -=  maxXP;
-            maxXP = (lvl + 3) * (lvl + 3);
+            _exp -=  _maxExp;
+            _maxExp = GetTargetExperience(_level);
             GetXP(0);
-        } else
+        } 
+        else
         {
-            xP = 0;
-            maxXP = (lvl + 3) * (lvl + 3);
+            _exp = 0;
+            _maxExp = GetTargetExperience(_level);
         }
-        xPBar.SetXP(xP, maxXP);
-        xPBar.SetLvl(lvl);
+        _xPBar.SetXP(_exp, _maxExp);
+        _xPBar.SetLvl(_level);
         
         levelUpMenu.GetComponent<LevelUpMenu>().OpenLevelUpMenu();
-
     }
 
-    public void FullHeal()
+    public void MaxHeal()
     {
-        activeHP = activeMaxHP;
-        healthBar.SetHealth(activeHP, activeMaxHP);
+        _activeHP = _activeMaxHP;
+        _healthBar.SetHealth(_activeHP, _activeMaxHP);
     }
 
     public void ChangeHp(int addHp)
         {
-            maxHealth += addHp;
-            health += addHp;
-            activeHP += addHp;
-            activeMaxHP += addHp;
+            _maxHealth += addHp;
+            _health += addHp;
+            _activeHP += addHp;
+            _activeMaxHP += addHp;
 
             //HealthBar healthBar = uiHealthBar.GetComponent<HealthBar>();
             //healthBar.SetMaxHealt(maxHealth);
-            healthBar.SetHealth(activeHP, activeMaxHP);
-            shipParameters.GetComponent<ShipParameters>().PrintStats(activeMaxHP, activeATK, activeDEF, activeCRITDMG, activeCRITRate);
+            _healthBar.SetHealth(_activeHP, _activeMaxHP);
+            _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
         }
 
     public void Heal(int healHP)
         {
-            if(activeHP + healHP >= activeMaxHP)
+            if(_activeHP + healHP >= _activeMaxHP)
             {
-                activeHP = activeMaxHP;
+                _activeHP = _activeMaxHP;
             }else
             {
-                activeHP += healHP;
+                _activeHP += healHP;
             }
 
-            if(health + healHP >= maxHealth)
+            if(_health + healHP >= _maxHealth)
             {
-                health = maxHealth;
+                _health = _maxHealth;
             }else
             {
-                health += healHP;
+                _health += healHP;
             }
 
             //HealthBar healthBar = uiHealthBar.GetComponent<HealthBar>();
             //healthBar.SetMaxHealt(maxHealth);
-            healthBar.SetHealth(activeHP, activeMaxHP);
+            _healthBar.SetHealth(_activeHP, _activeMaxHP);
         }
 
     public void UpgradeArmor(int addArmor)
         {
-            def += addArmor;
-            activeDEF += addArmor;
-            shipParameters.GetComponent<ShipParameters>().PrintStats(activeMaxHP, activeATK, activeDEF, activeCRITDMG, activeCRITRate);
+            _def += addArmor;
+            _activeDEF += addArmor;
+            _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
 
         }
 
     public void UpgradeDamage(int addDamage)
         {
-            damage += addDamage;
-            activeATK += addDamage;
-            shipParameters.GetComponent<ShipParameters>().PrintStats(activeMaxHP, activeATK, activeDEF, activeCRITDMG, activeCRITRate);
+            _damage += addDamage;
+            _activeATK += addDamage;
+            _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
         }
 
     public void UpgradeCritDamage(int addCritDamage)
         {
-            critDamage += addCritDamage;
-            activeCRITDMG += addCritDamage;
-            shipParameters.GetComponent<ShipParameters>().PrintStats(activeMaxHP, activeATK, activeDEF, activeCRITDMG, activeCRITRate);
+            _critDamage += addCritDamage;
+            _activeCRITDMG += addCritDamage;
+            _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
         }
     
     public void UpgradeCritRate(int addCritRate)
         {
-            critChance += addCritRate;
-            activeCRITRate += addCritRate;
-            shipParameters.GetComponent<ShipParameters>().PrintStats(activeMaxHP, activeATK, activeDEF, activeCRITDMG, activeCRITRate);
+            _critChance += addCritRate;
+            _activeCRITRate += addCritRate;
+            _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
         }
 }

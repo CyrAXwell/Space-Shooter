@@ -61,15 +61,15 @@ public class ShootingShip2 : MonoBehaviour
   
             GameObject bulletOne = Instantiate(bulletPrefab, firePointOne.position, transform.rotation);
             bulletStats = bulletOne.GetComponent<Bullet>();
-            bulletStats.damage = playerStats.activeATK;
-            bulletStats.critChance = playerStats.activeCRITRate;
-            bulletStats.critDamage = playerStats.activeCRITDMG;
+            bulletStats.damage = playerStats._activeATK;
+            bulletStats.critChance = playerStats._activeCRITRate;
+            bulletStats.critDamage = playerStats._activeCRITDMG;
 
             GameObject bulletTwo = Instantiate(bulletPrefab, firePointTwo.position, transform.rotation);
             bulletStats = bulletTwo.GetComponent<Bullet>();
-            bulletStats.damage = playerStats.activeATK;
-            bulletStats.critChance = playerStats.activeCRITRate;
-            bulletStats.critDamage = playerStats.activeCRITDMG;
+            bulletStats.damage = playerStats._activeATK;
+            bulletStats.critChance = playerStats._activeCRITRate;
+            bulletStats.critDamage = playerStats._activeCRITDMG;
         }
         
     }
