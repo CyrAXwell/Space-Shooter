@@ -15,6 +15,6 @@ public class Bootstrap : MonoBehaviour
     private void InitializePlayer()
     {
         gameController.InitializePlayer();
-        //uIShipParameters.Initialize(gameController.GetPlayer());
+        uIShipParameters.Initialize(gameController.GetPlayer());
     }
 }

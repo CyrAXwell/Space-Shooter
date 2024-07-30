@@ -28,7 +28,6 @@ public class Player : MonoBehaviour
 
     private GameObject _uiHealthBar;
     private HealthBar _healthBar;
-    private GameObject _shipParameters;
     private GameObject _uiXPBar;
     private XPBar _xPBar;
     private GameObject levelUpMenu;
@@ -56,7 +55,6 @@ public class Player : MonoBehaviour
         _uiXPBar = GameObject.Find("XP");
         levelUpMenu = GameObject.Find("Canvas").transform.GetChild(2).gameObject;
         
-        _shipParameters = GameObject.Find("Ship parameters");
         _healthBar = _uiHealthBar.GetComponent<HealthBar>();
         _xPBar = _uiXPBar.GetComponent<XPBar>();
 
@@ -64,7 +62,6 @@ public class Player : MonoBehaviour
         _xPBar.SetLvl(_level);
         _healthBar.SetHealth(_activeHP, _activeMaxHP);
 
-        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
         OnStatsChange?.Invoke();
     }
 
@@ -104,7 +101,7 @@ public class Player : MonoBehaviour
 
         _healthBar.SetHealth(_activeHP, _activeMaxHP);
 
-        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        OnStatsChange?.Invoke();
     }
 
     public int GetActiveMaxHp() => _activeMaxHP;
@@ -172,34 +169,34 @@ public class Player : MonoBehaviour
         _activeMaxHP += addHp;
 
         _healthBar.SetHealth(_activeHP, _activeMaxHP);
-        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        OnStatsChange?.Invoke();
     }
 
     public void UpgradeArmor(int addArmor)
     {
         _def += addArmor;
         _activeDEF += addArmor;
-        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        OnStatsChange?.Invoke();
     }
 
     public void UpgradeDamage(int addDamage)
     {
         _damage += addDamage;
         _activeATK += addDamage;
-        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        OnStatsChange?.Invoke();
     }
 
     public void UpgradeCritDamage(int addCritDamage)
     {
         _critDamage += addCritDamage;
         _activeCRITDMG += addCritDamage;
-        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        OnStatsChange?.Invoke();
     }
     
     public void UpgradeCritRate(int addCritRate)
     {
         _critChance += addCritRate;
         _activeCRITRate += addCritRate;
-        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        OnStatsChange?.Invoke();
     }
 }
