@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     public event Action OnStatsChange;
     public event Action OnHealthChange;
     public event Action OnXPChange;
+    public event Action OnLevelUp;
 
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private AudioSource hitSound;
@@ -29,8 +30,6 @@ public class Player : MonoBehaviour
     public int _activeCRITDMG;
     public int _activeCRITRate;
 
-    private GameObject levelUpMenu;
-
     void Start()
     {
         ShipStats = GetComponent<Ship1Stats>();
@@ -48,8 +47,6 @@ public class Player : MonoBehaviour
         _activeDEF = _def;
         _activeCRITDMG = _critDamage;
         _activeCRITRate = _critChance;
-        
-        levelUpMenu = GameObject.Find("Canvas").transform.GetChild(2).gameObject;
 
         OnHealthChange?.Invoke();
         OnXPChange?.Invoke();
@@ -93,7 +90,6 @@ public class Player : MonoBehaviour
         OnStatsChange?.Invoke();
     }
 
-
     public int GetXP() => _exp;
     public int GetTargetXP() => _maxExp;
     public int GetLevel() => _level;
@@ -133,8 +129,7 @@ public class Player : MonoBehaviour
             _maxExp = GetTargetExperience(_level);
         }
         OnXPChange?.Invoke();
-        
-        levelUpMenu.GetComponent<LevelUpMenu>().OpenLevelUpMenu();
+        OnLevelUp?.Invoke();
     }
 
     public void Heal(int healHP)
@@ -160,7 +155,7 @@ public class Player : MonoBehaviour
         _health += addHp;
         _activeHP += addHp;
         _activeMaxHP += addHp;
-        
+
         OnHealthChange?.Invoke();
         OnStatsChange?.Invoke();
     }

@@ -15,11 +15,16 @@ public class UIXPBar : MonoBehaviour
     {
         _player = player;
         _player.OnXPChange += OnXPChange;
+        _player.OnLevelUp += OnLevelUp;
     }
 
     private void OnXPChange()
     {
         UpdateXPBar(_player.GetXP(), _player.GetTargetXP());
+    }
+
+    private void OnLevelUp()
+    {
         UpdateLevelText(_player.GetLevel());
     }
 
@@ -33,5 +38,11 @@ public class UIXPBar : MonoBehaviour
     private void UpdateLevelText(int lvl)
     {
         lvlTMP.text = lvl.ToString();
+    }
+
+    private void OnDisable()
+    {
+        _player.OnXPChange -= OnXPChange;
+        _player.OnLevelUp -= OnLevelUp;
     }
 }

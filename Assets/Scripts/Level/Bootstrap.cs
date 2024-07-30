@@ -6,6 +6,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private UIShipParameters uIShipParameters;
     [SerializeField] private UIHealthBar uIHealthBar;
     [SerializeField] private UIXPBar uIXPBar;
+    [SerializeField] private LevelUpMenu levelUpMenu;
 
     private void Awake()
     {
@@ -20,5 +21,6 @@ public class Bootstrap : MonoBehaviour
         uIShipParameters.Initialize(player);
         uIHealthBar.Initialize(player);
         uIXPBar.Initialize(player);
+        levelUpMenu.Initialize(player);
     }
 }

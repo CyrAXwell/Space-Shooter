@@ -103,5 +103,4 @@ public class GameController : MonoBehaviour
             soundToggle.isOn = false;
         }
     }
-
 }
