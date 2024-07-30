@@ -4,6 +4,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public event Action OnStatsChange;
+    public event Action OnHealthChange;
+    public event Action OnXPChange;
+
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private AudioSource hitSound;
 
@@ -26,10 +29,6 @@ public class Player : MonoBehaviour
     public int _activeCRITDMG;
     public int _activeCRITRate;
 
-    private GameObject _uiHealthBar;
-    private HealthBar _healthBar;
-    private GameObject _uiXPBar;
-    private XPBar _xPBar;
     private GameObject levelUpMenu;
 
     void Start()
@@ -50,18 +49,10 @@ public class Player : MonoBehaviour
         _activeCRITDMG = _critDamage;
         _activeCRITRate = _critChance;
         
-        
-        _uiHealthBar = GameObject.Find("HP");
-        _uiXPBar = GameObject.Find("XP");
         levelUpMenu = GameObject.Find("Canvas").transform.GetChild(2).gameObject;
-        
-        _healthBar = _uiHealthBar.GetComponent<HealthBar>();
-        _xPBar = _uiXPBar.GetComponent<XPBar>();
 
-        _xPBar.SetXP(_exp, _maxExp);
-        _xPBar.SetLvl(_level);
-        _healthBar.SetHealth(_activeHP, _activeMaxHP);
-
+        OnHealthChange?.Invoke();
+        OnXPChange?.Invoke();
         OnStatsChange?.Invoke();
     }
 
@@ -74,7 +65,7 @@ public class Player : MonoBehaviour
         if(_activeHP <= _health)
             _health = _activeHP;
 
-        _healthBar.SetHealth(_activeHP, _activeMaxHP);
+        OnHealthChange?.Invoke();
 
         if(_activeHP <= 0)
         {
@@ -93,17 +84,20 @@ public class Player : MonoBehaviour
     {
         _activeMaxHP = _maxHealth + hpGem;
         _activeHP = _activeMaxHP;
-
         _activeATK = _damage + atkGem;
         _activeDEF = _def + defGem;
         _activeCRITDMG = _critDamage + critdmgGem;
         _activeCRITRate = _critChance + critrateGem;
 
-        _healthBar.SetHealth(_activeHP, _activeMaxHP);
-
+        OnHealthChange?.Invoke();
         OnStatsChange?.Invoke();
     }
 
+
+    public int GetXP() => _exp;
+    public int GetTargetXP() => _maxExp;
+    public int GetLevel() => _level;
+    public int GetActiveHp() => _activeHP;
     public int GetActiveMaxHp() => _activeMaxHP;
     public int GetActiveATK() => _activeATK;
     public int GetActiveDEF() => _activeDEF;
@@ -116,7 +110,7 @@ public class Player : MonoBehaviour
         if(_exp >= _maxExp)
             lvlUP();
 
-        _xPBar.SetXP(_exp, _maxExp);
+        OnXPChange?.Invoke();
     }
 
     private int GetTargetExperience(int level)
@@ -138,8 +132,7 @@ public class Player : MonoBehaviour
             _exp = 0;
             _maxExp = GetTargetExperience(_level);
         }
-        _xPBar.SetXP(_exp, _maxExp);
-        _xPBar.SetLvl(_level);
+        OnXPChange?.Invoke();
         
         levelUpMenu.GetComponent<LevelUpMenu>().OpenLevelUpMenu();
     }
@@ -152,13 +145,13 @@ public class Player : MonoBehaviour
         tempHP = _health + healHP;
         _health = tempHP > _maxHealth ? _maxHealth : tempHP;
 
-        _healthBar.SetHealth(_activeHP, _activeMaxHP);
+        OnHealthChange?.Invoke();
     }
 
     public void FullHeal()
     {
         _activeHP = _activeMaxHP;
-        _healthBar.SetHealth(_activeHP, _activeMaxHP);
+        OnHealthChange?.Invoke();
     }
 
     public void UpgradeHP(int addHp)
@@ -167,8 +160,8 @@ public class Player : MonoBehaviour
         _health += addHp;
         _activeHP += addHp;
         _activeMaxHP += addHp;
-
-        _healthBar.SetHealth(_activeHP, _activeMaxHP);
+        
+        OnHealthChange?.Invoke();
         OnStatsChange?.Invoke();
     }
 

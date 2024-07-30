@@ -4,8 +4,8 @@ public class Bootstrap : MonoBehaviour
 {
     [SerializeField] private GameController gameController;
     [SerializeField] private UIShipParameters uIShipParameters;
-    // [SerializeField] private GameController gameController;
-    // [SerializeField] private GameController gameController;
+    [SerializeField] private UIHealthBar uIHealthBar;
+    [SerializeField] private UIXPBar uIXPBar;
 
     private void Awake()
     {
@@ -15,6 +15,10 @@ public class Bootstrap : MonoBehaviour
     private void InitializePlayer()
     {
         gameController.InitializePlayer();
-        uIShipParameters.Initialize(gameController.GetPlayer());
+
+        Player player = gameController.GetPlayer();
+        uIShipParameters.Initialize(player);
+        uIHealthBar.Initialize(player);
+        uIXPBar.Initialize(player);
     }
 }
