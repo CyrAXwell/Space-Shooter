@@ -9,7 +9,7 @@ public class SkillTimer : MonoBehaviour
 
     private TMP_Text skillTimer;
 
-    void Start()
+    void Awake()
     {
         skillTimer = transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
     }

@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public event Action OnStatsChange;
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private AudioSource hitSound;
 
@@ -62,7 +64,8 @@ public class Player : MonoBehaviour
         _xPBar.SetLvl(_level);
         _healthBar.SetHealth(_activeHP, _activeMaxHP);
 
-        _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        OnStatsChange?.Invoke();
     }
 
     public void TakeDamage(int damage)
@@ -101,10 +104,16 @@ public class Player : MonoBehaviour
 
         _healthBar.SetHealth(_activeHP, _activeMaxHP);
 
-        _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
     }
 
-    public void GetXP(int addXP)
+    public int GetActiveMaxHp() => _activeMaxHP;
+    public int GetActiveATK() => _activeATK;
+    public int GetActiveDEF() => _activeDEF;
+    public int GetActiveCRITDMG() => _activeCRITDMG;
+    public int GetActiveCRITRate() => _activeCRITRate;
+
+    public void SetXP(int addXP)
     {
         _exp += addXP;
         if(_exp >= _maxExp)
@@ -125,7 +134,7 @@ public class Player : MonoBehaviour
         {
             _exp -=  _maxExp;
             _maxExp = GetTargetExperience(_level);
-            GetXP(0);
+            SetXP(0);
         } 
         else
         {
@@ -163,34 +172,34 @@ public class Player : MonoBehaviour
         _activeMaxHP += addHp;
 
         _healthBar.SetHealth(_activeHP, _activeMaxHP);
-        _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
     }
 
     public void UpgradeArmor(int addArmor)
     {
         _def += addArmor;
         _activeDEF += addArmor;
-        _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
     }
 
     public void UpgradeDamage(int addDamage)
     {
         _damage += addDamage;
         _activeATK += addDamage;
-        _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
     }
 
     public void UpgradeCritDamage(int addCritDamage)
     {
         _critDamage += addCritDamage;
         _activeCRITDMG += addCritDamage;
-        _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
     }
     
     public void UpgradeCritRate(int addCritRate)
     {
         _critChance += addCritRate;
         _activeCRITRate += addCritRate;
-        _shipParameters.GetComponent<ShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
+        _shipParameters.GetComponent<UIShipParameters>().PrintStats(_activeMaxHP, _activeATK, _activeDEF, _activeCRITDMG, _activeCRITRate);
     }
 }

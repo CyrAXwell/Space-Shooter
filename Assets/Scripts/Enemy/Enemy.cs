@@ -98,7 +98,7 @@ public class Enemy : MonoBehaviour
 
     void Death()
     {
-        target.GetComponent<Player>().GetXP(dropXP);
+        target.GetComponent<Player>().SetXP(dropXP);
         GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(effect, 0.5f);
         Destroy(gameObject);
