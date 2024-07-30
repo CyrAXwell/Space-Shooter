@@ -157,7 +157,7 @@ public class GetUpgrade : MonoBehaviour
                     break;
                 
                 case "HP upgrade":
-                    player.GetComponent<Player>().ChangeHp(upgradeList[upgrade].value[tier]);
+                    player.GetComponent<Player>().UpgradeHP(upgradeList[upgrade].value[tier]);
                     GameObject.Find("LEDS 1").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
@@ -224,7 +224,7 @@ public class GetUpgrade : MonoBehaviour
                     break;
                 
                 case "HP upgrade":
-                    player.GetComponent<Player>().ChangeHp(upgradeList[upgrade].value[tier]);
+                    player.GetComponent<Player>().UpgradeHP(upgradeList[upgrade].value[tier]);
                     GameObject.Find("LEDS 1").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
@@ -291,7 +291,7 @@ public class GetUpgrade : MonoBehaviour
                     break;
                 
                 case "HP upgrade":
-                    player.GetComponent<Player>().ChangeHp(upgradeList[upgrade].value[tier]);
+                    player.GetComponent<Player>().UpgradeHP(upgradeList[upgrade].value[tier]);
                     GameObject.Find("LEDS 1").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
