@@ -7,6 +7,8 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private UIHealthBar uIHealthBar;
     [SerializeField] private UIXPBar uIXPBar;
     [SerializeField] private LevelUpMenu levelUpMenu;
+    [SerializeField] private SkillDisplayPanel skillDisplayPanel;
+    
 
     private void Awake()
     {
@@ -18,9 +20,11 @@ public class Bootstrap : MonoBehaviour
         gameController.InitializePlayer();
 
         Player player = gameController.GetPlayer();
+        player.Initialize();
         uIShipParameters.Initialize(player);
         uIHealthBar.Initialize(player);
         uIXPBar.Initialize(player);
         levelUpMenu.Initialize(player);
+        skillDisplayPanel.Initialize(player.Getskills());
     }
 }

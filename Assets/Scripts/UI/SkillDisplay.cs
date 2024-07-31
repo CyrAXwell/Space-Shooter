@@ -1,49 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillDisplay : MonoBehaviour
 {
-    public string backgroundOff;
-    public string backgroundOn; 
-    private string iconOff = "#2d3234";
-    private Color colorOff;
-    private Color colorOn;
-    private Color colorIconOff;
+    [SerializeField] private Color backgroundSkillOffColor; // "#16181b"
+    [SerializeField] private Color backgroundSkillOnColor; // "#3557d2"
+    [SerializeField] private Color iconSkillOffColor; // "#2d3234"
     [SerializeField] AudioSource skillSound;
 
-    void Awake()
+    private ISkillDisplayable _skill;
+
+    public void Initialize(ISkillDisplayable skill)
     {
-        ColorUtility.TryParseHtmlString(backgroundOff, out colorOff);
-        ColorUtility.TryParseHtmlString(backgroundOn, out colorOn);
-        ColorUtility.TryParseHtmlString(iconOff, out colorIconOff);
+        _skill = skill;
+        _skill.OnSkillCooldown += OnSkillCooldown;
+        _skill.OnUseSkill += OnUseSkill;
+        _skill.OnStartWave += OnStartWave;
     }
 
-    public void SkillReady()
+    private void OnDisable()
     {
-        transform.GetChild(0).gameObject.GetComponent<Image>().color = colorOn;
+        _skill.OnSkillCooldown -= OnSkillCooldown;
+        _skill.OnUseSkill -= OnUseSkill;
+        _skill.OnStartWave -= OnStartWave;
+    }
+
+    private void OnSkillCooldown()
+    {
+        DisplaySkillReady();
+    }
+
+    private void OnUseSkill()
+    {
+        DisplaySkillActive();
+    }
+
+    private void OnStartWave()
+    {
+        DisplaySkillCharge();
+    }
+
+    public void DisplaySkillReady()
+    {
+        transform.GetChild(0).gameObject.GetComponent<Image>().color = backgroundSkillOnColor;
         transform.GetChild(1).gameObject.GetComponent<Image>().color = Color.white;
-        transform.GetChild(2).gameObject.GetComponent<SkillTimer>().DisplayTimeOff();
     }
 
-    public void SkillActive()
+    public void DisplaySkillActive()
     {
         skillSound.Play();
-        //transform.GetChild(0).gameObject.GetComponent<Image>().color = colorOn;
-        //transform.GetChild(1).gameObject.GetComponent<Image>().color = Color.white;
-        transform.GetChild(0).gameObject.GetComponent<Image>().color = colorOff;
-        transform.GetChild(1).gameObject.GetComponent<Image>().color = colorIconOff;
 
-        transform.GetChild(2).gameObject.GetComponent<SkillTimer>().DisplayTimeOff();
-        
+        transform.GetChild(0).gameObject.GetComponent<Image>().color = backgroundSkillOffColor;
+        transform.GetChild(1).gameObject.GetComponent<Image>().color = iconSkillOffColor;    
     }
 
-    public void SkillCharge()
+    public void DisplaySkillCharge()
     {
-        transform.GetChild(0).gameObject.GetComponent<Image>().color = colorOff;
-        transform.GetChild(1).gameObject.GetComponent<Image>().color = colorIconOff;
-        
+        transform.GetChild(0).gameObject.GetComponent<Image>().color = backgroundSkillOffColor;
+        transform.GetChild(1).gameObject.GetComponent<Image>().color = iconSkillOffColor;
     }
+
+    
 
 }

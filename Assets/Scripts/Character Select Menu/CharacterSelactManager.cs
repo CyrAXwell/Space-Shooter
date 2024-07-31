@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -25,18 +24,11 @@ public class CharacterSelactManager : MonoBehaviour
         Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
         StateNameController.character = toggle.name;
         StateNameController.startTimers = false;
-        //SceneManager.LoadScene(2);
         StartCoroutine(LoadScenWithDelay(0.19f,2));
     }
 
     public void BackButton()
     {
-        //Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
-        //Debug.Log(toggle.name);
-        //StateNameController.cahracter = toggle.name;
-        //Debug.Log(StateNameController.cahracter);
-
-        //SceneManager.LoadScene(0);
         StartCoroutine(LoadScenWithDelay(0.19f,0));
     }
 

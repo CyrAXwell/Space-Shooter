@@ -494,16 +494,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
-  damage: 20
-  critDamage: 5000
-  critChance: 500
-  activeMaxHP: 0
-  activeHP: 0
-  activeATK: 0
-  activeDEF: 0
-  activeCRITDMG: 0
-  activeCRITRate: 0
   hitSound: {fileID: 4377987817632711113}
+  _activeMaxHP: 0
+  _activeHP: 0
+  _activeATK: 0
+  _activeDEF: 0
+  _activeCRITDMG: 0
+  _activeCRITRate: 0
 --- !u!114 &3362027039017741204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,10 +526,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b2df48c4c465534c83770defad9fd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shieldCoolDown: 10
-  shieldHP: 100
-  healHP: 30
-  skillColor: '#3557d2'
+  cooldown: 10
+  health: 100
+  heal: 30
+  iconColor: 
+  shield: {fileID: 3362027037082158960}
 --- !u!114 &3362027039017741201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,10 +543,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 977313f114b8bfc4597a0f0e04e007eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rapidFireCoolDown: 10
-  rapidFireActionTime: 5
-  newTimerCooldown: 0.12
-  rapidFireDamage: 5
+  cooldown: 10
+  durartion: 5
+  timeBetweenShot: 0.12
+  skillBonusDamage: 5
 --- !u!82 &7622485810447084387
 AudioSource:
   m_ObjectHideFlags: 0

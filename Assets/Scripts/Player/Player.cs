@@ -7,10 +7,11 @@ public class Player : MonoBehaviour
     public event Action OnHealthChange;
     public event Action OnXPChange;
     public event Action OnLevelUp;
-
+    
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private AudioSource hitSound;
 
+    private ISkillDisplayable[] _skills;
     private Ship1Stats ShipStats;
     private int _level = 1;
     private int _exp = 0;
@@ -30,6 +31,11 @@ public class Player : MonoBehaviour
     public int _activeCRITDMG;
     public int _activeCRITRate;
 
+    public void Initialize()
+    {
+        _skills = GetComponents<ISkillDisplayable>();
+    }
+    
     void Start()
     {
         ShipStats = GetComponent<Ship1Stats>();
@@ -99,6 +105,7 @@ public class Player : MonoBehaviour
     public int GetActiveDEF() => _activeDEF;
     public int GetActiveCRITDMG() => _activeCRITDMG;
     public int GetActiveCRITRate() => _activeCRITRate;
+    public ISkillDisplayable[] Getskills() => _skills;
 
     public void SetXP(int addXP)
     {

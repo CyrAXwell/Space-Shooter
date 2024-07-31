@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject character1;
     [SerializeField] private GameObject character2;
     [SerializeField] private GameObject character3;
+    [SerializeField] private UpgradeSO[] upgrades;
     [SerializeField] private TMP_Text characterName;
     [SerializeField] Sprite[] skillIcons1;
     [SerializeField] Sprite[] skillIcons2;

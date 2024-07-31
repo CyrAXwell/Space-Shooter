@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shield : MonoBehaviour
@@ -10,8 +8,8 @@ public class Shield : MonoBehaviour
 
     void Start()
     {
-        shieldHp = transform.parent.gameObject.GetComponent<Ship1Shield>().shieldHP;
-        healHP = transform.parent.gameObject.GetComponent<Ship1Shield>().healHP;
+        shieldHp = transform.parent.gameObject.GetComponent<ShieldSkill>().GetShieldHealth();
+        healHP = transform.parent.gameObject.GetComponent<ShieldSkill>().GetShieldHeal();
         gameObject.SetActive(false);
     }
 
@@ -27,11 +25,11 @@ public class Shield : MonoBehaviour
 
     public void DestroyShield()
     {
-        shieldHp = transform.parent.gameObject.GetComponent<Ship1Shield>().shieldHP;
-        healHP = transform.parent.gameObject.GetComponent<Ship1Shield>().healHP;
-        transform.parent.gameObject.GetComponent<Ship1Shield>().shieldTimerLocked = false;
+        shieldHp = transform.parent.gameObject.GetComponent<ShieldSkill>().GetShieldHealth();
+        healHP = transform.parent.gameObject.GetComponent<ShieldSkill>().GetShieldHeal();
+        transform.parent.gameObject.GetComponent<ShieldSkill>().isTimerLocked = false;
         transform.parent.gameObject.GetComponent<Player>().Heal(healHP);
-        GameObject.Find("Skill 1").GetComponent<SkillDisplay>().SkillCharge();
+        GameObject.Find("Skill 1").GetComponent<SkillDisplay>().DisplaySkillCharge();
         gameObject.SetActive(false);
         
     }

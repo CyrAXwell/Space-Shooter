@@ -1,34 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class SkillTimer : MonoBehaviour
 {
+    [SerializeField] private TMP_Text timerText;
 
-    private TMP_Text skillTimer;
+    private ISkillDisplayable _skill;
 
-    void Awake()
+    public void Initialize(ISkillDisplayable skill)
     {
-        skillTimer = transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+        _skill = skill;
+        _skill.OnTimerUpdate += OnTimerUpdate;
+        _skill.OnSkillCooldown += OnSkillCooldown;
+        _skill.OnUseSkill += OnUseSkill;
+    }
+
+    private void OnTimerUpdate(float value)
+    {
+        DisplayTime(value);
+    }
+
+    private void OnSkillCooldown()
+    {
+        DisplayTimeOff();
+    }
+
+    private void OnUseSkill()
+    {
+        DisplayTimeOff();
     }
 
     public void DisplayTime(float time)
-    {
-        
-        if(time >= 9.95f)
-        {
-            skillTimer.text = time.ToString("0.0");
-        } else 
-        {
-            skillTimer.text = " " + time.ToString("0.0");
-        }
-        
+    { 
+        timerText.text = time >= 9.95f ? time.ToString("0.0") : " " + time.ToString("0.0");
     }
 
     public void DisplayTimeOff()
     {
-        skillTimer.text = "";
+        timerText.text = "";
+    }
+
+    private void OnDisable()
+    {
+        _skill.OnTimerUpdate -= OnTimerUpdate;
     }
 }

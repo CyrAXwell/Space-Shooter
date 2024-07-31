@@ -30,7 +30,7 @@ public class LevelUpMenu : MonoBehaviour
     private void InitializeUpgrades()
     {
         foreach (UpgradeSelector upgrade in upgrades)
-            upgrade.Upgrade();
+            upgrade.SetUpgrade();
     }
 
     private void DisableUpgradesOutline()

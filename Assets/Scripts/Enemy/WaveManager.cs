@@ -110,20 +110,20 @@ public class WaveManager : MonoBehaviour
         switch(StateNameController.character)
         {
             case "Character 1":
-                player.GetComponent<Ship1Shield>().ResetShieldSkill();
-                player.GetComponent<Ship1RapidFire>().ResetRapidFireSkill(); 
+                player.GetComponent<ShieldSkill>().ResetShieldSkill();
+                player.GetComponent<RapidFireSkill>().ResetRapidFireSkill(); 
                 break;
             case "Character 2":
-                player.GetComponent<Ship1Shield>().ResetShieldSkill();
-                player.GetComponent<Ship2ExplosionBullets>().ResetSkill(); 
+                player.GetComponent<ShieldSkill>().ResetShieldSkill();
+                player.GetComponent<ExplosionBulletsSkill>().ResetSkill(); 
                 break;
             case "Character 3":
-                player.GetComponent<Ship3Regen>().ResetSkill();
-                player.GetComponent<Ship3Laser>().ResetSkill(); 
+                player.GetComponent<RegenerationSkill>().ResetSkill();
+                player.GetComponent<LaserSkill>().ResetSkill(); 
                 break;
             default:
-                player.GetComponent<Ship1Shield>().ResetShieldSkill();
-                player.GetComponent<Ship1RapidFire>().ResetRapidFireSkill(); 
+                player.GetComponent<ShieldSkill>().ResetShieldSkill();
+                player.GetComponent<RapidFireSkill>().ResetRapidFireSkill(); 
                 break;
         }
         player.GetComponent<Player>().FullHeal();

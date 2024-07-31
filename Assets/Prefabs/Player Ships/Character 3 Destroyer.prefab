@@ -326,16 +326,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
-  damage: 20
-  critDamage: 5000
-  critChance: 500
-  activeMaxHP: 0
-  activeHP: 0
-  activeATK: 0
-  activeDEF: 0
-  activeCRITDMG: 0
-  activeCRITRate: 0
   hitSound: {fileID: -4660390465019893265}
+  _activeMaxHP: 0
+  _activeHP: 0
+  _activeATK: 0
+  _activeDEF: 0
+  _activeCRITDMG: 0
+  _activeCRITRate: 0
 --- !u!114 &233630617473281683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,11 +345,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e798616e098dd845b91653d11784e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regenCoolDown: 10
-  regenHP: 3
-  regenInterval: 0.2
-  regenActiveTime: 5
-  skillColor: '#20923f'
+  cooldown: 10
+  regenerationValue: 3
+  healInterval: 0.2
+  duration: 5
 --- !u!114 &233630617473281682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,16 +361,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b5c24b4a1eddc41b244024c288cbd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserRender: {fileID: 233630618684510519}
-  additionalDamage: 5
-  maxDistance: 15
-  shootingTime: 5
-  timeBetweenTakeDamage: 0.11
-  whatIsSolid:
+  laserSprite: {fileID: 233630618684510519}
+  skillBonusDamage: 5
+  maxLaserDistance: 15
+  duration: 5
+  timeBetweenDamage: 0.11
+  whatIsEnemy:
     serializedVersion: 2
     m_Bits: 2112
-  laserCoolDown: 10
-  skillColor: 
+  cooldown: 10
   shootSound: {fileID: -4660390465019893265}
 --- !u!82 &1144586484602650035
 AudioSource:
