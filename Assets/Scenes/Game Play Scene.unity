@@ -9593,10 +9593,11 @@ MonoBehaviour:
   - {fileID: 1800050162}
   - {fileID: 954187555}
   - {fileID: 1579616252}
-  upgrade1Outline: {fileID: 1125047732}
-  upgrade2Outline: {fileID: 1185250890}
-  upgrade3Outline: {fileID: 1459922450}
-  upgrade4Outline: {fileID: 1376899351}
+  upgradesHighlights:
+  - {fileID: 1125047732}
+  - {fileID: 1185250890}
+  - {fileID: 1459922450}
+  - {fileID: 1376899351}
   rerollUpgradeAmount: 1
   rerollButton: {fileID: 834784350}
   rerollButtonHighlight: {fileID: 478571635}

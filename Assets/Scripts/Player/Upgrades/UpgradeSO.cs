@@ -1,0 +1,24 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "New UpgradeSO",menuName = "ScriptableObjects/UpgradeSO")]
+public class UpgradeSO : ScriptableObject
+{
+    [SerializeField] private string nameUpgrade;
+    [SerializeField] private List<int> value = new List<int>(4);
+    [SerializeField] private bool percentage;
+    [SerializeField] private bool floating;
+    [SerializeField, TextArea] private string description;
+    [SerializeField] private string slotType;
+    [SerializeField] private string typeColor;
+    [SerializeField] private Sprite upgradeIcon;
+
+    public string Name => nameUpgrade;
+    public IEnumerable<int> UpgradeValues => value;
+    public bool IsPercentageValue => percentage;
+    public bool IsFloatingValue => floating;
+    public string Description => description;
+    public string SlotType => slotType;
+    public string TypeColor => typeColor;
+    public Sprite Icon => upgradeIcon;
+}
