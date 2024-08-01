@@ -12,19 +12,24 @@ public class LevelUpMenu : MonoBehaviour
     [SerializeField] AudioSource levelUpSound;
 
     private float _rerollCounter;
-    private Player _player;
+    // private Player _player;
 
-    public void Initialize(Player player)
+    // public void Initialize(Player player)
+    // {
+    //     levelUpPanel.SetActive(false);
+
+    //     _player = player;
+    //     _player.OnLevelUp += OnLevelUp;
+    // }
+
+    // private void OnLevelUp()
+    // {
+    //     OpenLevelUpMenu();
+    // }
+
+    public void Initialize()
     {
         levelUpPanel.SetActive(false);
-
-        _player = player;
-        _player.OnLevelUp += OnLevelUp;
-    }
-
-    private void OnLevelUp()
-    {
-        OpenLevelUpMenu();
     }
 
     private void InitializeUpgrades()
@@ -73,10 +78,10 @@ public class LevelUpMenu : MonoBehaviour
         InitializeUpgrades();
     }
 
-    private void OnDisable()
-    {
-        _player.OnLevelUp -= OnLevelUp;
-    }
+    // private void OnDisable()
+    // {
+    //     _player.OnLevelUp -= OnLevelUp;
+    // }
 
     public void SelectRerollButton()
     {

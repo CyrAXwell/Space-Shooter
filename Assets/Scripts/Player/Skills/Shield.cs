@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Shield : MonoBehaviour
@@ -31,6 +32,9 @@ public class Shield : MonoBehaviour
         transform.parent.gameObject.GetComponent<Player>().Heal(healHP);
         GameObject.Find("Skill 1").GetComponent<SkillDisplay>().DisplaySkillCharge();
         gameObject.SetActive(false);
+
+        // gameObject.SetActive(false);
+        // OnDestroy?.Invoke();
         
     }
 }

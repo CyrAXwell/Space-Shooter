@@ -16,7 +16,7 @@ public class UpgradeSelector : MonoBehaviour
     private int[] cumulativeProbability = {0, 0, 0, 0};
     private int tier = 0;
     private int upgrade = 0;
-    private GameObject player;
+    private Player _player;
     private string newDescription;
 
     public GameObject type;
@@ -42,10 +42,20 @@ public class UpgradeSelector : MonoBehaviour
         GetProbability(upgradeProbability);
     }
 
-    void Start()
+    // void Start()
+    // {
+    //     _player = GameObject.FindGameObjectWithTag("Player");
+    // }
+
+    public void Initialize(Player player, List<UpgradeSO> upgrades)
     {
-        
-        player = GameObject.FindGameObjectWithTag("Player");
+        _player = player;
+        _upgradeList = new List<UpgradeSO>(upgrades); 
+    }
+
+    public void OnOpenLevelUpPanel()
+    {
+        SetUpgrade();
     }
 
     public void SetUpgrade()
@@ -120,57 +130,57 @@ public class UpgradeSelector : MonoBehaviour
             switch(_upgradeList[upgrade].Name)
             {
                 case "Armor upgrade":
-                    player.GetComponent<Player>().UpgradeArmor(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeArmor(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 3").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Crit damage upgrade":
-                    player.GetComponent<Player>().UpgradeCritDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeCritDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 4").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Crit rate upgrade":
-                    player.GetComponent<Player>().UpgradeCritRate(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeCritRate(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 5").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Damage upgrade":
-                    player.GetComponent<Player>().UpgradeDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 2").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "HP upgrade":
-                    player.GetComponent<Player>().UpgradeHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 1").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Shield cooldown upgrade":
-                    player.GetComponent<ShieldSkill>().ChangeShieldCD((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<ShieldSkill>().ChangeShieldCD((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 9").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Shield heal upgrade":
-                    player.GetComponent<ShieldSkill>().ChangeShieldHealing(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<ShieldSkill>().ChangeShieldHealing(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 10").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Shield HP upgrade":
-                    player.GetComponent<ShieldSkill>().ChangeShieldHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<ShieldSkill>().ChangeShieldHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 8").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Rapid Fire action time upgrade":
-                    player.GetComponent<RapidFireSkill>().ActionTimeUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<RapidFireSkill>().ActionTimeUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 17").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Rapid Fire cooldown upgrade":
-                    player.GetComponent<RapidFireSkill>().CooldownUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<RapidFireSkill>().CooldownUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 16").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Rapid Fire damage upgrade":
-                    player.GetComponent<RapidFireSkill>().DamageUpgarde(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<RapidFireSkill>().DamageUpgarde(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 15").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
@@ -187,57 +197,57 @@ public class UpgradeSelector : MonoBehaviour
             switch(_upgradeList[upgrade].Name)
             {
                 case "Armor upgrade":
-                    player.GetComponent<Player>().UpgradeArmor(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeArmor(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 3").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Crit damage upgrade":
-                    player.GetComponent<Player>().UpgradeCritDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeCritDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 4").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Crit rate upgrade":
-                    player.GetComponent<Player>().UpgradeCritRate(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeCritRate(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 5").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Damage upgrade":
-                    player.GetComponent<Player>().UpgradeDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 2").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "HP upgrade":
-                    player.GetComponent<Player>().UpgradeHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 1").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Shield cooldown upgrade":
-                    player.GetComponent<ShieldSkill>().ChangeShieldCD((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<ShieldSkill>().ChangeShieldCD((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 9").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Shield heal upgrade":
-                    player.GetComponent<ShieldSkill>().ChangeShieldHealing(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<ShieldSkill>().ChangeShieldHealing(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 10").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Shield HP upgrade":
-                    player.GetComponent<ShieldSkill>().ChangeShieldHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<ShieldSkill>().ChangeShieldHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 8").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Blast Fire action time upgrade":
-                    player.GetComponent<ExplosionBulletsSkill>().ActionTimeUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<ExplosionBulletsSkill>().ActionTimeUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 17").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Blast Fire cooldown upgrade":
-                    player.GetComponent<ExplosionBulletsSkill>().CooldownUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<ExplosionBulletsSkill>().CooldownUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 16").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Blast Fire damage upgrade":
-                    player.GetComponent<ExplosionBulletsSkill>().DamageUpgarde(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<ExplosionBulletsSkill>().DamageUpgarde(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 15").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
@@ -254,57 +264,57 @@ public class UpgradeSelector : MonoBehaviour
             switch(_upgradeList[upgrade].Name)
             {
                 case "Armor upgrade":
-                    player.GetComponent<Player>().UpgradeArmor(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeArmor(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 3").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Crit damage upgrade":
-                    player.GetComponent<Player>().UpgradeCritDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeCritDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 4").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Crit rate upgrade":
-                    player.GetComponent<Player>().UpgradeCritRate(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeCritRate(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 5").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Damage upgrade":
-                    player.GetComponent<Player>().UpgradeDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeDamage(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 2").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "HP upgrade":
-                    player.GetComponent<Player>().UpgradeHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<Player>().UpgradeHP(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 1").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Health Regen action time upgrade":
-                    player.GetComponent<RegenerationSkill>().ActionTimeUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<RegenerationSkill>().ActionTimeUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 8").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Health Regen cooldown upgrade":
-                    player.GetComponent<RegenerationSkill>().CooldownUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<RegenerationSkill>().CooldownUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 9").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Health Regen heal upgrade":
-                    player.GetComponent<RegenerationSkill>().HealingUpgarde(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<RegenerationSkill>().HealingUpgarde(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 10").GetComponent<Leds>().LEDUpdate(tier);
                     break;
 
                 case "Laser action time upgrade":
-                    player.GetComponent<LaserSkill>().ActionTimeUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<LaserSkill>().ActionTimeUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 17").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Laser cooldown upgrade":
-                    player.GetComponent<LaserSkill>().CooldownUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
+                    _player.GetComponent<LaserSkill>().CooldownUpgarde((float)_upgradeList[upgrade].UpgradeValues.ToArray()[tier] / 100);
                     GameObject.Find("LEDS 16").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 
                 case "Laser damage upgrade":
-                    player.GetComponent<LaserSkill>().DamageUpgarde(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
+                    _player.GetComponent<LaserSkill>().DamageUpgarde(_upgradeList[upgrade].UpgradeValues.ToArray()[tier]);
                     GameObject.Find("LEDS 15").GetComponent<Leds>().LEDUpdate(tier);
                     break;
                 

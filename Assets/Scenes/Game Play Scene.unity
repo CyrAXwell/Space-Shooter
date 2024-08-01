@@ -10006,6 +10006,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78b63cc008d90b4fb07d449851577c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelUpMenu: {fileID: 298004064}
+  upgradeSelectors:
+  - {fileID: 1548488348}
+  - {fileID: 1800050162}
+  - {fileID: 954187555}
+  - {fileID: 1579616252}
 --- !u!4 &310381351
 Transform:
   m_ObjectHideFlags: 0
@@ -12244,7 +12250,7 @@ MonoBehaviour:
   uIShipParameters: {fileID: 1271839450}
   uIHealthBar: {fileID: 1288425483}
   uIXPBar: {fileID: 972149348}
-  levelUpMenu: {fileID: 298004064}
+  upgradeManager: {fileID: 310381350}
   skillDisplayPanel: {fileID: 1402181219}
 --- !u!1 &470712747
 GameObject:
@@ -30188,6 +30194,7 @@ MonoBehaviour:
   durartion: 0
   timeBetweenShot: 0
   skillBonusDamage: 0
+  upgrades: []
 --- !u!114 &1374800799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30205,6 +30212,7 @@ MonoBehaviour:
   heal: 0
   iconColor: 
   shield: {fileID: 0}
+  upgrades: []
 --- !u!4 &1374800800
 Transform:
   m_ObjectHideFlags: 0

@@ -223,6 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
   hitSound: {fileID: -1028270305577986371}
+  upgrades: []
   _activeMaxHP: 0
   _activeHP: 0
   _activeATK: 0
@@ -246,6 +247,10 @@ MonoBehaviour:
   heal: 30
   iconColor: 
   shield: {fileID: 6167659551992010643}
+  upgrades:
+  - {fileID: 11400000, guid: fb4677ff1460a674582c292fd3d54798, type: 2}
+  - {fileID: 11400000, guid: 648c9600cb4306543aedaa3c3a4a3df3, type: 2}
+  - {fileID: 11400000, guid: d0c98972759d4ec4fa56187786c74f40, type: 2}
 --- !u!114 &6167659550603263968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +270,11 @@ MonoBehaviour:
   cooldown: 10
   duration: 5
   shootSound: {fileID: 7480867836134264584}
+  upgrades:
+  - {fileID: 11400000, guid: 4be4438abdb39354a8c8a1bdb623d737, type: 2}
+  - {fileID: 11400000, guid: 438ce987b0c508b4cb47715f7409cb7d, type: 2}
+  - {fileID: 11400000, guid: eb428710f0d34884b8b6cf2143eb3a48, type: 2}
+  - {fileID: 11400000, guid: ee7b9bd7d2254e74292fa3898f0c4ee9, type: 2}
 --- !u!82 &7480867836134264584
 AudioSource:
   m_ObjectHideFlags: 0

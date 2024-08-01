@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class RapidFireSkill : MonoBehaviour, ISkillDisplayable
+public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
@@ -13,6 +13,7 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable
     [SerializeField] private float durartion;
     [SerializeField] private float timeBetweenShot;
     [SerializeField] private int skillBonusDamage;
+    [SerializeField] private UpgradeSO[] upgrades;
 
     private bool isTimerLocked = false;
     private bool isSkillActive = false;
@@ -93,6 +94,8 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable
         isSkillActive = false;
         _cooldownTimer = cooldown;
     }
+
+    public UpgradeSO[] GetUpgrades() => upgrades;
 
 
     public void ActionTimeUpgarde(float time)

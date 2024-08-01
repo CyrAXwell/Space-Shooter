@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class LaserSkill : MonoBehaviour, ISkillDisplayable
+public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
@@ -17,6 +17,7 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable
     [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private float cooldown;
     [SerializeField] AudioSource shootSound;
+    [SerializeField] private UpgradeSO[] upgrades;
 
     private bool isHit = false;
     private bool canDamage = true;
@@ -152,6 +153,8 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable
         shooting.laserActive = false;
         _cooldownTimer = cooldown;
     }
+
+    public UpgradeSO[] GetUpgrades() => upgrades;
 
     public void ActionTimeUpgarde(float time)
     {

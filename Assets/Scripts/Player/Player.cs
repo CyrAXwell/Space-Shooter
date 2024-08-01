@@ -1,7 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IUpgradeable
 {
     public event Action OnStatsChange;
     public event Action OnHealthChange;
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour
     
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private AudioSource hitSound;
+    [SerializeField] private UpgradeSO[] upgrades;
 
     private ISkillDisplayable[] _skills;
     private Ship1Stats ShipStats;
@@ -105,7 +107,8 @@ public class Player : MonoBehaviour
     public int GetActiveDEF() => _activeDEF;
     public int GetActiveCRITDMG() => _activeCRITDMG;
     public int GetActiveCRITRate() => _activeCRITRate;
-    public ISkillDisplayable[] Getskills() => _skills;
+    public ISkillDisplayable[] GetSkills() => _skills;
+    public UpgradeSO[] GetUpgrades() => upgrades;
 
     public void SetXP(int addXP)
     {

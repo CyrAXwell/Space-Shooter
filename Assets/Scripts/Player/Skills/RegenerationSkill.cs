@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class RegenerationSkill : MonoBehaviour, ISkillDisplayable
+public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
@@ -13,6 +13,7 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable
     [SerializeField] private int regenerationValue;
     [SerializeField] private float healInterval;
     [SerializeField] private float duration;
+    [SerializeField] private UpgradeSO[] upgrades;
 
     private bool isSkillActive;
     private float _cooldownTimer;
@@ -104,6 +105,8 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable
         isTimerLocked = false;
         _cooldownTimer = cooldown;
     }
+
+    public UpgradeSO[] GetUpgrades() => upgrades;
 
     public void CooldownUpgarde(float time)
     {

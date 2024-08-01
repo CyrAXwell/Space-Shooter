@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ShieldSkill : MonoBehaviour, ISkillDisplayable
+public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
@@ -13,9 +13,8 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable
     [SerializeField] private int heal;
     [SerializeField] private string iconColor;
     [SerializeField] private Shield shield;
+    [SerializeField] private UpgradeSO[] upgrades;
 
-    // private GameObject _skillDisplay;
-    // private GameObject _displayTimer;
     private float _cooldownTimer = 0f;
 
     [NonSerialized] public bool isTimerLocked = false;
@@ -60,6 +59,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable
 
     public int GetShieldHealth() => health;
     public int GetShieldHeal() => heal;
+    public UpgradeSO[] GetUpgrades() => upgrades;
     
 
     void UseSkill()

@@ -495,6 +495,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
   hitSound: {fileID: 4377987817632711113}
+  upgrades:
+  - {fileID: 11400000, guid: 0d8426d4c150e56419b6e744a85c4f15, type: 2}
+  - {fileID: 11400000, guid: 81eb05c00f1bc9846a5e2059615277bb, type: 2}
+  - {fileID: 11400000, guid: 25dba79061cd3414a9778508da4a29aa, type: 2}
+  - {fileID: 11400000, guid: 4d75e01d21b6d2b479af2cb6c7a01b15, type: 2}
+  - {fileID: 11400000, guid: 3f9bf85c95ac1894d8d908ab3b09c643, type: 2}
   _activeMaxHP: 0
   _activeHP: 0
   _activeATK: 0
@@ -531,6 +537,10 @@ MonoBehaviour:
   heal: 30
   iconColor: 
   shield: {fileID: 3362027037082158960}
+  upgrades:
+  - {fileID: 11400000, guid: fb4677ff1460a674582c292fd3d54798, type: 2}
+  - {fileID: 11400000, guid: 648c9600cb4306543aedaa3c3a4a3df3, type: 2}
+  - {fileID: 11400000, guid: d0c98972759d4ec4fa56187786c74f40, type: 2}
 --- !u!114 &3362027039017741201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,6 +557,11 @@ MonoBehaviour:
   durartion: 5
   timeBetweenShot: 0.12
   skillBonusDamage: 5
+  upgrades:
+  - {fileID: 11400000, guid: 3d898aae87e86fc4f85f103abb037938, type: 2}
+  - {fileID: 11400000, guid: d67f7b47f3081734ba7f42b92f7176e1, type: 2}
+  - {fileID: 11400000, guid: e90c01fafc89a4243bb7a5ff2207c630, type: 2}
+  - {fileID: 11400000, guid: d03c3a688fc6e4f4986af06c2b1d975d, type: 2}
 --- !u!82 &7622485810447084387
 AudioSource:
   m_ObjectHideFlags: 0

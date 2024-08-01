@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable
+public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
@@ -16,6 +16,7 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable
     [SerializeField] private float cooldown;
     [SerializeField] private float duration;
     [SerializeField] AudioSource shootSound;
+    [SerializeField] private UpgradeSO[] upgrades;
 
     private bool isSkillActive = false;
     private float _cooldownTimer;
@@ -84,6 +85,8 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable
         bulletStats.critChance = playerStats._activeCRITRate;
         bulletStats.critDamage = playerStats._activeCRITDMG;
     }
+
+    public UpgradeSO[] GetUpgrades() => upgrades;
 
     private IEnumerator ReloadShot(float interval)
     {
