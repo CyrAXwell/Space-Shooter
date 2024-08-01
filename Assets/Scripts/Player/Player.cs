@@ -17,7 +17,7 @@ public class Player : MonoBehaviour, IUpgradeable
     private Ship1Stats ShipStats;
     private int _level = 1;
     private int _exp = 0;
-    private int _maxExp = 10;
+    private int _maxExp = 1;
 
     private int _health;
     private int _maxHealth;

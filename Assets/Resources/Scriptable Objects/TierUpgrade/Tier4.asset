@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e6d4e2a01f613418a77f39330fb258, type: 3}
   m_Name: Tier4
   m_EditorClassIdentifier: 
+  probability: 500
+  color: {r: 0.70980394, g: 0.16470589, b: 0.16470589, a: 1}
   levelOutline: {fileID: -1762609586, guid: d6bcf99b565d45b4aa2cea113c46ac7f, type: 3}
-  color: '#b52a2a'
+  tierColor: 

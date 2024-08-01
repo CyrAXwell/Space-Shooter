@@ -32,11 +32,11 @@ public class LevelUpMenu : MonoBehaviour
         levelUpPanel.SetActive(false);
     }
 
-    private void InitializeUpgrades()
-    {
-        foreach (UpgradeSelector upgrade in upgrades)
-            upgrade.SetUpgrade();
-    }
+    // private void InitializeUpgrades()
+    // {
+    //     foreach (UpgradeSelector upgrade in upgrades)
+    //         upgrade.SetUpgrade();
+    // }
 
     private void DisableUpgradesOutline()
     {
@@ -50,7 +50,7 @@ public class LevelUpMenu : MonoBehaviour
 
         levelUpPanel.SetActive(true);
         DisableUpgradesOutline();
-        InitializeUpgrades();
+        //InitializeUpgrades();
 
         rerollButton.interactable = true;
         _rerollCounter = rerollUpgradeAmount;
@@ -75,7 +75,7 @@ public class LevelUpMenu : MonoBehaviour
             rerollButton.interactable = false;
             DeselectRerollButton();
         }
-        InitializeUpgrades();
+        //InitializeUpgrades();
     }
 
     // private void OnDisable()
