@@ -94,6 +94,12 @@ public class UpgradeSelector : MonoBehaviour, IPointerClickHandler
 
     public int GetUpgradeValue() => _upgradeList[_upgradeIndex].UpgradeValues.ToArray()[_tier];
 
+    public int GetUpgradeSlot() =>  _upgradeList[_upgradeIndex].Slot;
+
+    public int GetUpgradeLeds() =>  _upgradeList[_upgradeIndex].Leds;
+
+    public int GetUpgradeTier() =>  _tier;
+
     private int GetRandomUpgrade() => UnityRandom.Range(0, _upgradeList.Count);
 
     public void ChooseUpgarde()

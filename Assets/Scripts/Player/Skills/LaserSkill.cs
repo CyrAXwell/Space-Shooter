@@ -18,6 +18,7 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     [SerializeField] private float cooldown;
     [SerializeField] AudioSource shootSound;
     [SerializeField] private UpgradeSO[] upgrades;
+    [SerializeField] private Sprite icon;
 
     private bool isHit = false;
     private bool canDamage = true;
@@ -155,6 +156,7 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     }
 
     public UpgradeSO[] GetUpgrades() => upgrades;
+    public Sprite GetSkillIcon() => icon;
 
     public void UpgradeDuration(float time)
     {

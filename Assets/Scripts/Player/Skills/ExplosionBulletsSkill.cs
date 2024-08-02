@@ -17,6 +17,7 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     [SerializeField] private float duration;
     [SerializeField] AudioSource shootSound;
     [SerializeField] private UpgradeSO[] upgrades;
+    [SerializeField] private Sprite icon;
 
     private bool isSkillActive = false;
     private float _cooldownTimer;
@@ -87,6 +88,7 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     }
 
     public UpgradeSO[] GetUpgrades() => upgrades;
+    public Sprite GetSkillIcon() => icon;
 
     private IEnumerator ReloadShot(float interval)
     {

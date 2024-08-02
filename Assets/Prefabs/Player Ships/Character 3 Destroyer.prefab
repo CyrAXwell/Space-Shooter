@@ -326,8 +326,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
+  playerSO: {fileID: 11400000, guid: 37bf94e5540aa094486c7697225b94c1, type: 2}
   hitSound: {fileID: -4660390465019893265}
-  upgrades: []
+  upgrades:
+  - {fileID: 11400000, guid: 967ad022f7636ae4797a5c259e34ebb2, type: 2}
+  - {fileID: 11400000, guid: 6f70464b35cb63545b6a02fc1a3f45c7, type: 2}
+  - {fileID: 11400000, guid: 6e777542066a4a14ea69c929f651a037, type: 2}
+  - {fileID: 11400000, guid: a2f252c1d947379458d3e33ae5a0d41c, type: 2}
+  - {fileID: 11400000, guid: 6cbd9537ebee7c84a82cb293cef76eda, type: 2}
   _activeMaxHP: 0
   _activeHP: 0
   _activeATK: 0
@@ -354,6 +360,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc4a6c20a9786164b83d0a8e9b875c4a, type: 2}
   - {fileID: 11400000, guid: 890473e6a43c95f4faccdf501fa076f5, type: 2}
   - {fileID: 11400000, guid: 2a14e74744141f5488766d42f0051092, type: 2}
+  icon: {fileID: 21300000, guid: 07a0a5e0c5ded8e43a64797850a13c30, type: 3}
 --- !u!114 &233630617473281682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,7 +387,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a141af477ce4deb4da6629b3b03914d0, type: 2}
   - {fileID: 11400000, guid: fb85ce603e11861478f598dea8f14253, type: 2}
   - {fileID: 11400000, guid: d342ea00bea94ca4fa2906398f6a4af8, type: 2}
-  - {fileID: 11400000, guid: 1a68d68d51830b74e8334746770cdfff, type: 2}
+  icon: {fileID: 21300000, guid: 4cc65ce33887df64a8b785c5f566db39, type: 3}
 --- !u!82 &1144586484602650035
 AudioSource:
   m_ObjectHideFlags: 0

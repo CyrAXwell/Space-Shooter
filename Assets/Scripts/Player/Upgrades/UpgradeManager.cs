@@ -5,6 +5,7 @@ using UnityEngine;
 public class UpgradeManager : MonoBehaviour
 {
     [SerializeField] private LevelUpMenu levelUpMenu;
+    [SerializeField] private UIUpgradeDisplay uiUpgradeDisplay;
     [SerializeField] private Transform[] upgradeSlots;
     [SerializeField] private UpgradeSelector upgradeSelectorPrefab;
     [SerializeField] private TierUpgrade[] tierUpgrade;
@@ -40,6 +41,8 @@ public class UpgradeManager : MonoBehaviour
             upgrade.OnClick += OnSelectorClick;
             _upgradeSelectors.Add(upgrade);
         }   
+
+        uiUpgradeDisplay.Initialize(_player.GetUpgradesPanelSprite());
         levelUpMenu.Initialize();
     }
 
@@ -60,6 +63,8 @@ public class UpgradeManager : MonoBehaviour
     {
         levelUpMenu.CloseLevelUpMenu();
         UpgradePlayer(upgradeSelector);
+        uiUpgradeDisplay.UpdateDisplay(upgradeSelector.GetUpgradeSlot(), upgradeSelector.GetUpgradeLeds(), upgradeSelector.GetUpgradeTier());
+
         _audioManager.PlaySFX(_audioManager.ButtonClick);
     }
 
@@ -106,7 +111,7 @@ public class UpgradeManager : MonoBehaviour
 
         switch (type)
         {
-            case UpgradeType.cooldown: shieldSkill.UpgradeCooldown(value); break;
+            case UpgradeType.cooldown: shieldSkill.UpgradeCooldown((float)value / 100); break;
             case UpgradeType.healing: shieldSkill.UpgradeHealing(value); break;
             case UpgradeType.health: shieldSkill.UpgradeHealth(value); break;
         }
@@ -118,9 +123,9 @@ public class UpgradeManager : MonoBehaviour
 
         switch (type)
         {
-            case UpgradeType.cooldown: rapidFireSkill.UpgradeCooldown(value); break;
+            case UpgradeType.cooldown: rapidFireSkill.UpgradeCooldown((float)value / 100); break;
             case UpgradeType.damage: rapidFireSkill.UpgradeDamage(value); break;
-            case UpgradeType.duration: rapidFireSkill.UpgradeDuration(value); break;
+            case UpgradeType.duration: rapidFireSkill.UpgradeDuration((float)value / 100); break;
             case UpgradeType.firerate: rapidFireSkill.UpgradeFireRate(value); break;
         }
     }
@@ -131,9 +136,9 @@ public class UpgradeManager : MonoBehaviour
 
         switch (type)
         {
-            case UpgradeType.cooldown: explosionBulletsSkill.UpgradeCooldown(value); break;
+            case UpgradeType.cooldown: explosionBulletsSkill.UpgradeCooldown((float)value / 100); break;
             case UpgradeType.damage: explosionBulletsSkill.UpgradeDamage(value); break;
-            case UpgradeType.duration: explosionBulletsSkill.UpgradeDuration(value); break;
+            case UpgradeType.duration: explosionBulletsSkill.UpgradeDuration((float)value / 100); break;
             case UpgradeType.firerate: explosionBulletsSkill.UpgradeFireRate(value); break;
         }
     }
@@ -144,9 +149,9 @@ public class UpgradeManager : MonoBehaviour
 
         switch (type)
         {
-            case UpgradeType.cooldown: laserSkill.UpgradeCooldown(value); break;
+            case UpgradeType.cooldown: laserSkill.UpgradeCooldown((float)value / 100); break;
             case UpgradeType.damage: laserSkill.UpgradeDamage(value); break;
-            case UpgradeType.duration: laserSkill.UpgradeDuration(value); break;
+            case UpgradeType.duration: laserSkill.UpgradeDuration((float)value / 100); break;
             case UpgradeType.firerate: laserSkill.UpgradeFireRate(value); break;
         }
     }
@@ -157,8 +162,8 @@ public class UpgradeManager : MonoBehaviour
 
         switch (type)
         {
-            case UpgradeType.cooldown: regenerationSkill.UpgradeCooldown(value); break;
-            case UpgradeType.duration: regenerationSkill.UpgradeDurtion(value); break;
+            case UpgradeType.cooldown: regenerationSkill.UpgradeCooldown((float)value / 100); break;
+            case UpgradeType.duration: regenerationSkill.UpgradeDurtion((float)value / 100); break;
             case UpgradeType.healing: regenerationSkill.UpgradeHealing(value); break;
         }
     }

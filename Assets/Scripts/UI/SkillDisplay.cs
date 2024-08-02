@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class SkillDisplay : MonoBehaviour
 {
+    [SerializeField] private Image icon;
     [SerializeField] private Color backgroundSkillOffColor; // "#16181b"
     [SerializeField] private Color backgroundSkillOnColor; // "#3557d2"
     [SerializeField] private Color iconSkillOffColor; // "#2d3234"
@@ -16,6 +17,7 @@ public class SkillDisplay : MonoBehaviour
         _skill.OnSkillCooldown += OnSkillCooldown;
         _skill.OnUseSkill += OnUseSkill;
         _skill.OnStartWave += OnStartWave;
+        icon.sprite = _skill.GetSkillIcon();
     }
 
     private void OnDisable()

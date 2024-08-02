@@ -1,38 +1,30 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Leds : MonoBehaviour
 {
-    public List<string> lightColor;
+    [SerializeField] private Color[] ledColors;
+
     private int colorID = 0;
-
     private int ledID = 1;
-    public int ledMaxNums = 7;
-    private Image[] led;
-    private Color color;
+    private Image[] _leds;
 
-    void Start()
+    public void Initialize()
     {
-        led = transform.GetComponentsInChildren<Image>();
-        
-        
+        _leds = transform.GetComponentsInChildren<Image>();
     }
 
     public void LEDUpdate(int lvl)
     {   
         for(int i = 0; i <= lvl; i++)
         {
-            ColorUtility.TryParseHtmlString(lightColor[colorID], out color);
-            led[ledID].color = color;
+            _leds[ledID].color = ledColors[colorID];
             ledID ++;
-            if(ledID >= ledMaxNums)
+            if(ledID >= _leds.Length)
             {
                 ledID = 1;
                 colorID ++;
             }
         }
-        
     }
-
 }

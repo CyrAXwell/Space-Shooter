@@ -14,6 +14,7 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     [SerializeField] private float timeBetweenShot;
     [SerializeField] private int skillBonusDamage;
     [SerializeField] private UpgradeSO[] upgrades;
+    [SerializeField] private Sprite icon;
 
     private bool isTimerLocked = false;
     private bool isSkillActive = false;
@@ -96,6 +97,7 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     }
 
     public UpgradeSO[] GetUpgrades() => upgrades;
+    public Sprite GetSkillIcon() => icon;
 
 
     public void UpgradeDuration(float time)

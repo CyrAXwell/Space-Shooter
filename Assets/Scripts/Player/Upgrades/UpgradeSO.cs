@@ -14,6 +14,8 @@ public class UpgradeSO : ScriptableObject
     [SerializeField] private Sprite upgradeIcon;
     [SerializeField] private SkillType skillType;
     [SerializeField] private UpgradeType upgradeType;
+    [SerializeField, Range(0, 2)] private int slot;
+    [SerializeField, Range(0, 6)] private int leds;
     
 
     public string Name => nameUpgrade;
@@ -26,4 +28,6 @@ public class UpgradeSO : ScriptableObject
     public Sprite Icon => upgradeIcon;
     public SkillType SkillType => skillType;
     public UpgradeType UpgradeType => upgradeType;
+    public int Slot => slot;
+    public int Leds => leds;
 }

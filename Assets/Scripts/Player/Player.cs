@@ -10,6 +10,7 @@ public class Player : MonoBehaviour, IUpgradeable
     public event Action OnLevelUp;
     
     [SerializeField] private GameObject deathEffect;
+    [SerializeField] private PlayerSO playerSO;
     [SerializeField] private AudioSource hitSound;
     [SerializeField] private UpgradeSO[] upgrades;
 
@@ -42,12 +43,19 @@ public class Player : MonoBehaviour, IUpgradeable
     {
         ShipStats = GetComponent<Ship1Stats>();
 
-        _maxHealth = ShipStats.basemMaxHp;
+        // _maxHealth = ShipStats.basemMaxHp;
+        // _health = _maxHealth;
+        // _def = ShipStats.baseDef;
+        // _damage = ShipStats.baseDamage;
+        // _critChance = ShipStats.baseCritChance;
+        // _critDamage = ShipStats.baseCritDamage;
+
+        _maxHealth = playerSO.Health;
         _health = _maxHealth;
-        _def = ShipStats.baseDef;
-        _damage = ShipStats.baseDamage;
-        _critChance = ShipStats.baseCritChance;
-        _critDamage = ShipStats.baseCritDamage;
+        _def = playerSO.Defense;
+        _damage = playerSO.Damage;
+        _critChance = playerSO.CritDamage;
+        _critDamage = playerSO.CritChance;
 
         _activeHP = _health;
         _activeMaxHP = _maxHealth;
@@ -109,6 +117,7 @@ public class Player : MonoBehaviour, IUpgradeable
     public int GetActiveCRITRate() => _activeCRITRate;
     public ISkillDisplayable[] GetSkills() => _skills;
     public UpgradeSO[] GetUpgrades() => upgrades;
+    public Sprite GetUpgradesPanelSprite() => playerSO.UpgradesPanelSprite;
 
     public void SetXP(int addXP)
     {

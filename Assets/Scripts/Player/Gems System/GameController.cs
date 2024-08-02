@@ -9,11 +9,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject character3;
     [SerializeField] private UpgradeSO[] upgrades;
     [SerializeField] private TMP_Text characterName;
-    [SerializeField] Sprite[] skillIcons1;
-    [SerializeField] Sprite[] skillIcons2;
-    [SerializeField] Sprite[] upgradesPanel;
-    [SerializeField] AudioSource buttonClickSound;
-    [SerializeField] Toggle soundToggle;
+    [SerializeField] private Sprite[] skillIcons1;
+    [SerializeField] private Sprite[] skillIcons2;
+    [SerializeField] private Sprite[] upgradesPanel;
+    [SerializeField] private AudioSource buttonClickSound;
+    [SerializeField] private Toggle soundToggle;
     [SerializeField] private GameObject ControlsTipsPanel;
 
     private Player _player;
@@ -36,9 +36,9 @@ public class GameController : MonoBehaviour
         GameObject playerObject = Instantiate(character, new Vector3(0f, -4.5f, 0f), Quaternion.identity);
         _player = playerObject.GetComponent<Player>();
 
-        GameObject.Find("Skill 1").transform.GetChild(1).gameObject.GetComponent<Image>().sprite = skillIcons1[skill1];
-        GameObject.Find("Skill 2").transform.GetChild(1).gameObject.GetComponent<Image>().sprite = skillIcons2[skill2];
-        GameObject.Find("Upgrades panel").GetComponent<Image>().sprite = upgradesPanel[upgrades];
+        // GameObject.Find("Skill 1").transform.GetChild(1).gameObject.GetComponent<Image>().sprite = skillIcons1[skill1];
+        // GameObject.Find("Skill 2").transform.GetChild(1).gameObject.GetComponent<Image>().sprite = skillIcons2[skill2];
+        //GameObject.Find("Upgrades Display Panel").GetComponent<Image>().sprite = upgradesPanel[upgrades];
         characterName.text = name;
     }
 

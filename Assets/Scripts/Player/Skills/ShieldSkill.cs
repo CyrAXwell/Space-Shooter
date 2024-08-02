@@ -14,6 +14,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     [SerializeField] private string iconColor;
     [SerializeField] private Shield shield;
     [SerializeField] private UpgradeSO[] upgrades;
+    [SerializeField] private Sprite icon;
 
     private float _cooldownTimer = 0f;
 
@@ -60,6 +61,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     public int GetShieldHealth() => health;
     public int GetShieldHeal() => heal;
     public UpgradeSO[] GetUpgrades() => upgrades;
+    public Sprite GetSkillIcon() => icon;
     
 
     void UseSkill()

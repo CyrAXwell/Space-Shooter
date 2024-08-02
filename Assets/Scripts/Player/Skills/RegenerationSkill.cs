@@ -14,6 +14,7 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     [SerializeField] private float healInterval;
     [SerializeField] private float duration;
     [SerializeField] private UpgradeSO[] upgrades;
+    [SerializeField] private Sprite icon;
 
     private bool isSkillActive;
     private float _cooldownTimer;
@@ -108,6 +109,8 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 
     public UpgradeSO[] GetUpgrades() => upgrades;
 
+    public Sprite GetSkillIcon() => icon;
+
     public void UpgradeCooldown(float time)
     {
         cooldown -= time;
@@ -125,5 +128,4 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         duration += time;
         Debug.Log(duration);
     }
-
 }

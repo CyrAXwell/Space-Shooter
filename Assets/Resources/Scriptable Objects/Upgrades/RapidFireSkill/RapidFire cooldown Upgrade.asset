@@ -22,3 +22,5 @@ MonoBehaviour:
   upgradeIcon: {fileID: -1568116224, guid: c84bd0caf0139334a97399116f68afe8, type: 3}
   skillType: 2
   upgradeType: 6
+  slot: 2
+  leds: 1
