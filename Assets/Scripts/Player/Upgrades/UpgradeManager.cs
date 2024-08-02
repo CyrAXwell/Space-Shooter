@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
@@ -10,12 +11,17 @@ public class UpgradeManager : MonoBehaviour
     
     private List<UpgradeSelector> _upgradeSelectors = new List<UpgradeSelector>();
     private Player _player;
+    private ISkillDisplayable[] _skills;
     private List<UpgradeSO> _upgrades = new List<UpgradeSO>();
     private int[] _upgradeProbability; //{7000, 1500, 1000, 500}; #ffffff #286ad5 #76428a #b52a2a
+    private AudioManager _audioManager;
 
     public void Initialize(Player player, ISkillDisplayable[] skills)
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         _player = player;
+        _skills = skills;
         _player.OnLevelUp += OnLevelUp;
 
         _upgrades.AddRange(_player.GetUpgrades());
@@ -37,6 +43,11 @@ public class UpgradeManager : MonoBehaviour
         levelUpMenu.Initialize();
     }
 
+    private void OnDisable()
+    {
+        _player.OnLevelUp -= OnLevelUp;
+    }
+
     private void OnLevelUp()
     {
         levelUpMenu.OpenLevelUpMenu();
@@ -48,10 +59,108 @@ public class UpgradeManager : MonoBehaviour
     private void OnSelectorClick(UpgradeSelector upgradeSelector)
     {
         levelUpMenu.CloseLevelUpMenu();
+        UpgradePlayer(upgradeSelector);
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
     }
 
-    private void OnDisable()
+    private void UpgradePlayer(UpgradeSelector upgradeSelector)
     {
-        _player.OnLevelUp -= OnLevelUp;
+        switch (upgradeSelector.GetSkillType())
+        {
+            case SkillType.player:
+                ActivatePlayerUpgrade(upgradeSelector.GeUpgradeType(), upgradeSelector.GetUpgradeValue());
+                break;
+            case SkillType.shield:
+                ActivateShieldUpgrade(upgradeSelector.GeUpgradeType(), upgradeSelector.GetUpgradeValue());
+                break;
+            case SkillType.rapidFire:
+                ActivateRapidFireUpgrade(upgradeSelector.GeUpgradeType(), upgradeSelector.GetUpgradeValue());
+                break;
+            case SkillType.explosionBullets:
+                ActivateExplosionBulletsUpgrade(upgradeSelector.GeUpgradeType(), upgradeSelector.GetUpgradeValue());
+                break;
+            case SkillType.laser:
+                ActivateLaserUpgrade(upgradeSelector.GeUpgradeType(), upgradeSelector.GetUpgradeValue());
+                break;
+            case SkillType.regeneration:
+                ActivateRegenerationUpgrade(upgradeSelector.GeUpgradeType(), upgradeSelector.GetUpgradeValue());
+                break;
+        }
     }
+
+    private void ActivatePlayerUpgrade(UpgradeType type, int value)
+    {
+        switch (type)
+        {
+            case UpgradeType.health: _player.UpgradeHP(value); break;
+            case UpgradeType.armor: _player.UpgradeArmor(value); break;
+            case UpgradeType.damage: _player.UpgradeDamage(value); break;
+            case UpgradeType.critDamage: _player.UpgradeCritDamage(value); break;
+            case UpgradeType.critRate: _player.UpgradeCritRate(value); break;
+        }
+    }
+
+    private void ActivateShieldUpgrade(UpgradeType type, int value)
+    {
+        var shieldSkill = _skills.OfType<ShieldSkill>().ToArray()[0];
+
+        switch (type)
+        {
+            case UpgradeType.cooldown: shieldSkill.UpgradeCooldown(value); break;
+            case UpgradeType.healing: shieldSkill.UpgradeHealing(value); break;
+            case UpgradeType.health: shieldSkill.UpgradeHealth(value); break;
+        }
+    }
+
+    private void ActivateRapidFireUpgrade(UpgradeType type, int value)
+    {
+        var rapidFireSkill = _skills.OfType<RapidFireSkill>().ToArray()[0];
+
+        switch (type)
+        {
+            case UpgradeType.cooldown: rapidFireSkill.UpgradeCooldown(value); break;
+            case UpgradeType.damage: rapidFireSkill.UpgradeDamage(value); break;
+            case UpgradeType.duration: rapidFireSkill.UpgradeDuration(value); break;
+            case UpgradeType.firerate: rapidFireSkill.UpgradeFireRate(value); break;
+        }
+    }
+
+    private void ActivateExplosionBulletsUpgrade(UpgradeType type, int value)
+    {
+        var explosionBulletsSkill = _skills.OfType<ExplosionBulletsSkill>().ToArray()[0];
+
+        switch (type)
+        {
+            case UpgradeType.cooldown: explosionBulletsSkill.UpgradeCooldown(value); break;
+            case UpgradeType.damage: explosionBulletsSkill.UpgradeDamage(value); break;
+            case UpgradeType.duration: explosionBulletsSkill.UpgradeDuration(value); break;
+            case UpgradeType.firerate: explosionBulletsSkill.UpgradeFireRate(value); break;
+        }
+    }
+
+    private void ActivateLaserUpgrade(UpgradeType type, int value)
+    {
+        var laserSkill = _skills.OfType<LaserSkill>().ToArray()[0];
+
+        switch (type)
+        {
+            case UpgradeType.cooldown: laserSkill.UpgradeCooldown(value); break;
+            case UpgradeType.damage: laserSkill.UpgradeDamage(value); break;
+            case UpgradeType.duration: laserSkill.UpgradeDuration(value); break;
+            case UpgradeType.firerate: laserSkill.UpgradeFireRate(value); break;
+        }
+    }
+
+    private void ActivateRegenerationUpgrade(UpgradeType type, int value)
+    {
+        var regenerationSkill = _skills.OfType<RegenerationSkill>().ToArray()[0];
+
+        switch (type)
+        {
+            case UpgradeType.cooldown: regenerationSkill.UpgradeCooldown(value); break;
+            case UpgradeType.duration: regenerationSkill.UpgradeDurtion(value); break;
+            case UpgradeType.healing: regenerationSkill.UpgradeHealing(value); break;
+        }
+    }
+    
 }

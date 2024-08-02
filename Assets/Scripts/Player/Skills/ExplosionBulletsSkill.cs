@@ -124,25 +124,25 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
         _cooldownTimer = cooldown;
     }
 
-    public void ActionTimeUpgarde(float time)
+    public void UpgradeDuration(float time)
     {
         duration += time;
 
     }
 
-    public void CooldownUpgarde(float time)
+    public void UpgradeCooldown(float time)
     {
         cooldown -= time;
 
     }
 
-    public void DamageUpgarde(int addDamage)
+    public void UpgradeDamage(int addDamage)
     {
         skillBonusDamage += addDamage;
 
     }
 
-    public void RateUpgarde(float time)
+    public void UpgradeFireRate(float time)
     {
         timeBetweenShot -= time;
 

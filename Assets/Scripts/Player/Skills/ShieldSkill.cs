@@ -75,19 +75,19 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         shield.DestroyShield();
     }
 
-    public void ChangeShieldCD(float cooldown)
+    public void UpgradeCooldown(float cooldown)
     {
         this.cooldown -= cooldown;
         Debug.Log(this.cooldown);
     }
 
-    public void ChangeShieldHealing(int hp)
+    public void UpgradeHealing(int hp)
     {
         heal += hp;
         Debug.Log(heal);
     }
 
-    public void ChangeShieldHP(int hp)
+    public void UpgradeHealth(int hp)
     {
         health += hp;
         Debug.Log(health);

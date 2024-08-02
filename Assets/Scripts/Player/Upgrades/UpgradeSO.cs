@@ -12,6 +12,9 @@ public class UpgradeSO : ScriptableObject
     [SerializeField] private string slotType;
     [SerializeField] private string typeColor;
     [SerializeField] private Sprite upgradeIcon;
+    [SerializeField] private SkillType skillType;
+    [SerializeField] private UpgradeType upgradeType;
+    
 
     public string Name => nameUpgrade;
     public IEnumerable<int> UpgradeValues => value;
@@ -21,4 +24,6 @@ public class UpgradeSO : ScriptableObject
     public string SlotType => slotType;
     public string TypeColor => typeColor;
     public Sprite Icon => upgradeIcon;
+    public SkillType SkillType => skillType;
+    public UpgradeType UpgradeType => upgradeType;
 }

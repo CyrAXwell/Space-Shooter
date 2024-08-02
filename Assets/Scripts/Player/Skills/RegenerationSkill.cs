@@ -108,19 +108,19 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 
     public UpgradeSO[] GetUpgrades() => upgrades;
 
-    public void CooldownUpgarde(float time)
+    public void UpgradeCooldown(float time)
     {
         cooldown -= time;
         Debug.Log(cooldown);
     }
 
-    public void HealingUpgarde(int hp)
+    public void UpgradeHealing(int hp)
     {
         regenerationValue += hp;
         Debug.Log(regenerationValue);
     }
 
-    public void ActionTimeUpgarde(float time)
+    public void UpgradeDurtion(float time)
     {
         duration += time;
         Debug.Log(duration);

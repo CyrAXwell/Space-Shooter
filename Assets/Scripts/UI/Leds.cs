@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,19 +19,10 @@ public class Leds : MonoBehaviour
         
     }
 
-    // void Update()
-    // {
-    //     if(Input.GetKeyDown("l"))
-    //     {
-    //         LEDUpdate(1);
-    //     }
-    // }
-
     public void LEDUpdate(int lvl)
     {   
         for(int i = 0; i <= lvl; i++)
         {
-            //Debug.Log(ledID);
             ColorUtility.TryParseHtmlString(lightColor[colorID], out color);
             led[ledID].color = color;
             ledID ++;
