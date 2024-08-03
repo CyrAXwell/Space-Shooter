@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class GemTooltip : MonoBehaviour
 {
-    public GameObject selectGem;
+    private GemStats _selectGem;
     public GameObject gemManager;
 
     public GameObject ConfirmHighlight;
@@ -21,33 +18,26 @@ public class GemTooltip : MonoBehaviour
     public GameObject UpgardeHighlight;
     public GameObject CloseHighlight;
     
-    public void SelectGem(GameObject gem)
+    public void SelectGem(GemStats gem)
     {
-        if(selectGem != null)
+        if(_selectGem != null && _selectGem != gem)
         {
-            if(selectGem != gem)
-            {
-                if(selectGem.GetComponent<GemStats>().isEquip)
-                {
-                    selectGem.transform.GetChild(1).gameObject.SetActive(false);
-                }else
-                {
-                    selectGem.transform.GetChild(0).gameObject.SetActive(false);
-                }
-                
-            }
+            if(_selectGem.GetComponent<GemStats>().isEquip)
+                _selectGem.transform.GetChild(1).gameObject.SetActive(false);
+            else
+                _selectGem.transform.GetChild(0).gameObject.SetActive(false);
         }
-        selectGem = gem;
+        _selectGem = gem;
     }
 
     public void UpgradeGem()
     {
-        selectGem.GetComponent<GemStats>().Upgrade();
+        _selectGem.GetComponent<GemStats>().Upgrade();
     }
 
     public void Equip()
     {
-        gemManager.GetComponent<GemManager>().EquipGem(selectGem);
+        gemManager.GetComponent<GemManager>().EquipGem(_selectGem);
     }
 
     public void BreakGemTip()
@@ -56,14 +46,13 @@ public class GemTooltip : MonoBehaviour
         transform.GetChild(17).gameObject.SetActive(true);
         ConfirmHighlight.SetActive(false);
         CancelHighlight.SetActive(false);
-        transform.GetChild(17).GetChild(2).gameObject.GetComponent<TMP_Text>().text = "+" + (500 + selectGem.GetComponent<GemStats>().totalExp*0.8f).ToString();
-        //gemManager.GetComponent<GemManager>().BreakGem(selectGem);
+        transform.GetChild(17).GetChild(2).gameObject.GetComponent<TMP_Text>().text = "+" + (500 + _selectGem.totalExp*0.8f).ToString();
     }
 
     public void BreakGemConfirm()
     {
         transform.GetChild(17).gameObject.SetActive(false);
-        gemManager.GetComponent<GemManager>().BreakGem(selectGem);
+        gemManager.GetComponent<GemManager>().BreakGem(_selectGem);
     }
 
     public void BreakGemCancel()
@@ -77,19 +66,16 @@ public class GemTooltip : MonoBehaviour
         transform.GetChild(19).gameObject.SetActive(true);
         ConfirmHighlight2.SetActive(false);
         CancelHighlight2.SetActive(false);
-        transform.GetChild(19).GetChild(2).gameObject.GetComponent<TMP_Text>().text = "-" + (selectGem.GetComponent<GemStats>().needExp).ToString();
-        //gemManager.GetComponent<GemManager>().BreakGem(selectGem);
+        transform.GetChild(19).GetChild(2).gameObject.GetComponent<TMP_Text>().text = "-" + (_selectGem.needExp).ToString();
     }
 
     public void UpgradeGemConfirm()
     {
-        if(selectGem.GetComponent<GemStats>().needExp <= gemManager.GetComponent<GemManager>().gemFragments)
+        if(_selectGem.needExp <= gemManager.GetComponent<GemManager>().gemFragments)
         {
             transform.GetChild(19).gameObject.SetActive(false);
         }
         UpgradeGem();
-        
-        
     }
 
     public void UpgradeGemCancel()
@@ -99,15 +85,12 @@ public class GemTooltip : MonoBehaviour
 
     public void CloseWindow()
     {
-        if(selectGem != null)
+        if(_selectGem != null)
         {
-            if(selectGem.GetComponent<GemStats>().isEquip)
-            {
-                selectGem.transform.GetChild(1).gameObject.SetActive(false);
-            }else
-            {
-                selectGem.transform.GetChild(0).gameObject.SetActive(false);
-            }
+            if(_selectGem.isEquip)
+                _selectGem.transform.GetChild(1).gameObject.SetActive(false);
+            else
+                _selectGem.transform.GetChild(0).gameObject.SetActive(false);
         }
         
         gameObject.SetActive(false);
@@ -115,10 +98,6 @@ public class GemTooltip : MonoBehaviour
 
     public void UnequipGemButton()
     {
-        gemManager.GetComponent<GemManager>().UnequipGem(selectGem);
+        gemManager.GetComponent<GemManager>().UnequipGem(_selectGem);
     }
-
-
-
-
 }

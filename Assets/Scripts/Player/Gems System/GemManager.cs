@@ -7,7 +7,7 @@ public class GemManager : MonoBehaviour
 {
     [SerializeField] private GemsInventory gemsInventory;
 
-    [SerializeField] private GameObject gemPrefab;
+    [SerializeField] private GemStats gemPrefab;
     [SerializeField] private List<GemSlot> gemSlots;
     [SerializeField] private GameObject display;
     [SerializeField] private int[] probability;
@@ -18,7 +18,7 @@ public class GemManager : MonoBehaviour
     private int _gemsDefense;
     private int _gemsCritDamage;
     private int _gemsCritRate;
-    private GameObject _gem;
+    private GemStats _gem;
     private Player _player;
     
     public float gemFragments;
@@ -29,7 +29,7 @@ public class GemManager : MonoBehaviour
     private int[] cumulativeProbability = {0, 0, 0, 0, 0};
 
     [SerializeField] private List<GameObject> gemSlotReward;
-    private List<GameObject> _rewardGems;
+    private List<GemStats> _rewardGems;
 
     public void Initialize(Player player)
     {
@@ -63,12 +63,12 @@ public class GemManager : MonoBehaviour
     public void CreateGem()
     {
         GetProbability(probability);
-         int numberGemReward = GetNumberOfGemsByProbability(cumulativeProbability);
-        _rewardGems = new List<GameObject>();
+        int numberGemReward = GetNumberOfGemsByProbability(cumulativeProbability);
+        _rewardGems = new List<GemStats>();
         gemRewardPanel.SetActive(true);
         for(int i = 0; i < numberGemReward; i++)
         {
-            _gem = Instantiate(gemPrefab,gemSlotReward[i].transform);
+            _gem = Instantiate(gemPrefab.gameObject, gemSlotReward[i].transform).GetComponent<GemStats>();
             _rewardGems.Add(_gem);
             _gem.GetComponent<GemStats>().GetGemStats();
             _gem.name = _gem.GetComponent<GemStats>().gemName;
@@ -81,34 +81,32 @@ public class GemManager : MonoBehaviour
     {
         for(int i = 0; i < _rewardGems.Count; i++)
         {   
-            Instantiate(gemsInventory.GetSlotPrefab(), gemsInventory.GetTransform());
-            gemsInventory.AddGem(_rewardGems[i]);
-            _rewardGems[i].transform.SetParent(gemsInventory.GetSlot(gemsInventory.GetGemsAmount() -1 ), false);
-            //Create slot
-
-            _rewardGems[i].GetComponent<GemStats>().isReward = false;
-
+            gemsInventory.CreateSlot(_rewardGems[i]);
+            _rewardGems[i].isReward = false;
             _rewardGems[i].transform.GetChild(0).gameObject.SetActive(false);
         }
+
         gemRewardPanel.SetActive(false);
-        if(_gem.activeInHierarchy)
+
+        if(_gem.gameObject.activeInHierarchy)
         {
             gemInfoPanel.SetActive(false);
             _gem.transform.GetChild(0).gameObject.SetActive(false);
         }
-        gemsInventory.SortGems();
+
+        gemsInventory.SortInventory();
         _rewardGems.Clear();
     }
 
-    public void EquipGem(GameObject equipGem)
+    public void EquipGem(GemStats equipGem)
     {
         
         for (int i = 0; i <= 4; i++)
         {
             if(gemSlots[i].isEmpty)
             {
-                equipGem.GetComponent<GemStats>().isEquip = true;
-                equipGem.GetComponent<GemStats>().slot = i;
+                equipGem.isEquip = true;
+                equipGem.slot = i;
 
                 equipGem.transform.SetParent(gemSlots[i].transform, false);
                 gemSlots[i].isEmpty = false;
@@ -127,30 +125,26 @@ public class GemManager : MonoBehaviour
                 
                 if(!equipGem.GetComponent<GemStats>().isReward)
                 {
-                    // Destroy slot
-                    gemsInventory.RemoveGem(equipGem);
-                    gemsInventory.SortGems();
-                    Destroy(gemsInventory.GetSlot(gemsInventory.GetGemsAmount()).gameObject);
-                }else
+                    gemsInventory.DestroySlot(equipGem);
+                }
+                else
                 {
-                    equipGem.GetComponent<GemStats>().isReward = false;
+                    equipGem.isReward = false;
                 }
                 break;
             }
         }
     }
 
-    public void UnequipGem(GameObject UnequipGem)
+    public void UnequipGem(GemStats UnequipGem)
     {
-        gemSlots[UnequipGem.GetComponent<GemStats>().slot].GetComponent<GemSlot>().isEmpty = true;
-        UnequipGem.GetComponent<GemStats>().isEquip = false;
+        gemSlots[UnequipGem.slot].GetComponent<GemSlot>().isEmpty = true;
+        UnequipGem.isEquip = false;
         UnequipGem.transform.GetChild(1).gameObject.SetActive(false);
 
-        Instantiate(gemsInventory.GetSlotPrefab(), gemsInventory.GetTransform());
-        gemsInventory.AddGem(UnequipGem);
-        UnequipGem.transform.SetParent(gemsInventory.GetSlot(gemsInventory.GetGemsAmount() - 1), false);
+        gemsInventory.CreateSlot(UnequipGem);
+        gemsInventory.SortInventory();
 
-        gemsInventory.SortGems();
         CalculeteStats();
         gemInfoPanel.SetActive(false);
     }
@@ -179,7 +173,7 @@ public class GemManager : MonoBehaviour
     }
 
 
-    public void BreakGem(GameObject gem)
+    public void BreakGem(GemStats gem)
     {
         gemFragments += 500 + gem.GetComponent<GemStats>().totalExp*0.8f;
         
@@ -196,11 +190,8 @@ public class GemManager : MonoBehaviour
             CalculeteStats();
         }else
         {
-            // Destroy slot
-            gemsInventory.RemoveGem(gem);
+            gemsInventory.DestroySlot(gem);
             Destroy(gem);
-            gemsInventory.SortGems();
-            Destroy(gemsInventory.GetSlot(gemsInventory.GetGemsAmount()).gameObject);
         }
         
         if(gemRewardPanel.activeInHierarchy && _rewardGems.Count == 1)
@@ -216,18 +207,4 @@ public class GemManager : MonoBehaviour
         display.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = gemFragments.ToString();
     }
 
-    // public void SortGems()
-    // {
-    //     InventoryGems = InventoryGems.OrderBy(g => g.name).ToList();
-    //     for(int i = 0; i < InventoryGems.Count; i++)
-    //     {
-    //         InventoryGems[i].transform.SetParent(gemsInventory.GetSlot(i), false);
-    //     }
-    // }
-
-    // public void DeleteInventorySlot(GameObject delGem)
-    // {
-    //     Destroy(invenoryContent.transform.GetChild(InventoryGems.Count-1).gameObject);
-    //     Debug.Log(invenoryContent.transform.GetChild(InventoryGems.Count-1));
-    // }
 }

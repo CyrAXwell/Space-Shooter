@@ -1512,6 +1512,37 @@ Transform:
   m_Father: {fileID: 325457609}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &83593710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 83593711}
+  m_Layer: 0
+  m_Name: GemsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &83593711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83593710}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.3331876, y: -0.3476379, z: 38.658527}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &90919458
 GameObject:
   m_ObjectHideFlags: 0
@@ -1606,7 +1637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveTimer: {fileID: 1508191008}
-  waveTime: 20
+  waveTime: 1
   waveTimeAdd: 5
   MaxWaveTime: 60
   waveDisplay: {fileID: 1747587292}
@@ -3248,7 +3279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 661b53229f8e7f14c9c4e61f57130277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectGem: {fileID: 0}
   gemManager: {fileID: 1953969158}
   ConfirmHighlight: {fileID: 378908276}
   CancelHighlight: {fileID: 872352830}
@@ -12545,6 +12575,7 @@ MonoBehaviour:
   uIXPBar: {fileID: 972149348}
   upgradeManager: {fileID: 310381350}
   skillDisplayPanel: {fileID: 1402181219}
+  gemManager: {fileID: 1953969162}
 --- !u!1 &470712747
 GameObject:
   m_ObjectHideFlags: 0
@@ -27707,6 +27738,7 @@ GameObject:
   - component: {fileID: 1244197372}
   - component: {fileID: 1244197374}
   - component: {fileID: 1244197373}
+  - component: {fileID: 1244197375}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -27773,6 +27805,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244197371}
   m_CullTransparentMesh: 1
+--- !u!114 &1244197375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244197371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0383a39e26484745baadca1a886080f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invenoryContent: {fileID: 575356293}
+  invenorySlotPrefab: {fileID: 7890330504870085560, guid: 00e05992b867dbb4ab46c1dd2a40b62a, type: 3}
 --- !u!1 &1244522726
 GameObject:
   m_ObjectHideFlags: 0
@@ -47115,31 +47161,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f68bdbd05cade84497643f60ff4843d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemPrefab: {fileID: 5033158811173268012, guid: f42ee2a967073e249ba38032b935ef03, type: 3}
-  gemRewardPanel: {fileID: 470712747}
-  gemSlot:
-  - {fileID: 694243922}
-  - {fileID: 1051918990}
-  - {fileID: 1360955336}
-  - {fileID: 1947710122}
-  - {fileID: 894289455}
-  gemInfoPanel: {fileID: 191898893}
-  gemFragments: 500
+  gemsInventory: {fileID: 1244197375}
+  gemPrefab: {fileID: 5033158811173268008, guid: f42ee2a967073e249ba38032b935ef03, type: 3}
+  gemSlots:
+  - {fileID: 694243926}
+  - {fileID: 1051918994}
+  - {fileID: 1360955340}
+  - {fileID: 1947710126}
+  - {fileID: 894289459}
   display: {fileID: 945234603}
-  invenoryContent: {fileID: 575356292}
-  invenorySlotPrefab: {fileID: 7890330504870085560, guid: 00e05992b867dbb4ab46c1dd2a40b62a, type: 3}
-  isEmptySlot: 
-  InventoryGems: []
+  probability: 88130000d0070000dc050000e8030000f4010000
+  nextWaveButton: {fileID: 784739933}
+  gemFragments: 500
+  gemRewardPanel: {fileID: 470712747}
+  gemInfoPanel: {fileID: 191898893}
   gemSlotReward:
   - {fileID: 214896762}
   - {fileID: 1888737399}
   - {fileID: 1911623916}
   - {fileID: 1180060944}
   - {fileID: 1163341561}
-  gemReward: []
-  numberGemReward: 5
-  probability: 88130000d0070000dc050000e8030000f4010000
-  nextWaveButton: {fileID: 784739933}
 --- !u!1 &1955524907
 GameObject:
   m_ObjectHideFlags: 0

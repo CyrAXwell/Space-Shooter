@@ -7,25 +7,11 @@ public class GemsInventory : MonoBehaviour
     [SerializeField] private Transform invenoryContent;
     [SerializeField] private GameObject invenorySlotPrefab;
     
-    private List<GameObject> _inventoryGems = new List<GameObject>();
+    private List<GemStats> _inventoryGems = new List<GemStats>();
 
+    private Transform GetSlot(int index) => invenoryContent.GetChild(index);
 
-    public Transform GetTransform() => invenoryContent;
-    public Transform GetSlot(int index) => invenoryContent.GetChild(index);
-    public GameObject GetSlotPrefab() => invenorySlotPrefab;
-    public int GetGemsAmount() => _inventoryGems.Count;
-
-    public void AddGem(GameObject gem) 
-    {
-        _inventoryGems.Add(gem);
-    }
-
-    public void RemoveGem(GameObject gem) 
-    {
-        _inventoryGems.Remove(gem);
-    }
-
-    public void SortGems()
+    public void SortInventory()
     {
         _inventoryGems = _inventoryGems.OrderBy(g => g.name).ToList();
 
@@ -33,5 +19,18 @@ public class GemsInventory : MonoBehaviour
             _inventoryGems[i].transform.SetParent(GetSlot(i), false);
     }
     
+    public void CreateSlot(GemStats gem)
+    {
+        Instantiate(invenorySlotPrefab, invenoryContent);
+        _inventoryGems.Add(gem);
+        gem.transform.SetParent(invenoryContent.GetChild(_inventoryGems.Count - 1), false);
+    }
+
+    public void DestroySlot(GemStats gem)
+    {
+        _inventoryGems.Remove(gem);
+        SortInventory();
+        Destroy(invenoryContent.GetChild(_inventoryGems.Count).gameObject);
+    }
 
 }
