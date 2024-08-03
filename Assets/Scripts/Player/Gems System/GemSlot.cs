@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GemSlot : MonoBehaviour
@@ -11,7 +9,6 @@ public class GemSlot : MonoBehaviour
     public void ActivateSlot()
     {
         isEmpty = false;
-        //gemManager.GetComponent<GemManager>().CalculeteStats();
     }
 
 

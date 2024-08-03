@@ -54,8 +54,8 @@ public class Player : MonoBehaviour, IUpgradeable
         _health = _maxHealth;
         _def = playerSO.Defense;
         _damage = playerSO.Damage;
-        _critChance = playerSO.CritDamage;
-        _critDamage = playerSO.CritChance;
+        _critChance = playerSO.CritChance;
+        _critDamage = playerSO.CritDamage;
 
         _activeHP = _health;
         _activeMaxHP = _maxHealth;
