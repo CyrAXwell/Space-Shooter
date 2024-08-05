@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06613796811236c40917f350fab32b0b, type: 3}
   m_Name: DEF Gem
   m_EditorClassIdentifier: 
+  type: 2
+  color: {r: 0.20784314, g: 0.34117648, b: 0.8235294, a: 1}
   gemName: DEF GEM
   gemNameColor: '#3557d2'
   gemStat: 3

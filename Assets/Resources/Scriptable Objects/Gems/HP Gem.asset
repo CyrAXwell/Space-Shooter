@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06613796811236c40917f350fab32b0b, type: 3}
   m_Name: HP Gem
   m_EditorClassIdentifier: 
+  type: 0
+  color: {r: 0.1254902, g: 0.57254905, b: 0.24705882, a: 1}
   gemName: HP GEM
   gemNameColor: '#20923f'
   gemStat: 20

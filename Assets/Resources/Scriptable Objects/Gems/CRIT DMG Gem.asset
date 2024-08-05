@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06613796811236c40917f350fab32b0b, type: 3}
   m_Name: CRIT DMG Gem
   m_EditorClassIdentifier: 
+  type: 3
+  color: {r: 0.9529412, g: 0.47058824, b: 0.101960786, a: 1}
   gemName: CRIT DMG GEM
   gemNameColor: '#f3781a'
   gemStat: 1000

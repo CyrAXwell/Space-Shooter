@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06613796811236c40917f350fab32b0b, type: 3}
   m_Name: ATK Gem
   m_EditorClassIdentifier: 
+  type: 1
+  color: {r: 0.70980394, g: 0.16470589, b: 0.16470589, a: 1}
   gemName: ATK GEM
   gemNameColor: '#b52a2a'
   gemStat: 5

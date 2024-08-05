@@ -1,32 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class GemStats : MonoBehaviour
 {
-
     [SerializeField] private List<GemSO> gemList;
 
     private int _id;
-    private int _baseExp = 100;
-    private int _addExp = 50;
     private int _level;
+    private int _addExp = 50;
+    private int _needExp;
+    private int _totalExp;
     private int _mainStatValue;
-
-    private Color color; // del
-
-    public string gemName; // change
-    public int mainStatIncrease; //del
-    public int needExp;
-    public int totalExp;
-
-
-    public List<string> subStatName;
+    private List<GemType> _subStats  = new List<GemType>();
     private List<int> _subStatsVulues = new List<int>();
-
-    private int[] cumulativeProbability = {0, 0, 0, 0};
+    private int[] _cumulativeProbability = {0, 0, 0, 0};
     private int _subStatsAmount;
+    private GemManager _gemManager;
+    private GemTooltip _gemInfoPanel;
+    private GameObject _gemRewardPanel;
 
     public int gemHP;
     public int gemATK;
@@ -34,349 +26,166 @@ public class GemStats : MonoBehaviour
     public int gemCRITDMG;
     public int gemCRITRate;
 
-    private GameObject gemInfoPanel;
-
-    private Vector3 position1 = new Vector3(-234f, -94.5f, 0f);
-    private Vector3 position2 = new Vector3(0, -312f, 0f);
     public bool isReward = true;
     public bool isEquip = false;
     public int slot;
     
     public bool isSelect = false;
 
-    private GemManager gemManager;
-    private GameObject gemRewardPanel;
-
-    void Awake()
+    public void Initialize(GemManager gemManager, GemTooltip gemInfoPanel, GameObject gemRewardPanel)
     {
-        gemManager = GameObject.Find("Gems panel").GetComponent<GemManager>();
-        gemInfoPanel = gemManager.gemInfoPanel;
-        gemRewardPanel = gemManager.gemRewardPanel;
+        _gemManager = gemManager;
+        _gemInfoPanel = gemInfoPanel;
+        _gemRewardPanel = gemRewardPanel;
+
+        GetGemStats();
     }
 
-    public void GetGemStats()
+    private void GetGemStats()
     {
-        _id = GetRundomGem();
-        _level = 0;
-        needExp = _baseExp; 
-        totalExp = 0;
-        gemName = gemList[_id].gemName;
+        _id = Random.Range(0,gemList.Count);
+        _needExp = 100; 
+        gameObject.name = gemList[_id].gemName;
         _mainStatValue = gemList[_id].gemStat;
-        ColorUtility.TryParseHtmlString(gemList[_id].gemNameColor.ToString(), out color);
-        CalculeteStats(gemName, _mainStatValue);
+        CalculeteStats(gemList[_id].Type, _mainStatValue);
 
-        mainStatIncrease = gemList[_id].gemStatIncrease;
         transform.GetComponent<Image>().sprite = gemList[_id].gemIcon;
 
         GetProbability(gemList[_id].numberSubStatsProbability);
-        _subStatsAmount = GetNumberOfStatsByProbability(cumulativeProbability);
-        GetSubStats();
-
+        _subStatsAmount = GetNumberOfStatsByProbability(_cumulativeProbability);
+        CreateSubStats();
     }
 
-    int GetRundomGem()
-    {
-        return Random.Range(0,gemList.Count);
-    }
-
-    void GetSubStats()
+    private void CreateSubStats()
     {
         for (int i = 0; i <= _subStatsAmount; i++)
         {
-            subStatName.Add(gemList[_id].subStatsNames[Random.Range(0, 5)]);
-            switch(subStatName[i])
-            {
-                case "HP":
-                    _subStatsVulues.Add(gemList[_id].subStatsHP[Random.Range(0, 2)]);
-                    break;
-                
-                case "ATK":
-                    _subStatsVulues.Add(gemList[_id].subStatsATK[Random.Range(0, 2)]);
-                    break;
-                
-                case "DEF":
-                    _subStatsVulues.Add(gemList[_id].subStatsDEF[Random.Range(0, 2)]);
-                    break;
-                
-                case "CRIT DMG":
-                    _subStatsVulues.Add(gemList[_id].subStatsCRITDMG[Random.Range(0, 2)]);
-                    break;
-                
-                case "CRIT RATE":
-                    _subStatsVulues.Add(gemList[_id].subStatsCRITRate[Random.Range(0, 2)]);
-                    break;
-                
-            }
-            CalculeteStats(subStatName[i], _subStatsVulues[i]);
+            CreateRandomSubStat(i);
+            CalculeteStats(_subStats[i], _subStatsVulues[i]);
+        }
+    }
+
+    private void CreateRandomSubStat(int statIndex)
+    {
+        _subStats.Add((GemType) Random.Range(0, 5));
+        switch(_subStats[statIndex])
+        {
+            case GemType.health: _subStatsVulues.Add(gemList[_id].subStatsHP[Random.Range(0, 2)]); break;
+            case GemType.damage: _subStatsVulues.Add(gemList[_id].subStatsATK[Random.Range(0, 2)]); break;
+            case GemType.defense: _subStatsVulues.Add(gemList[_id].subStatsDEF[Random.Range(0, 2)]); break;
+            case GemType.critDamage: _subStatsVulues.Add(gemList[_id].subStatsCRITDMG[Random.Range(0, 2)]); break;
+            case GemType.critRate: _subStatsVulues.Add(gemList[_id].subStatsCRITRate[Random.Range(0, 2)]); break;  
+        }
+    }
+
+    private void UpgradeRandomSubStat(int statIndex)
+    {
+        switch(_subStats[statIndex])
+        {
+            case GemType.health: _subStatsVulues[statIndex] += gemList[_id].subStatsHP[Random.Range(0,3)]; break;                      
+            case GemType.damage: _subStatsVulues[statIndex] += gemList[_id].subStatsATK[Random.Range(0,3)]; break;                      
+            case GemType.defense: _subStatsVulues[statIndex] += gemList[_id].subStatsDEF[Random.Range(0,3)]; break;                       
+            case GemType.critDamage: _subStatsVulues[statIndex] += gemList[_id].subStatsCRITDMG[Random.Range(0,3)]; break;    
+            case GemType.critRate: _subStatsVulues[statIndex] += gemList[_id].subStatsCRITRate[Random.Range(0,3)]; break;
         }
     }
 
     
-    int GetNumberOfStatsByProbability(int[] probability)
+    private int GetNumberOfStatsByProbability(int[] probability)
     {
         int randomNumber = Random.Range(0, 10001);
         for (int i = 0; i < probability.Length; i++)
         {
-            if (randomNumber <= cumulativeProbability[i])
-            {
+            if (randomNumber <= _cumulativeProbability[i])
                 return i;
-            }
         }
-
         return -1;
     }
 
-    void GetProbability(int[] probability)
+    private void GetProbability(int[] probability)
     {
         int probabilitySum = 0;
         for (int i = 0; i < probability.Length; i++)
         {
             probabilitySum += probability[i];
-            cumulativeProbability[i] = probabilitySum;
+            _cumulativeProbability[i] = probabilitySum;
         }
     }
 
-    public void CalculeteStats(string stat, int value)
+    private void CalculeteStats(GemType stat, int value)
     {
         switch(stat)
-            {
-                case "HP":
-                    gemHP += value;
-                    break;
-                
-                case "ATK":
-                    gemATK += value;
-                    break;
-                
-                case "DEF":
-                    gemDEF += value;
-                    break;
-                
-                case "CRIT DMG":
-                    gemCRITDMG += value;
-                    break;
-                
-                case "CRIT RATE":
-                    gemCRITRate += value;
-                    break;
-                
-                case "HP GEM":
-                    gemHP += value;
-                    break;
-                
-                case "ATK GEM":
-                    gemATK += value;
-                    break;
-                
-                case "DEF GEM":
-                    gemDEF += value;
-                    break;
-                
-                case "CRIT DMG GEM":
-                    gemCRITDMG += value;
-                    break;
-                
-                case "CRIT RATE GEM":
-                    gemCRITRate += value;
-                    break;
-            }  
+        {
+            case GemType.health: gemHP += value; break;
+            case GemType.damage: gemATK += value; break;
+            case GemType.defense: gemDEF += value; break;          
+            case GemType.critDamage: gemCRITDMG += value; break;           
+            case GemType.critRate: gemCRITRate += value; break;
+        }  
     }
-
-
-    public void DisplayStats()
-    {
-        SelectGem();
-        gemInfoPanel.GetComponent<GemTooltip>().SelectGem(this);
-        if(!isEquip)
-            {
-                gemInfoPanel.transform.GetChild(13).gameObject.SetActive(false);
-                gemInfoPanel.transform.GetChild(14).gameObject.SetActive(true);
-            }else
-            {
-                gemInfoPanel.transform.GetChild(13).gameObject.SetActive(true);
-                gemInfoPanel.transform.GetChild(14).gameObject.SetActive(false);
-            }
-        if(!gemInfoPanel.activeInHierarchy)
-        {
-            gemInfoPanel.SetActive(true);
-            // if(isEquip)
-            // {
-            //     gemInfoPanel.GetComponent<GemTooltip>().UnequipHighlight.SetActive(false);
-            // }else
-            // {
-            //     gemInfoPanel.GetComponent<GemTooltip>().EquipHighlight.SetActive(false);
-            // }
-            
-
-            gemInfoPanel.GetComponent<GemTooltip>().BreakHighlight.SetActive(false);
-            gemInfoPanel.GetComponent<GemTooltip>().UpgardeHighlight.SetActive(false);
-            gemInfoPanel.GetComponent<GemTooltip>().CloseHighlight.SetActive(false);
-            
-        }
-        if(gemRewardPanel.activeInHierarchy)
-        {
-            gemInfoPanel.transform.localPosition = position2;
-        }else{
-            gemInfoPanel.transform.localPosition = position1;
-        }
-
-        gemInfoPanel.GetComponent<GemTooltip>().UnequipHighlight.SetActive(false);
-        gemInfoPanel.GetComponent<GemTooltip>().EquipHighlight.SetActive(false);
-        gemInfoPanel.transform.GetChild(17).gameObject.SetActive(false);
-        gemInfoPanel.transform.GetChild(19).gameObject.SetActive(false);
-        
-        // if(isReward)
-        // {
-        //     gemInfoPanel.transform.localPosition = position2;
-        // }else
-        // {
-        //     gemInfoPanel.transform.localPosition = position1;
-        // }
-        //transform.GetChild(0).gameObject.SetActive(true);
-        
-        gemInfoPanel.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = gemName;
-        gemInfoPanel.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = color;
-        gemInfoPanel.transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = "Lvl. " + _level;
-        gemInfoPanel.transform.GetChild(2).gameObject.GetComponent<TMP_Text>().text = gemName.Replace(" GEM","");
-        if(gemName == "CRIT DMG GEM" || gemName == "CRIT RATE GEM")
-        {
-            gemInfoPanel.transform.GetChild(3).gameObject.GetComponent<TMP_Text>().text = ((float)_mainStatValue / 100).ToString() + "%";
-        }else
-        {
-            gemInfoPanel.transform.GetChild(3).gameObject.GetComponent<TMP_Text>().text = _mainStatValue.ToString();
-        }
-        
-
-        for(int i = 0; i < _subStatsVulues.Count; i++)
-        {
-            gemInfoPanel.transform.GetChild(8+i).gameObject.GetComponent<TMP_Text>().text = "-" + subStatName[i];
-            if(subStatName[i] == "CRIT DMG" || subStatName[i] == "CRIT RATE")
-            {
-                gemInfoPanel.transform.GetChild(4+i).gameObject.GetComponent<TMP_Text>().text = ((float)_subStatsVulues[i] / 100).ToString() + "%";
-            }else
-            {
-                gemInfoPanel.transform.GetChild(4+i).gameObject.GetComponent<TMP_Text>().text = _subStatsVulues[i].ToString();
-            }
-            
-        }
-
-        for(int i = _subStatsVulues.Count; i < 4; i++)
-        {
-            gemInfoPanel.transform.GetChild(4+i).gameObject.GetComponent<TMP_Text>().text = "";
-            gemInfoPanel.transform.GetChild(8+i).gameObject.GetComponent<TMP_Text>().text = "";
-        }
-
-    }
-
 
     private void SelectGem()
     {
         if(isEquip)
-        {
             transform.GetChild(1).gameObject.SetActive(true);
-        }else
-        {
-            transform.GetChild(0).gameObject.SetActive(true);
-        }
-        
-        
-        
+        else
+            transform.GetChild(0).gameObject.SetActive(true);    
     }
+
+    public void DisplayStats()
+    {
+        SelectGem();
+        _gemInfoPanel.OpenGemTooltip(this, _gemRewardPanel.activeInHierarchy);
+    }
+
+    public int GetLevel() => _level;
+    public string GetName() => gemList[_id].gemName;
+    public Color GetColor() => gemList[_id].Color;
+    public int GetMainStat() => _mainStatValue;
+    public IEnumerable<int> GetSubStatsValues() => _subStatsVulues;
+    public IEnumerable<GemType> GetSubStatsTypes() => _subStats;
+    public int GetNeedExp() => _needExp;
+    public int GetTotalExp() => _totalExp;
+
 
     public void Upgrade()
     {
-        if(_level < 15 && gemManager.gemFragments >= needExp)
+        if(_level < 15 && _gemManager.gemFragments >= _needExp)
         {
-            gemManager.gemFragments -= needExp; 
-            totalExp = needExp;
-            needExp += _addExp;
+            _gemManager.gemFragments -= _needExp; 
+            _totalExp = _needExp;
+            _needExp += _addExp;
             _level ++;
-            _mainStatValue += mainStatIncrease;
-            CalculeteStats(gemName, mainStatIncrease);
+            _mainStatValue += gemList[_id].gemStatIncrease;
+            CalculeteStats(gemList[_id].Type, gemList[_id].gemStatIncrease);
+
             if(isEquip)
-            {
-                gemManager.GetComponent<GemManager>().CalculeteStats();
-            }
+                _gemManager.CalculeteStats();
+
             if(_level % 3 == 0)
             {
                 if(_subStatsAmount < 3)
                 {
                     _subStatsAmount++;
-                    
-                    subStatName.Add(gemList[_id].subStatsNames[Random.Range(0, 5)]);
-                    switch(subStatName[_subStatsAmount])
-                    {
-                        case "HP":
-                            _subStatsVulues.Add(gemList[_id].subStatsHP[Random.Range(0, 2)]);
-                            break;
-                        
-                        case "ATK":
-                            _subStatsVulues.Add(gemList[_id].subStatsATK[Random.Range(0, 2)]);
-                            break;
-                        
-                        case "DEF":
-                            _subStatsVulues.Add(gemList[_id].subStatsDEF[Random.Range(0, 2)]);
-                            break;
-                        
-                        case "CRIT DMG":
-                            _subStatsVulues.Add(gemList[_id].subStatsCRITDMG[Random.Range(0, 2)]);
-                            break;
-                        
-                        case "CRIT RATE":
-                            _subStatsVulues.Add(gemList[_id].subStatsCRITRate[Random.Range(0, 2)]);
-                            break;
-                        
-                    }
-                    CalculeteStats(subStatName[_subStatsAmount], _subStatsVulues[_subStatsAmount]);
+                    CreateRandomSubStat(_subStatsAmount);
+                    CalculeteStats(_subStats[_subStatsAmount], _subStatsVulues[_subStatsAmount]);
+
                     if(isEquip)
-                    {
-                        gemManager.GetComponent<GemManager>().CalculeteStats();
-                    }
+                        _gemManager.CalculeteStats();
+
                 }else
                 {
-                    int num = Random.Range(0, _subStatsAmount + 1);
-                    switch(subStatName[num])
-                    {
-                        case "HP":
-                            _subStatsVulues[num] += gemList[_id].subStatsHP[Random.Range(0,3)];
-                            break;
-                        
-                        case "ATK":
-                            _subStatsVulues[num] += gemList[_id].subStatsATK[Random.Range(0,3)];
-                            break;
-                        
-                        case "DEF":
-                            _subStatsVulues[num] += gemList[_id].subStatsDEF[Random.Range(0,3)];
-                            break;
-                        
-                        case "CRIT DMG":
-                            _subStatsVulues[num] += gemList[_id].subStatsCRITDMG[Random.Range(0,3)];
-                            break;
-                        
-                        case "CRIT RATE":
-                            _subStatsVulues[num] += gemList[_id].subStatsCRITRate[Random.Range(0,3)];
-                            break;
-                        
-                    }
-                    CalculeteStats(subStatName[num], _subStatsVulues[num]);
+                    int subStatIndex = Random.Range(0, _subStatsAmount + 1);
+                    UpgradeRandomSubStat(subStatIndex);
+                    CalculeteStats(_subStats[subStatIndex], _subStatsVulues[subStatIndex]);
                     if(isEquip)
-                    {
-                        gemManager.GetComponent<GemManager>().CalculeteStats();
-                    }
+                        _gemManager.GetComponent<GemManager>().CalculeteStats();
                     
                 }
             }
             
             DisplayStats();
-            gemManager.UpdateFragmentsDisplay();
-
-            
+            _gemManager.UpdateFragmentsDisplay();
         }
-
     }
-
-
-
-
-
 }
