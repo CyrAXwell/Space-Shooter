@@ -2,14 +2,23 @@ using UnityEngine;
 
 public class GemSlot : MonoBehaviour
 {
-    public bool isEmpty = true;
-    public GameObject gemManager;
+    private GemStats _equipedGem;
+    private bool _isEmpty = true;
 
+    public bool IsEmpty => _isEmpty;
 
-    public void ActivateSlot()
+    public GemStats GetEquipedGem() => _equipedGem;
+
+    public void EquipGem(GemStats gem)
     {
-        isEmpty = false;
+        _equipedGem = gem;
+        _isEmpty = false;
     }
 
+    public void UnequipGem()
+    {
+        _equipedGem = null;
+        _isEmpty = true;
+    }
 
 }

@@ -95,7 +95,7 @@ public class WaveManager : MonoBehaviour
             WaveComoletePanel.SetActive(true);
             WaveComoletePanel.transform.GetChild(3).GetComponent<Button>().interactable = false;
             WaveComoletePanel.transform.GetChild(2).gameObject.SetActive(false);
-            gemManager.CreateGem();
+            gemManager.CreateGems();
             GemPanelBlock.SetActive(false);
         }else
         {

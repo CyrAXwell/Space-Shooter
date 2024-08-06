@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GemStats : MonoBehaviour
 {
     [SerializeField] private List<GemSO> gemList;
+    [SerializeField] private GameObject standardOutline;
+    [SerializeField] private GameObject equipedOutline;
 
     private int _id;
     private int _level;
@@ -18,21 +21,23 @@ public class GemStats : MonoBehaviour
     private int _subStatsAmount;
     private GemManager _gemManager;
     private GemTooltip _gemInfoPanel;
-    private GameObject _gemRewardPanel;
-
-    public int gemHP;
-    public int gemATK;
-    public int gemDEF;
-    public int gemCRITDMG;
-    public int gemCRITRate;
-
-    public bool isReward = true;
-    public bool isEquip = false;
-    public int slot;
+    private RewardGemsPanel _gemRewardPanel;
+    private int _health;
+    private int _damage;
+    private int _defense;
+    private int _critDamage;
+    private int _critRate;
+    private int _slotIndex;
+    private GemState _state;
     
-    public bool isSelect = false;
+    public enum GemState
+    {
+        reward,
+        equiped,
+        inventory,
+    }
 
-    public void Initialize(GemManager gemManager, GemTooltip gemInfoPanel, GameObject gemRewardPanel)
+    public void Initialize(GemManager gemManager, GemTooltip gemInfoPanel, RewardGemsPanel gemRewardPanel)
     {
         _gemManager = gemManager;
         _gemInfoPanel = gemInfoPanel;
@@ -45,13 +50,13 @@ public class GemStats : MonoBehaviour
     {
         _id = Random.Range(0,gemList.Count);
         _needExp = 100; 
-        gameObject.name = gemList[_id].gemName;
-        _mainStatValue = gemList[_id].gemStat;
+        gameObject.name = gemList[_id].Name;
+        _mainStatValue = gemList[_id].MainStatValue;
         CalculeteStats(gemList[_id].Type, _mainStatValue);
 
-        transform.GetComponent<Image>().sprite = gemList[_id].gemIcon;
+        transform.GetComponent<Image>().sprite = gemList[_id].Sprite;
 
-        GetProbability(gemList[_id].numberSubStatsProbability);
+        GetProbability(gemList[_id].SubStatsAmountProbability.ToArray());
         _subStatsAmount = GetNumberOfStatsByProbability(_cumulativeProbability);
         CreateSubStats();
     }
@@ -70,11 +75,11 @@ public class GemStats : MonoBehaviour
         _subStats.Add((GemType) Random.Range(0, 5));
         switch(_subStats[statIndex])
         {
-            case GemType.health: _subStatsVulues.Add(gemList[_id].subStatsHP[Random.Range(0, 2)]); break;
-            case GemType.damage: _subStatsVulues.Add(gemList[_id].subStatsATK[Random.Range(0, 2)]); break;
-            case GemType.defense: _subStatsVulues.Add(gemList[_id].subStatsDEF[Random.Range(0, 2)]); break;
-            case GemType.critDamage: _subStatsVulues.Add(gemList[_id].subStatsCRITDMG[Random.Range(0, 2)]); break;
-            case GemType.critRate: _subStatsVulues.Add(gemList[_id].subStatsCRITRate[Random.Range(0, 2)]); break;  
+            case GemType.health: _subStatsVulues.Add(gemList[_id].HealthUpgrades.ToArray()[Random.Range(0, 2)]); break;
+            case GemType.damage: _subStatsVulues.Add(gemList[_id].DamageUpgrades.ToArray()[Random.Range(0, 2)]); break;
+            case GemType.defense: _subStatsVulues.Add(gemList[_id].DefenseUpgrades.ToArray()[Random.Range(0, 2)]); break;
+            case GemType.critDamage: _subStatsVulues.Add(gemList[_id].CritDamageUpgrades.ToArray()[Random.Range(0, 2)]); break;
+            case GemType.critRate: _subStatsVulues.Add(gemList[_id].CritRateUpgrades.ToArray()[Random.Range(0, 2)]); break;  
         }
     }
 
@@ -82,11 +87,11 @@ public class GemStats : MonoBehaviour
     {
         switch(_subStats[statIndex])
         {
-            case GemType.health: _subStatsVulues[statIndex] += gemList[_id].subStatsHP[Random.Range(0,3)]; break;                      
-            case GemType.damage: _subStatsVulues[statIndex] += gemList[_id].subStatsATK[Random.Range(0,3)]; break;                      
-            case GemType.defense: _subStatsVulues[statIndex] += gemList[_id].subStatsDEF[Random.Range(0,3)]; break;                       
-            case GemType.critDamage: _subStatsVulues[statIndex] += gemList[_id].subStatsCRITDMG[Random.Range(0,3)]; break;    
-            case GemType.critRate: _subStatsVulues[statIndex] += gemList[_id].subStatsCRITRate[Random.Range(0,3)]; break;
+            case GemType.health: _subStatsVulues[statIndex] += gemList[_id].HealthUpgrades.ToArray()[Random.Range(0,3)]; break;                      
+            case GemType.damage: _subStatsVulues[statIndex] += gemList[_id].DamageUpgrades.ToArray()[Random.Range(0,3)]; break;                      
+            case GemType.defense: _subStatsVulues[statIndex] += gemList[_id].DefenseUpgrades.ToArray()[Random.Range(0,3)]; break;                       
+            case GemType.critDamage: _subStatsVulues[statIndex] += gemList[_id].CritDamageUpgrades.ToArray()[Random.Range(0,3)]; break;    
+            case GemType.critRate: _subStatsVulues[statIndex] += gemList[_id].CritRateUpgrades.ToArray()[Random.Range(0,3)]; break;
         }
     }
 
@@ -116,50 +121,60 @@ public class GemStats : MonoBehaviour
     {
         switch(stat)
         {
-            case GemType.health: gemHP += value; break;
-            case GemType.damage: gemATK += value; break;
-            case GemType.defense: gemDEF += value; break;          
-            case GemType.critDamage: gemCRITDMG += value; break;           
-            case GemType.critRate: gemCRITRate += value; break;
+            case GemType.health: _health += value; break;
+            case GemType.damage: _damage += value; break;
+            case GemType.defense: _defense += value; break;          
+            case GemType.critDamage: _critDamage += value; break;           
+            case GemType.critRate: _critRate += value; break;
         }  
     }
 
     private void SelectGem()
     {
-        if(isEquip)
-            transform.GetChild(1).gameObject.SetActive(true);
+        if(_state == GemState.equiped)
+            equipedOutline.SetActive(true);
         else
-            transform.GetChild(0).gameObject.SetActive(true);    
+            standardOutline.SetActive(true);    
     }
 
     public void DisplayStats()
     {
         SelectGem();
-        _gemInfoPanel.OpenGemTooltip(this, _gemRewardPanel.activeInHierarchy);
+        _gemInfoPanel.OpenGemTooltip(this, _gemRewardPanel.gameObject.activeInHierarchy);
     }
 
     public int GetLevel() => _level;
-    public string GetName() => gemList[_id].gemName;
+    public string GetName() => gemList[_id].Name;
     public Color GetColor() => gemList[_id].Color;
     public int GetMainStat() => _mainStatValue;
     public IEnumerable<int> GetSubStatsValues() => _subStatsVulues;
     public IEnumerable<GemType> GetSubStatsTypes() => _subStats;
     public int GetNeedExp() => _needExp;
     public int GetTotalExp() => _totalExp;
-
+    public int GetHealth() => _health;
+    public int GetDamage() => _damage;
+    public int GetDefense() => _defense;
+    public int GetCritDamage() => _critDamage;
+    public int GetCritRate() => _critRate;
+    public int GetSlotIndex() => _slotIndex;
+    public GemState GetState() => _state;
+    public void SetSlotIndex(int index) => _slotIndex = index;
+    public void SetState(GemState state) => _state = state;
+    public void HideStandartOutline() => standardOutline.SetActive(false);
+    public void HideEquipedOutline() => equipedOutline.SetActive(false);
 
     public void Upgrade()
     {
-        if(_level < 15 && _gemManager.gemFragments >= _needExp)
+        if(_level < 15 && _gemManager.GetCurrentCoins() >= _needExp)
         {
-            _gemManager.gemFragments -= _needExp; 
+            _gemManager.Spend(_needExp); 
             _totalExp = _needExp;
             _needExp += _addExp;
             _level ++;
-            _mainStatValue += gemList[_id].gemStatIncrease;
-            CalculeteStats(gemList[_id].Type, gemList[_id].gemStatIncrease);
+            _mainStatValue += gemList[_id].MainStatIncreaseValue;
+            CalculeteStats(gemList[_id].Type, gemList[_id].MainStatIncreaseValue);
 
-            if(isEquip)
+            if(_state == GemState.equiped)
                 _gemManager.CalculeteStats();
 
             if(_level % 3 == 0)
@@ -170,7 +185,7 @@ public class GemStats : MonoBehaviour
                     CreateRandomSubStat(_subStatsAmount);
                     CalculeteStats(_subStats[_subStatsAmount], _subStatsVulues[_subStatsAmount]);
 
-                    if(isEquip)
+                    if(_state == GemState.equiped)
                         _gemManager.CalculeteStats();
 
                 }else
@@ -178,8 +193,8 @@ public class GemStats : MonoBehaviour
                     int subStatIndex = Random.Range(0, _subStatsAmount + 1);
                     UpgradeRandomSubStat(subStatIndex);
                     CalculeteStats(_subStats[subStatIndex], _subStatsVulues[subStatIndex]);
-                    if(isEquip)
-                        _gemManager.GetComponent<GemManager>().CalculeteStats();
+                    if(_state == GemState.equiped)
+                        _gemManager.CalculeteStats();
                     
                 }
             }

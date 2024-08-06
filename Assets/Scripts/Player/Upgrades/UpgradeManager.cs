@@ -43,7 +43,6 @@ public class UpgradeManager : MonoBehaviour
         }   
 
         uiUpgradeDisplay.Initialize(_player.GetUpgradesPanelSprite());
-        levelUpMenu.Initialize();
     }
 
     private void OnDisable()

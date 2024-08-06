@@ -1854,8 +1854,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea3e1d8ab147a046a424bfbee59b3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEmpty: 1
-  gemManager: {fileID: 1976793811}
 --- !u!114 &79872400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2586,13 +2584,14 @@ GameObject:
   - component: {fileID: 155193812}
   - component: {fileID: 155193811}
   - component: {fileID: 155193810}
+  - component: {fileID: 155193813}
   m_Layer: 5
   m_Name: Gem Reward panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &155193810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2652,6 +2651,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 672, y: 255}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &155193813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155193809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ffad316ae400024c972280982d90165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeButton: {fileID: 240296766}
 --- !u!1 &163081860
 GameObject:
   m_ObjectHideFlags: 0
@@ -11082,7 +11094,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &290599544
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20699,8 +20711,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea3e1d8ab147a046a424bfbee59b3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEmpty: 1
-  gemManager: {fileID: 1976793811}
 --- !u!114 &770897033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21491,8 +21501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea3e1d8ab147a046a424bfbee59b3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEmpty: 1
-  gemManager: {fileID: 1976793811}
 --- !u!114 &804857190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22104,8 +22112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea3e1d8ab147a046a424bfbee59b3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEmpty: 1
-  gemManager: {fileID: 1976793811}
 --- !u!114 &880321296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22405,7 +22411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &908919757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22434,8 +22440,8 @@ MonoBehaviour:
   - {fileID: 101862440}
   equipButton: {fileID: 956130179}
   unequipButton: {fileID: 1289117224}
-  breakMenu: {fileID: 1873007154}
-  upgradeMenu: {fileID: 1514281403}
+  breakMenu: {fileID: 1873007158}
+  upgradeMenu: {fileID: 1514281407}
 --- !u!114 &908919758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33145,7 +33151,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1461023095
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33181,7 +33187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.23529412}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.2}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -34196,6 +34202,7 @@ GameObject:
   - component: {fileID: 1514281406}
   - component: {fileID: 1514281405}
   - component: {fileID: 1514281404}
+  - component: {fileID: 1514281407}
   m_Layer: 5
   m_Name: Upgrade Tip
   m_TagString: Untagged
@@ -34264,6 +34271,19 @@ RectTransform:
   m_AnchoredPosition: {x: 297, y: 88.5}
   m_SizeDelta: {x: 300, y: 192}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1514281407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514281403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bebed9ddf10b89a4d82d13dfd9e1dc64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: {fileID: 1852559639}
 --- !u!1 &1523238173
 GameObject:
   m_ObjectHideFlags: 0
@@ -36799,8 +36819,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea3e1d8ab147a046a424bfbee59b3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEmpty: 1
-  gemManager: {fileID: 1976793811}
 --- !u!114 &1651913376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40176,6 +40194,7 @@ GameObject:
   - component: {fileID: 1873007157}
   - component: {fileID: 1873007156}
   - component: {fileID: 1873007155}
+  - component: {fileID: 1873007158}
   m_Layer: 5
   m_Name: Break Tip
   m_TagString: Untagged
@@ -40244,6 +40263,19 @@ RectTransform:
   m_AnchoredPosition: {x: 297, y: 88.5}
   m_SizeDelta: {x: 300, y: 192}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1873007158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1873007154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bebed9ddf10b89a4d82d13dfd9e1dc64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: {fileID: 1410419534}
 --- !u!1 &1873192415
 GameObject:
   m_ObjectHideFlags: 0
@@ -47404,26 +47436,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f68bdbd05cade84497643f60ff4843d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemsInventory: {fileID: 847602392}
-  gemInfoPanel: {fileID: 908919757}
   gemPrefab: {fileID: 5033158811173268008, guid: f42ee2a967073e249ba38032b935ef03, type: 3}
+  gemsInventory: {fileID: 847602392}
   gemSlots:
   - {fileID: 79872399}
   - {fileID: 1651913375}
   - {fileID: 770897032}
   - {fileID: 880321295}
   - {fileID: 804857189}
-  display: {fileID: 796086957}
-  probability: 88130000d0070000dc050000e8030000f4010000
-  nextWaveButton: {fileID: 620351756}
-  gemFragments: 500
-  gemRewardPanel: {fileID: 155193809}
-  gemSlotReward:
+  gemInfoPanel: {fileID: 908919757}
+  gemRewardPanel: {fileID: 155193813}
+  gemRewardSlots:
   - {fileID: 1678811804}
   - {fileID: 187838316}
   - {fileID: 563040757}
   - {fileID: 979328723}
   - {fileID: 1337980459}
+  moneyDisplay: {fileID: 796086957}
+  nextWaveButton: {fileID: 620351756}
+  probability: 88130000d0070000dc050000e8030000f4010000
 --- !u!114 &1976793814
 MonoBehaviour:
   m_ObjectHideFlags: 0

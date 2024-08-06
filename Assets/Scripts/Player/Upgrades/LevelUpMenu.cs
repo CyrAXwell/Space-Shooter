@@ -13,11 +13,6 @@ public class LevelUpMenu : MonoBehaviour
 
     private float _rerollCounter;
 
-    public void Initialize()
-    {
-        levelUpPanel.SetActive(false);
-    }
-
     private void DisableUpgradesOutline()
     {
         foreach (GameObject highlight in upgradesHighlights)

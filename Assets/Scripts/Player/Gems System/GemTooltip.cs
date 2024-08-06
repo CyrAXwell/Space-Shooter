@@ -15,8 +15,8 @@ public class GemTooltip : MonoBehaviour
     [SerializeField] private TMP_Text[] subStatsValuesTMP;
     [SerializeField] private GameObject equipButton;
     [SerializeField] private GameObject unequipButton;
-    [SerializeField] private GameObject breakMenu;
-    [SerializeField] private GameObject upgradeMenu;
+    [SerializeField] private ComfirmTooltip breakMenu;
+    [SerializeField] private ComfirmTooltip upgradeMenu;
 
     private GemStats _selectGem;
     private GemManager _gemManager;
@@ -36,10 +36,10 @@ public class GemTooltip : MonoBehaviour
 
     private void UnselectGem()
     {
-        if(_selectGem.isEquip)
-            _selectGem.transform.GetChild(1).gameObject.SetActive(false);
+        if(_selectGem.GetState() == GemStats.GemState.equiped)
+            _selectGem.HideEquipedOutline();
         else
-            _selectGem.transform.GetChild(0).gameObject.SetActive(false);
+            _selectGem.HideStandartOutline();
     }
 
     public void OpenGemTooltip(GemStats gem, bool isReward)
@@ -53,10 +53,10 @@ public class GemTooltip : MonoBehaviour
 
         SelectGem(gem);
 
-        equipButton.SetActive(!_selectGem.isEquip);
-        unequipButton.SetActive(_selectGem.isEquip);
-        breakMenu.SetActive(false);
-        upgradeMenu.SetActive(false);
+        equipButton.SetActive(_selectGem.GetState() != GemStats.GemState.equiped);
+        unequipButton.SetActive(_selectGem.GetState() == GemStats.GemState.equiped);
+        breakMenu.gameObject.SetActive(false);
+        upgradeMenu.gameObject.SetActive(false);
         
         gemNameTMP.text = gem.GetName();
         gemNameTMP.color = gem.GetColor();
@@ -113,40 +113,40 @@ public class GemTooltip : MonoBehaviour
 
     public void BreakGemTip()
     {
-        upgradeMenu.SetActive(false);
-        breakMenu.SetActive(true);
-        breakMenu.transform.GetChild(2).gameObject.GetComponent<TMP_Text>().text = "+" + (500 + _selectGem.GetTotalExp() * 0.8f).ToString();
+        upgradeMenu.gameObject.SetActive(false);
+        breakMenu.gameObject.SetActive(true);
+        breakMenu.PrintText("+" + (500 + _selectGem.GetTotalExp() * 0.8f).ToString());
     }
 
     public void BreakGemConfirm()
     {
-        breakMenu.SetActive(false);
+        breakMenu.gameObject.SetActive(false);
         _gemManager.BreakGem(_selectGem);
     }
 
     public void BreakGemCancel()
     {
-        breakMenu.SetActive(false);
+        breakMenu.gameObject.SetActive(false);
     }
 
     public void UpgradeGemTip()
     {
-        breakMenu.SetActive(false);
-        upgradeMenu.SetActive(true);
-        upgradeMenu.transform.GetChild(2).gameObject.GetComponent<TMP_Text>().text = "-" + (_selectGem.GetNeedExp()).ToString();
+        breakMenu.gameObject.SetActive(false);
+        upgradeMenu.gameObject.SetActive(true);
+        upgradeMenu.PrintText("-" + (_selectGem.GetNeedExp()).ToString());
     }
 
     public void UpgradeGemConfirm()
     {
-        if(_selectGem.GetNeedExp() <= _gemManager.GetMoney())
-            upgradeMenu.SetActive(false);
+        if(_selectGem.GetNeedExp() <= _gemManager.GetCurrentCoins())
+            upgradeMenu.gameObject.SetActive(false);
 
         _selectGem.Upgrade();
     }
 
     public void UpgradeGemCancel()
     {
-       upgradeMenu.SetActive(false);
+       upgradeMenu.gameObject.SetActive(false);
     }
 
     public void CloseWindow()

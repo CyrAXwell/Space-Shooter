@@ -320,24 +320,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 479ad336badbb974e813a85d62deb7ec, type: 2}
   - {fileID: 11400000, guid: 159c98b45f6fa3c4e8eeb21bf29b5641, type: 2}
   - {fileID: 11400000, guid: e494285a4d6a0be4c8cdc1b1139fd925, type: 2}
-  id: 0
-  gemName: 
-  level: 0
-  mainStat: 0
-  mainStatIncrease: 0
-  needExp: 0
-  totalExp: 0
-  subStatName: []
-  SubStat: 
-  gemHP: 0
-  gemATK: 0
-  gemDEF: 0
-  gemCRITDMG: 0
-  gemCRITRate: 0
-  isReward: 1
-  isEquip: 0
-  slot: 0
-  isSelect: 0
+  standardOutline: {fileID: 1748197188}
+  equipedOutline: {fileID: 8568562034349749204}
 --- !u!82 &-2292546346545574023
 AudioSource:
   m_ObjectHideFlags: 0
