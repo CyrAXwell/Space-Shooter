@@ -2,9 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class GemManager : MonoBehaviour
 {
+    public event Action OnHideRewardPanel;
+
     [SerializeField] private GemStats gemPrefab;
     [SerializeField] private GemsInventory gemsInventory;
     [SerializeField] private List<GemSlot> gemSlots;
@@ -62,6 +65,7 @@ public class GemManager : MonoBehaviour
         }
 
         gemRewardPanel.HidePanel();
+        OnHideRewardPanel?.Invoke();
         gemInfoPanel.gameObject.SetActive(false);
 
         gemsInventory.SortInventory();
@@ -82,7 +86,7 @@ public class GemManager : MonoBehaviour
                 if(gemRewardPanel.gameObject.activeInHierarchy && _rewardGems.Count == 1)
                 {
                     gemRewardPanel.HidePanel();
-                    nextWaveButton.interactable = true;
+                    OnHideRewardPanel?.Invoke();
                 }
 
                 _rewardGems.Remove(equipGem);
@@ -183,7 +187,7 @@ public class GemManager : MonoBehaviour
 
     private int GetNumberOfGemsByProbability(int[] probability)
     {
-        int randomNumber = Random.Range(0, 10001);
+        int randomNumber = UnityEngine.Random.Range(0, 10001);
         for (int i = 0; i < probability.Length; i++)
         {
             if (randomNumber <= _cumulativeProbability[i])

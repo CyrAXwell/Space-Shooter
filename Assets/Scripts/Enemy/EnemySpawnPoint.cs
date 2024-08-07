@@ -1,28 +1,19 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawnPoint : MonoBehaviour
 {
-    //private Rigidbody2D rb;
-
-    [SerializeField] private GameObject[] enemyPrefab;
-    public int enemyID = 0;
-
     private float spawnTime = 1.5f;
 
-    void Start()
+    public void Initialize(Enemy enemyPrefab)
     {
-        //rb = GetComponent<Rigidbody2D>();
-        StartCoroutine(SpawnEnemy(spawnTime, enemyPrefab[enemyID]));
+        StartCoroutine(SpawnEnemy(spawnTime, enemyPrefab));
     }
 
-
-    private IEnumerator SpawnEnemy(float interval, GameObject enemy)
+    private IEnumerator SpawnEnemy(float interval, Enemy enemy)
     {
         yield return new WaitForSeconds(interval);
-        Instantiate(enemy,transform.position, Quaternion.identity);
+        Instantiate(enemy.gameObject ,transform.position, Quaternion.identity);
         Destroy(gameObject);
-
     }
 }

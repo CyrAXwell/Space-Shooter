@@ -1,132 +1,109 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class WaveManager : MonoBehaviour
 {
+    public event Action OnTimerUpdate;
+    public event Action OnWaveComplete;
+    public event Action OnBossWaveComplete;
+    public event Action OnStartNewWave;
 
-    [SerializeField] private TMP_Text waveTimer;
-    [NonSerialized] public bool startCount = false;
-    [SerializeField] private float waveTime;
-    [SerializeField] private float waveTimeAdd;
-    [SerializeField] private float MaxWaveTime;
-    private float time; 
-
-    [SerializeField] private TMP_Text waveDisplay;
-    [HideInInspector] public int waveCounter;
-    
-    [SerializeField] private Image[] stageLeds;
-    private Color clearStageColor;
-    private Color currentStageColor;
-
-    //public static bool isPaused;
-    [SerializeField] private GameObject WaveComoletePanel;
-    private GemManager gemManager;
+    [SerializeField] private UIWavePanel uIWavePanel;
+    [SerializeField] private float waveDuration;
+    [SerializeField] private float newWaveTimeIncrease;
+    [SerializeField] private float maxWaveTime;
     [SerializeField] private GameObject GemPanelBlock;
-    private GameObject player;
-    [SerializeField] private GameObject gemRewardPanel;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private GameObject gemToolTip;
-
     [SerializeField] private GameObject bossPrefab;
     [SerializeField] private GameObject bossHealtBar;
-    private bool isBossWave = false;
     [SerializeField] AudioSource waveCompleteSound;
 
-    void Awake()
-    {
-        gemManager = GameObject.Find("Gems panel").GetComponent<GemManager>();
-        WaveComoletePanel.SetActive(false);
-    }
+    private GemManager _gemManager;
+    private Player _player;
+    private float _timer; 
+    private bool _stopTimer = true;
+    private bool _isBossWave = false;
 
-    void Start()
+    [HideInInspector] public int waveCounter;
+    
+
+    public void Initialize(GemManager gemManager, Player player)
     {
-        time = waveTime;
-        startCount = true;
+        _gemManager = gemManager;
+        _player = player;
+
+        _timer = waveDuration;
+        _stopTimer = false;
 
         waveCounter = 1;
-        waveDisplay.text = "Wave " + waveCounter.ToString() + "/20";
 
-        ColorUtility.TryParseHtmlString("#286ad5", out clearStageColor);
-        ColorUtility.TryParseHtmlString("#6abe30", out currentStageColor);
-        stageLeds[waveCounter - 1].color = currentStageColor;
-
-        
-        player = GameObject.FindWithTag("Player");
-
+        uIWavePanel.Initialize(this, gemManager);
     }
+    
+    public int GetWave() => waveCounter;
+    public float GetTimer() => _timer;
 
-    void Update()
+
+    private void Update()
     {
-        waveTimer.text = Mathf.Round(time).ToString();
-
-    }
-
-    void FixedUpdate()
-    {
-        if(startCount)
+        if(!_stopTimer)
         {
-            time -= Time.fixedDeltaTime;
-            if(time <= 0f)
+            _timer -= Time.deltaTime;
+            OnTimerUpdate?.Invoke();
+            if(_timer <= 0f)
             {
-                time = 0f;
-                startCount = false;
-                //waveCounter ++;
-                stageLeds[waveCounter - 1].color = clearStageColor;
-                WaveComplete();
+                _timer = 0f;
+                _stopTimer = true;
                 
+                WaveComplete();
             }
-
         }
     }
 
-    void WaveComplete()
+    private void WaveComplete()
     {
-        ClearObjects();
-        PauseGame();
+        ClearObjects(); // spawner
+        PauseGame(); // gameController
         
-        if(!isBossWave)
+        if(!_isBossWave)
         {
+            OnWaveComplete?.Invoke();
             waveCompleteSound.Play();
             
-            WaveComoletePanel.SetActive(true);
-            WaveComoletePanel.transform.GetChild(3).GetComponent<Button>().interactable = false;
-            WaveComoletePanel.transform.GetChild(2).gameObject.SetActive(false);
-            gemManager.CreateGems();
+            _gemManager.CreateGems();
             GemPanelBlock.SetActive(false);
         }else
         {
+            OnBossWaveComplete?.Invoke();
             ClearObjects();
             BossWaveComplete();
             ClearObjects();
         }
         
         ClearObjects();
-        player.transform.position = new Vector3(0f, -4.5f, 0f);
+        _player.transform.position = new Vector3(0f, -4.5f, 0f);
 
         switch(StateNameController.character)
         {
             case "Character 1":
-                player.GetComponent<ShieldSkill>().ResetShieldSkill();
-                player.GetComponent<RapidFireSkill>().ResetRapidFireSkill(); 
+                _player.GetComponent<ShieldSkill>().ResetShieldSkill();
+                _player.GetComponent<RapidFireSkill>().ResetRapidFireSkill(); 
                 break;
             case "Character 2":
-                player.GetComponent<ShieldSkill>().ResetShieldSkill();
-                player.GetComponent<ExplosionBulletsSkill>().ResetSkill(); 
+                _player.GetComponent<ShieldSkill>().ResetShieldSkill();
+                _player.GetComponent<ExplosionBulletsSkill>().ResetSkill(); 
                 break;
             case "Character 3":
-                player.GetComponent<RegenerationSkill>().ResetSkill();
-                player.GetComponent<LaserSkill>().ResetSkill(); 
+                _player.GetComponent<RegenerationSkill>().ResetSkill();
+                _player.GetComponent<LaserSkill>().ResetSkill(); 
                 break;
             default:
-                player.GetComponent<ShieldSkill>().ResetShieldSkill();
-                player.GetComponent<RapidFireSkill>().ResetRapidFireSkill(); 
+                _player.GetComponent<ShieldSkill>().ResetShieldSkill();
+                _player.GetComponent<RapidFireSkill>().ResetRapidFireSkill(); 
                 break;
         }
-        player.GetComponent<Player>().FullHeal();
+        _player.FullHeal();
 
     }
 
@@ -144,51 +121,34 @@ public class WaveManager : MonoBehaviour
 
     public void StartNextWave()
     {
-        
-        time = waveTime +  waveCounter * waveTimeAdd;
-        if(time > MaxWaveTime)
-        {
-           time = MaxWaveTime;
-        }
+        _timer = _timer > maxWaveTime ? maxWaveTime : waveDuration +  waveCounter * newWaveTimeIncrease;
+        _stopTimer = false;
         waveCounter ++;
-        startCount = true;
         GemPanelBlock.SetActive(true);
-        WaveComoletePanel.transform.GetChild(3).GetComponent<Button>().interactable = false;
         
         if(waveCounter == 20)
-        {
             BossWave();
-        }else
-        {
-            enemySpawner.UpdateProbability(waveCounter);
-        }
-        
+        else
+            enemySpawner.UpdateProbability(waveCounter);  
 
         if(gemToolTip.activeInHierarchy)
-        {
             gemToolTip.SetActive(false);
-        }
 
         ClearObjects();
-        player.GetComponent<Player>().FullHeal();
-        UpdateWaveDisplay();
+        _player.FullHeal();
+
+        OnStartNewWave?.Invoke();
         UnPauseGame();
     }
 
     void BossWave()
     {
-        time = 90f;
-        isBossWave = true;
+        _timer = 90f;
+        _isBossWave = true;
         bossHealtBar.SetActive(true);
-        GameObject.Find("EnemySpawner").SetActive(false);
+        enemySpawner.gameObject.SetActive(false);
         Instantiate(bossPrefab,new Vector3(0f, 3.54f, 0f), Quaternion.identity);
         
-    }
-
-    void UpdateWaveDisplay()
-    {
-        waveDisplay.text = "Wave " + waveCounter.ToString() + "/20";
-        stageLeds[waveCounter - 1].color = currentStageColor;
     }
 
     public void ClearObjects()
@@ -206,25 +166,8 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    public void ButtonHighlightOn()
-    {
-        if(!gemRewardPanel.activeInHierarchy)
-        {
-            WaveComoletePanel.transform.GetChild(2).gameObject.SetActive(true);
-        }
-    }
-
-    public void ButtonHighlightOff()
-    {
-        WaveComoletePanel.transform.GetChild(2).gameObject.SetActive(false);
-    }
-
     private void BossWaveComplete()
     {
         GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>().Death();
     }
-    // void RewardPanelIsClose()
-    // {
-    //     transform.GetChild(3).GetComponent<Button>().interactable = true;
-    // }
 }

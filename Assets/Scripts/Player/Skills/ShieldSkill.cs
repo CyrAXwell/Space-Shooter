@@ -75,6 +75,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     {
         _cooldownTimer = cooldown;
         shield.DestroyShield();
+        OnUseSkill?.Invoke();
     }
 
     public void UpgradeCooldown(float cooldown)
