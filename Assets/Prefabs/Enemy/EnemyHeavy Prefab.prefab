@@ -348,18 +348,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392a7020d251944439769bef33d31359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemySO: {fileID: 11400000, guid: f33a2adc43f3c2441b6e72480db2ee68, type: 2}
   maxHp: 250
-  maxDef: 7
-  damage: 25
-  deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
-  dropXP: 8
-  powerUpIcon: {fileID: 1226368463}
   addHp: 20
   addDef: 2
   addDamage: 1
   damageText: {fileID: 6092821241365917679, guid: de6c549acf4874b438543e2d81f3a77b, type: 3}
   offsetTextPosition: {x: 0, y: 0.6, z: 0}
   critColor: {r: 1, g: 0.69411767, b: 0.07058824, a: 0}
+  powerUpIcon: {fileID: 1226368463}
+  maxDef: 7
+  damage: 25
+  deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
+  dropXP: 8
   hitSound: {fileID: -8377029540915307728}
 --- !u!114 &8521321186513682583
 MonoBehaviour:

@@ -317,18 +317,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392a7020d251944439769bef33d31359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 200
-  maxDef: 5
-  damage: 15
-  deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
-  dropXP: 6
-  powerUpIcon: {fileID: 1199279127}
-  addHp: 15
-  addDef: 1
-  addDamage: 1
+  enemySO: {fileID: 11400000, guid: 8fec314366a9d3048a646d2f18bfcbd4, type: 2}
   damageText: {fileID: 6092821241365917679, guid: de6c549acf4874b438543e2d81f3a77b, type: 3}
   offsetTextPosition: {x: 0, y: 0.6, z: 0}
   critColor: {r: 1, g: 0.69411767, b: 0.07058824, a: 0}
+  powerUpIcon: {fileID: 1199279127}
+  deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
+  dropXP: 6
   hitSound: {fileID: -2959815232766525615}
 --- !u!114 &4399735076692722493
 MonoBehaviour:
@@ -361,13 +356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f91e8a7aa06e642bc158d7c26a585c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserRender: {fileID: 4399735076745369126}
+  firePoint: {fileID: 4399735076720478482}
+  laserLine: {fileID: 4399735076745369126}
   maxDistance: 15
   rechargeTime: 3
   rechargeTimeDelta: 1
   shootingTime: 3
   timeBetweenTakeDamage: 0.15
-  firePoint: {fileID: 4399735076720478482}
   whatIsSolid:
     serializedVersion: 2
     m_Bits: 768

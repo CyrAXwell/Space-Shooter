@@ -39,6 +39,7 @@ public class WaveManager : MonoBehaviour
         waveCounter = 1;
 
         uIWavePanel.Initialize(this, gemManager);
+        enemySpawner.Initialize(_player, this);
     }
     
     public int GetWave() => waveCounter;
