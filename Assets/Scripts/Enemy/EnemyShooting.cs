@@ -8,26 +8,16 @@ public class EnemyShooting : MonoBehaviour
     [SerializeField] private float timeBetweenShots;
     [SerializeField] private float rechargeTime;
     [SerializeField] private float rechargeTimeDelta;
+    [SerializeField] private Animator animator;
 
     private Enemy _enemyStats;
-    public Animator[] _animator;
     private float _timer;
     private float _shotCounter;
 
     void Start()
     {
         _timer = rechargeTime + Random.Range(0f, rechargeTimeDelta);
-        _animator = GetComponentsInChildren<Animator>();
         _enemyStats = GetComponent<Enemy>();
-    }
-
-    void Shoot()
-    {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Bullet bulletStats = bullet.GetComponent<Bullet>();
-        bulletStats.damage = _enemyStats.GetDamage();
-        
-        _animator[1].SetTrigger("Shoot");
     }
 
     void Update()
@@ -53,5 +43,14 @@ public class EnemyShooting : MonoBehaviour
                 }
             }
         }
+    }
+
+    void Shoot()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Bullet bulletStats = bullet.GetComponent<Bullet>();
+        bulletStats.Initialize(_enemyStats.GetDamage());
+        
+        animator.SetTrigger("Shoot");
     }
 }

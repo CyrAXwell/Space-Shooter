@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 6167659550603263513}
   - component: {fileID: 6167659550603263514}
   - component: {fileID: 6167659550603263517}
-  - component: {fileID: 6167659550603263515}
-  - component: {fileID: 6167659550603263516}
-  - component: {fileID: 6167659550603263519}
   - component: {fileID: 6167659550603263518}
+  - component: {fileID: 5369734923107167877}
+  - component: {fileID: 6167659550603263515}
   - component: {fileID: 6167659550603263969}
   - component: {fileID: 6167659550603263968}
   - component: {fileID: 7480867836134264584}
@@ -158,57 +157,6 @@ PolygonCollider2D:
       - {x: 0.45, y: -0.12}
       - {x: 0.59, y: 0.15}
       - {x: 0.59, y: 0.4}
---- !u!114 &6167659550603263515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6167659550603263510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e43f875637252c42adb143bb6372add, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 6
-  acceleration: 50
-  currentSpeed: 0
---- !u!114 &6167659550603263516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6167659550603263510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 154522d056839ad4693cbbe33b99b2e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePointOne: {fileID: 6167659551740508186}
-  firePointTwo: {fileID: 6167659552369845492}
-  bulletPrefab: {fileID: 8548114132846429550, guid: 4730f3bd96ccdd149b542cbbad3812f6, type: 3}
-  timer_cooldown: 0.19
-  animator: []
-  skillActive: 0
-  shootSound: {fileID: 7480867836134264584}
---- !u!114 &6167659550603263519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6167659550603263510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9272a1dfc931e543ae8205507df0f55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  basemMaxHp: 50
-  baseDef: 5
-  baseDamage: 10
-  baseCritDamage: 5000
-  baseCritChance: 500
 --- !u!114 &6167659550603263518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +184,40 @@ MonoBehaviour:
   _activeDEF: 0
   _activeCRITDMG: 0
   _activeCRITRate: 0
+--- !u!114 &5369734923107167877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6167659550603263510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e07593127a029f4c88edb2c1c6ab504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePoints:
+  - {fileID: 6167659551740508186}
+  - {fileID: 6167659552369845492}
+  bulletPrefab: {fileID: 8548114132846429550, guid: 4730f3bd96ccdd149b542cbbad3812f6, type: 3}
+  cooldown: 0.19
+  animator: {fileID: 6167659552546145144}
+  shootSound: {fileID: 7480867836134264584}
+--- !u!114 &6167659550603263515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6167659550603263510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e43f875637252c42adb143bb6372add, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 6
+  acceleration: 50
+  currentSpeed: 0
 --- !u!114 &6167659550603263969
 MonoBehaviour:
   m_ObjectHideFlags: 0

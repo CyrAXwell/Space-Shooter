@@ -27,14 +27,14 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     private bool isTimerLocked;
     private bool isSkillActive = false;
     private Player player;
-    private ShootingShip3 shooting;
+    private Shooting _shooting;
 
     void Start()
     {
         _cooldownTimer = cooldown;
         
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        shooting = GetComponent<ShootingShip3>();
+        _shooting = GetComponent<Shooting>();
 
         OnStartWave?.Invoke();
         OnTimerUpdate?.Invoke(_cooldownTimer); 
@@ -51,7 +51,7 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
                 StartCoroutine(LaserSkillEnd(duration));
                 laserSprite.gameObject.SetActive(true);
                 laserSprite.size = new Vector2(laserSprite.size.x, 0); 
-                shooting.laserActive = true;
+                _shooting.StopShooting();
 
                 OnUseSkill?.Invoke();
             }
@@ -146,12 +146,11 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 
     void StopSkill()
     {
-        //StopShootSound();
         canShoot = false;
         laserSprite.gameObject.SetActive(false);
         isSkillActive = false;
         isTimerLocked = false;
-        shooting.laserActive = false;
+        _shooting.ResumeShooting();
         _cooldownTimer = cooldown;
     }
 

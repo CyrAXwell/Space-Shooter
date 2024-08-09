@@ -1,75 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private float speed;
+    [SerializeField] private LayerMask whatIsSolid;
 
-    public GameObject hitEffect;
+    private int _damage;
+    private int _critChance;
+    private int _critDamage;
 
-    public int damage;
-    public int critChance;
-    public int critDamage;
-
-    public float speed;
-    public float lifeTime;
-    public LayerMask whatIsSolid;
-
-    private Vector2 mPrevPos;
-    private Vector2 pos;
-
-    private void Start()
+    public void Initialize(int damage, int critChance = 0,  int critDamage = 0)
     {
-        mPrevPos.x = transform.position.x;
-        mPrevPos.y = transform.position.y;
-        Invoke("DestroyBullet", lifeTime);
+        _damage = damage;
+        _critChance = critChance;
+        _critDamage = critDamage;
     }
 
     private void FixedUpdate()
     {
-        mPrevPos = transform.position;
-
+        Vector2 prevPos = transform.position;
         transform.Translate(Vector2.up * speed * Time.deltaTime);
+        Vector2 pos = transform.position;
 
-        pos.x = transform.position.x;
-        pos.y = transform.position.y;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(prevPos, (pos - prevPos).normalized, (pos - prevPos).magnitude, whatIsSolid);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(mPrevPos, (pos - mPrevPos).normalized, (pos - mPrevPos).magnitude, whatIsSolid);
         for (int i = 0; i < hits.Length; i++)
         {
-            if (hits[i].collider != null) {
-                if (hits[i].collider.CompareTag("Enemy")) {
-                    hits[i].collider.GetComponent<Enemy>().TakeDamage(damage, critChance, critDamage);
-                }
-                if (hits[i].collider.CompareTag("Player")) {
-                    hits[i].collider.GetComponent<Player>().TakeDamage(damage);
-                    
-                }
-                if (hits[i].collider.CompareTag("Shield")) {
-                    hits[i].collider.GetComponent<Shield>().TakeDamage(damage);
-                    //Debug.Log(hits[i].collider.name);
-                }
-                if (hits[i].collider.CompareTag("EnemyShield")) {
-                    hits[i].collider.GetComponent<EnemyShieldStats>().TakeDamage(damage);
-                }
-                if (hits[i].collider.CompareTag("Boss")) {
-                    hits[i].collider.GetComponent<Boss>().TakeDamage(damage, critChance, critDamage);
-                }
+            if (hits[i].collider != null) 
+            {
+                switch (hits[i].collider.tag)
+                {
+                    case "Enemy" : hits[i].collider.GetComponent<Enemy>().TakeDamage(_damage, _critChance, _critDamage); break;
+                    case "EnemyShield" : hits[i].collider.GetComponent<EnemyShieldStats>().TakeDamage(_damage); break;
+                    case "Boss" : hits[i].collider.GetComponent<Boss>().TakeDamage(_damage, _critChance, _critDamage); break;
+                    case "Player" : hits[i].collider.GetComponent<Player>().TakeDamage(_damage); break;
+                    case "Shield" : hits[i].collider.GetComponent<Shield>().TakeDamage(_damage); break;
+                }                    
+
                 GameObject effect = Instantiate(hitEffect, hits[i].point, Quaternion.identity);
                 Destroy(effect,1f);
-                DestroyBullet();
+                Destroy(gameObject);
                 break;
             }
-
         }
-
-        Debug.DrawLine(transform.position, mPrevPos);
- 
+        Debug.DrawLine(transform.position, prevPos);
     }
-
-    void DestroyBullet() {
-        
-        Destroy(gameObject);
-    }
-
 }

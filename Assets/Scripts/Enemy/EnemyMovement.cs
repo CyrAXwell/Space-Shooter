@@ -1,123 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] float speed;
-    //private float way = 0f;
-    //private Vector2 direction;
-    private Rigidbody2D rb;
+    [SerializeField] private float speed;
+    [SerializeField] private float xDelta;
+    [SerializeField] private float yDelta;
+    [SerializeField] private float leftBorder;
+    [SerializeField] private float rightBorder;
+    [SerializeField] private float topBorder;
+    [SerializeField] private float bottomBorder;
 
-    private GameObject target;
-
-    private Vector3 spawnPoint;
-    [SerializeField] float xDelta;
-    [SerializeField] float yDelta;
-
-    [SerializeField] float leftBorder;
-    [SerializeField] float rightBorder;
-    [SerializeField] float topBorder;
-    [SerializeField] float bottomBorder;
-
-    private float leftCor = 0f;
-    private float rightCor = 0f;
-    private float topCor = 0f;
-    private float bottomCor = 0f;
-
-    private Vector2 newPoint;
-
+    private Rigidbody2D _rb;
+    private Vector2 _newPoint;
+    private float _minX;
+    private float _maxX;
+    private float _minY;
+    private float _maxY;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        //GetTarget();
-        spawnPoint = rb.transform.position;
+        _rb = GetComponent<Rigidbody2D>();
+        Vector3 spawnPoint = _rb.transform.position;
 
-        // rightCor = CheckBorder(spawnPoint.x, xDelta, rightBorder);
-        // leftCor = CheckBorder(-spawnPoint.x, -yDelta, -leftBorder);
-        // topCor = CheckBorder(spawnPoint.y, yDelta, topCor);
-        // bottomCor = CheckBorder(spawnPoint.y, yDelta, -bottomCor);
+        float rightCor = spawnPoint.x + xDelta > rightBorder ? spawnPoint.x + xDelta - rightBorder : 0f;
+        float leftCor = spawnPoint.x - xDelta < leftBorder ? spawnPoint.x - xDelta - leftBorder : 0f;
+        float topCor = spawnPoint.y + yDelta > topBorder ? spawnPoint.y + yDelta - topBorder : 0f;
+        float bottomCor = spawnPoint.y - yDelta < bottomBorder ? spawnPoint.y - yDelta - bottomBorder : 0f;
 
-        if(spawnPoint.x + xDelta > rightBorder)
-        {
-            rightCor = spawnPoint.x + xDelta - rightBorder;
-        }
-        
-        if(spawnPoint.x - xDelta < leftBorder)
-        {
-            leftCor = spawnPoint.x - xDelta - leftBorder;
-        }
-        
-        if(spawnPoint.y + yDelta > topBorder)
-        {
-            topCor = spawnPoint.y + yDelta - topBorder;
-        }
+        _minX = spawnPoint.x - xDelta - leftCor;
+        _maxX = spawnPoint.x + xDelta - rightCor;
+        _minY = spawnPoint.y - yDelta - bottomCor;
+        _maxY = spawnPoint.y + yDelta - topCor;
 
-        if(spawnPoint.y - yDelta < bottomBorder)
-        {
-            bottomCor = spawnPoint.y - yDelta - bottomBorder;
-        }
-        //Debug.Log(bottomCor);
-        newPoint = new Vector2(Random.Range(spawnPoint.x - xDelta - leftCor, spawnPoint.x + xDelta - rightCor), Random.Range(spawnPoint.y - yDelta - bottomCor, spawnPoint.y + yDelta - topCor));
-        //Debug.Log(newPoint);
+        _newPoint = new Vector2(Random.Range(_minX, _maxX), Random.Range(_minY, _maxY));
     }
-
 
     void Update()
     {
+        _rb.transform.position = Vector2.MoveTowards(_rb.transform.position, _newPoint, speed * Time.deltaTime);
 
-        if(Vector2.Distance(rb.transform.position,newPoint) <= 0.05) 
-        {
-            newPoint = new Vector2(Random.Range(spawnPoint.x - xDelta - leftCor , spawnPoint.x + xDelta - rightCor), Random.Range(spawnPoint.y - yDelta - bottomCor, spawnPoint.y + yDelta - topCor));
-            //Debug.Log(newPoint);
-        }
-        
-        
-        // if(target != null)
-        // {
-        //     if(Mathf.Abs(rb.transform.position.x - target.transform.position.x) >= 0.2f)
-        //     {
-        //         if(rb.transform.position.x >= target.transform.position.x)
-        //         {
-        //             way = -1;
-        //         } else
-        //         {
-        //             way = 1;
-        //         }
-        //     } else 
-        //     {
-        //         way = 0;
-        //     }
-        // }
-            
-         
-        // direction.x = way;
-        // direction.y = 0;
-        
+        if(Vector2.Distance(_rb.transform.position,_newPoint) <= 0.05) 
+            _newPoint = new Vector2(Random.Range(_minX, _maxX), Random.Range(_minY, _maxY));
     }
-
-    void GetTarget()
-    {
-        target = GameObject.FindGameObjectWithTag("Player");
-    }
-
-    void FixedUpdate()
-    {
-        rb.transform.position = Vector2.MoveTowards(rb.transform.position, newPoint, speed * Time.fixedDeltaTime);
-        // if(target != null)
-        // {
-        //     rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
-        // }
-    }
-
-    // private float CheckBorder(float spawn, float delta, float border)
-    // {
-    //     float cor = 0f;
-    //     if(spawn + delta > border)
-    //     {
-    //         cor = spawn + delta - border;
-    //     }
-    //     return cor;
-    // }
 }

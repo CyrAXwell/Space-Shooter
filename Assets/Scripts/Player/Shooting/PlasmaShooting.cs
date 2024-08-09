@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlasmaShooting : MonoBehaviour
@@ -30,7 +29,7 @@ public class PlasmaShooting : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bulletStats = bullet.GetComponent<Bullet>();
-        bulletStats.damage = bossStats.plasmaDamage;
+        bulletStats.Initialize(bossStats.plasmaDamage);
     }
 
     private IEnumerator ReloadShot(float interval)

@@ -15,7 +15,6 @@ public class Player : MonoBehaviour, IUpgradeable
     [SerializeField] private UpgradeSO[] upgrades;
 
     private ISkillDisplayable[] _skills;
-    private Ship1Stats ShipStats;
     private int _level = 1;
     private int _exp = 0;
     private int _maxExp = 1;
@@ -41,15 +40,6 @@ public class Player : MonoBehaviour, IUpgradeable
     
     void Start()
     {
-        ShipStats = GetComponent<Ship1Stats>();
-
-        // _maxHealth = ShipStats.basemMaxHp;
-        // _health = _maxHealth;
-        // _def = ShipStats.baseDef;
-        // _damage = ShipStats.baseDamage;
-        // _critChance = ShipStats.baseCritChance;
-        // _critDamage = ShipStats.baseCritDamage;
-
         _maxHealth = playerSO.Health;
         _health = _maxHealth;
         _def = playerSO.Defense;

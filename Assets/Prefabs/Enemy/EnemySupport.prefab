@@ -574,16 +574,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySO: {fileID: 11400000, guid: f5a710f08239533429970a42ca19f14e, type: 2}
-  maxHp: 200
-  addHp: 15
-  addDef: 1
-  addDamage: 1
   damageText: {fileID: 6092821241365917679, guid: de6c549acf4874b438543e2d81f3a77b, type: 3}
   offsetTextPosition: {x: 0, y: 0.62, z: 0}
   critColor: {r: 1, g: 0.69411767, b: 0.07058824, a: 0}
   powerUpIcon: {fileID: 6181706287258478642}
-  maxDef: 5
-  damage: 15
   deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
   dropXP: 5
   hitSound: {fileID: 3550722150365494121}
@@ -599,13 +593,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de1351d582e2ee428184d06111e05ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firePoint: {fileID: 6181706286249192652}
+  bulletPrefab: {fileID: 6886217732789418740, guid: 59ff62da4d75d784198e9ec4a4bcebb7, type: 3}
   numbersOfShots: 1
   timeBetweenShots: 0
   rechargeTime: 3
   rechargeTimeDelta: 1
-  firePoint: {fileID: 6181706286249192652}
-  bulletPrefab: {fileID: 6886217732789418740, guid: 59ff62da4d75d784198e9ec4a4bcebb7, type: 3}
-  animator: []
+  animator: {fileID: 6181706286672223945}
 --- !u!114 &6181706287609022330
 MonoBehaviour:
   m_ObjectHideFlags: 0

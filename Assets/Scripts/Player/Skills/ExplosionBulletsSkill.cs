@@ -26,13 +26,13 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     private bool reload = false;
     private ExplosionBullet bulletStats;
     private Player playerStats;
-    private ShootingShip2 shooting;
+    private Shooting _shooting;
 
     void Start()
     {
         _cooldownTimer = cooldown;
         playerStats = GetComponent<Player>();
-        shooting = GetComponent<ShootingShip2>();
+        _shooting = GetComponent<Shooting>();
 
         OnStartWave?.Invoke();
         OnTimerUpdate?.Invoke(_cooldownTimer); 
@@ -46,7 +46,7 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
             {
                 canShoot = true;
                 isSkillActive = true;
-                shooting.skillActive = true;
+                _shooting.StopShooting();
                 OnUseSkill?.Invoke();
                 StartCoroutine(ShootSkillEnd(duration));
             }
@@ -79,7 +79,6 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
 
     void Shoot()
     {
-        
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bulletStats = bullet.GetComponent<ExplosionBullet>();
         bulletStats.damage = playerStats._activeATK + skillBonusDamage;
@@ -122,7 +121,7 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
         canShoot = false;
         isSkillActive = false;
         isTimerLocked = false;
-        shooting.skillActive = false;
+        _shooting.ResumeShooting();
         _cooldownTimer = cooldown;
     }
 

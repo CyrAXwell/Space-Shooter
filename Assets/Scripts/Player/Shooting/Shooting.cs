@@ -36,7 +36,7 @@ public class Shooting : MonoBehaviour
                 _isCooldown = false;
         }
 
-        if(Input.GetButton("Jump") && !_isCooldown && _canShoot)
+        if(Input.GetButton("Jump") && !_isCooldown && _canShoot && !StateNameController.isPaused)
             Shoot();     
     }
 
@@ -51,10 +51,9 @@ public class Shooting : MonoBehaviour
         foreach (Transform firePoint in firePoints)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, transform.rotation);
+            Destroy(bullet, 2f);
             Bullet bulletStats = bullet.GetComponent<Bullet>();
-            bulletStats.damage = _playerStats._activeATK + _skillBonusDamage;
-            bulletStats.critChance = _playerStats._activeCRITRate;
-            bulletStats.critDamage = _playerStats._activeCRITDMG;
+            bulletStats.Initialize(_playerStats._activeATK + _skillBonusDamage, _playerStats._activeCRITRate, _playerStats._activeCRITDMG);
         }
     }
 
