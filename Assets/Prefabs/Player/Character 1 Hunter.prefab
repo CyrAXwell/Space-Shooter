@@ -269,11 +269,10 @@ GameObject:
   - component: {fileID: 3362027039017741209}
   - component: {fileID: 3362027039017741206}
   - component: {fileID: 3362027039017741213}
-  - component: {fileID: 3362027039017741210}
-  - component: {fileID: 3362027039017741211}
-  - component: {fileID: 3362027039017741203}
   - component: {fileID: 3362027039017741205}
-  - component: {fileID: 3362027039017741204}
+  - component: {fileID: 3362027039017741211}
+  - component: {fileID: 3362027039017741210}
+  - component: {fileID: 3362027039017741203}
   - component: {fileID: 3362027039017741202}
   - component: {fileID: 3362027039017741201}
   - component: {fileID: 7622485810447084387}
@@ -430,57 +429,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3362027039017741210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3362027037196404032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e43f875637252c42adb143bb6372add, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 6
-  acceleration: 50
-  currentSpeed: 0
---- !u!114 &3362027039017741211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3362027037196404032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e07593127a029f4c88edb2c1c6ab504, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePointOne: {fileID: 3362027038824536044}
-  firePointTwo: {fileID: 3362027038587079989}
-  bulletPrefab: {fileID: 440035808520891816, guid: bc948db2469b7ee479bd8501cc6807c2, type: 3}
-  timer_cooldown: 0.25
-  animator: []
-  rapidFireDamage: 0
-  shootSound: {fileID: 7622485810447084387}
---- !u!114 &3362027039017741203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3362027037196404032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9272a1dfc931e543ae8205507df0f55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  basemMaxHp: 100
-  baseDef: 5
-  baseDamage: 20
-  baseCritDamage: 5000
-  baseCritChance: 500
 --- !u!114 &3362027039017741205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,7 +456,7 @@ MonoBehaviour:
   _activeDEF: 0
   _activeCRITDMG: 0
   _activeCRITRate: 0
---- !u!114 &3362027039017741204
+--- !u!114 &3362027039017741211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -517,10 +465,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 3362027037196404032}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fb00a7901eea404896cba52c8c07de6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e07593127a029f4c88edb2c1c6ab504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellsManager: {fileID: 0}
+  firePoints:
+  - {fileID: 3362027038824536044}
+  - {fileID: 3362027038587079989}
+  bulletPrefab: {fileID: 440035808520891816, guid: bc948db2469b7ee479bd8501cc6807c2, type: 3}
+  cooldown: 0.25
+  animator: {fileID: 3362027037458227627}
+  shootSound: {fileID: 7622485810447084387}
+--- !u!114 &3362027039017741210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3362027037196404032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e43f875637252c42adb143bb6372add, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 6
+  acceleration: 50
+  currentSpeed: 0
+--- !u!114 &3362027039017741203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3362027037196404032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9272a1dfc931e543ae8205507df0f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basemMaxHp: 100
+  baseDef: 5
+  baseDamage: 20
+  baseCritDamage: 5000
+  baseCritChance: 500
 --- !u!114 &3362027039017741202
 MonoBehaviour:
   m_ObjectHideFlags: 0

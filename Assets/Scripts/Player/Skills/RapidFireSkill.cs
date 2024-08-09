@@ -20,10 +20,12 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     private bool isSkillActive = false;
 
     private float _cooldownTimer;
+    private Shooting _shooting;
     
     void Start()
     {
         _cooldownTimer = cooldown;
+        _shooting = GetComponent<Shooting>();
 
         OnStartWave?.Invoke();
         OnTimerUpdate?.Invoke(_cooldownTimer); 
@@ -59,9 +61,9 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     void UseSkill()
     {
         isSkillActive = true;
-        _cooldownTimer = GetComponent<Shooting>().timer_cooldown;
-        GetComponent<Shooting>().timer_cooldown = timeBetweenShot;
-        GetComponent<Shooting>().rapidFireDamage = skillBonusDamage;
+        _cooldownTimer = _shooting.GetCooldown();
+        _shooting.UpdateCooldown(timeBetweenShot);
+        _shooting.UpdateSkillBonusDamage(skillBonusDamage);
         StartCoroutine(EndRapidFireSkill(durartion));
     }
 
@@ -88,8 +90,8 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 
     public void StopRapidFireSkill()
     {
-        GetComponent<Shooting>().timer_cooldown = _cooldownTimer;
-        GetComponent<Shooting>().rapidFireDamage = 0;
+        _shooting.UpdateCooldown(_cooldownTimer);
+        _shooting.UpdateSkillBonusDamage(0);
 
         isTimerLocked = false;
         isSkillActive = false;
