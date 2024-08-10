@@ -15,7 +15,6 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject GemPanelBlock;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private GameObject gemToolTip;
-    [SerializeField] private GameObject bossPrefab;
     [SerializeField] private GameObject bossHealtBar;
     [SerializeField] AudioSource waveCompleteSound;
 
@@ -127,7 +126,7 @@ public class WaveManager : MonoBehaviour
         waveCounter ++;
         GemPanelBlock.SetActive(true);
         
-        if(waveCounter == 20)
+        if(waveCounter == 2)
             BossWave();
         else
             enemySpawner.UpdateProbability(waveCounter);  
@@ -147,9 +146,8 @@ public class WaveManager : MonoBehaviour
         _timer = 90f;
         _isBossWave = true;
         bossHealtBar.SetActive(true);
+        enemySpawner.BossSpawn();
         enemySpawner.gameObject.SetActive(false);
-        Instantiate(bossPrefab,new Vector3(0f, 3.54f, 0f), Quaternion.identity);
-        
     }
 
     public void ClearObjects()

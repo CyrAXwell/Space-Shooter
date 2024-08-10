@@ -16478,7 +16478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIWavePanel: {fileID: 523118914}
-  waveDuration: 20
+  waveDuration: 1
   newWaveTimeIncrease: 5
   maxWaveTime: 60
   GemPanelBlock: {fileID: 1454581689}

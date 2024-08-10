@@ -11,21 +11,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector3 offsetTextPosition;
     [SerializeField] private Color critColor;
     [SerializeField] private GameObject powerUpIcon;
-    
-    private bool powerUp = false;
-    public GameObject deathEffect;
-
-    public int dropXP;
-
-    private bool isCrit = false;
-
+    [SerializeField] private GameObject deathEffect;
+    [SerializeField] private int dropXP;
     [SerializeField] AudioSource hitSound;
-
+    
     private Player _player;
     private int _health;
     private int _defense;
     private int _damage;
     private int _wave;
+    private bool _powerUp = false;
 
     public void Initialize(Player player, int wave)
     {
@@ -45,14 +40,13 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage, int critChance, int critDamage)
     {
+        bool isCrit = false;
         PlayHitSound();
         if(UnityEngine.Random.Range(0,10001) <= critChance)
         {
             damage = damage + Mathf.RoundToInt(damage * critDamage / 10000);
             isCrit = true;
         }
-        else
-            isCrit = false;
 
         if(damage <= _defense)
         {
@@ -98,12 +92,12 @@ public class Enemy : MonoBehaviour
 
     public void ActivatePowerUp(Collider2D collider)
     {
-        if (collider.gameObject.tag == "PowerUp" && !powerUp)
+        if (collider.gameObject.tag == "PowerUp" && !_powerUp)
         {
            powerUpIcon.SetActive(true);
            _defense = (int)Mathf.Round(_defense * collider.transform.parent.GetComponent<PowerUp>().multiplier); 
            _damage = (int)Mathf.Round(_damage * collider.transform.parent.GetComponent<PowerUp>().multiplier);
-           powerUp = true; 
+           _powerUp = true; 
         }
     }
 
@@ -114,7 +108,7 @@ public class Enemy : MonoBehaviour
             powerUpIcon.SetActive(false);
             _defense = enemySO.Defense + enemySO.DefenseIncrease * (_wave - 1);
             _damage = enemySO.Damage + enemySO.DamageIncrease * (_wave - 1);
-            powerUp = false; 
+            _powerUp = false; 
         }
     }
 

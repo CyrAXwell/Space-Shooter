@@ -20,6 +20,7 @@ public class EnemySpawner : MonoBehaviour
     private float _timer;
     private List<Enemy> _enemiesOnScene = new List<Enemy>();
     private List<GameObject> _spawnPointsOnScene = new List<GameObject>();
+    private bool _isBossWave;
     private float _redZoneL;
     private float _redZoneR;
     private float _redZoneTop;
@@ -58,13 +59,22 @@ public class EnemySpawner : MonoBehaviour
         UpdateProbability(1);
     }
 
+    public void BossSpawn()
+    {
+        _isBossWave = true;
+        Instantiate(bossPrefab.gameObject ,new Vector3(0f, 3.54f, 0f), Quaternion.identity);
+    }
+
     private void Update()
     {
-        _timer -= Time.deltaTime;
-        if(_timer <= 0)
+        if (!_isBossWave)
         {
-            _timer = spawnInterval;
-            SpawnEnemy(spawnEnemyAmount);
+            _timer -= Time.deltaTime;
+            if(_timer <= 0)
+            {
+                _timer = spawnInterval;
+                SpawnEnemy(spawnEnemyAmount);
+            }
         }
     }
 

@@ -2037,44 +2037,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164b951f753a89a4f8af7f9de90f5fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenAttack: 2.5
   laserDamage: 35
-  laserM:
-  - {fileID: 4554473404600942564}
-  - {fileID: 4554473403730240049}
-  - {fileID: 4554473404592812881}
-  laserL:
-  - {fileID: 4554473404794025460}
-  - {fileID: 4554473404515742774}
-  - {fileID: 4554473403392577764}
-  laserR:
-  - {fileID: 4554473404074754580}
-  - {fileID: 4554473403908991510}
-  - {fileID: 4554473404207551039}
-  rechargeTime: 2.5
-  shootingTime: 3
   plasmaDamage: 50
-  numbersOfShots: 5
-  timeBetweenShots: 0.2
+  laserAttackDuration: 3
+  plasmaShotsAmount: 5
+  timeBetweenPlasmaShots: 0.2
+  laserM:
+  - {fileID: 4554473404600942561}
+  - {fileID: 4554473403730240050}
+  - {fileID: 4554473404592812882}
+  laserL:
+  - {fileID: 4554473404794025457}
+  - {fileID: 4554473404515742771}
+  - {fileID: 4554473403392577761}
+  laserR:
+  - {fileID: 4554473404074754577}
+  - {fileID: 4554473403908991507}
+  - {fileID: 4554473404207551032}
   plasmaM:
-  - {fileID: 4554473403890654261}
-  - {fileID: 4554473403890654261}
-  - {fileID: 4554473404675781308}
+  - {fileID: 4554473403890654263}
+  - {fileID: 4554473404675781310}
   plasmaL1:
-  - {fileID: 4554473404145028905}
-  - {fileID: 4554473404436675219}
-  - {fileID: 4554473404537914515}
+  - {fileID: 4554473404145028907}
+  - {fileID: 4554473404436675229}
+  - {fileID: 4554473404537914525}
   plasmaL2:
-  - {fileID: 4554473403342308345}
-  - {fileID: 4554473403698156583}
-  - {fileID: 4554473404435513397}
+  - {fileID: 4554473403342308347}
+  - {fileID: 4554473403698156577}
+  - {fileID: 4554473404435513399}
   plasmaR1:
-  - {fileID: 4554473403527682277}
-  - {fileID: 4554473403601616043}
-  - {fileID: 4554473403526644874}
+  - {fileID: 4554473403527682279}
+  - {fileID: 4554473403601616053}
+  - {fileID: 4554473403526644884}
   plasmaR2:
-  - {fileID: 4554473404153702572}
-  - {fileID: 4554473404424065445}
-  - {fileID: 4554473404593569957}
+  - {fileID: 4554473404153702574}
+  - {fileID: 4554473404424065447}
+  - {fileID: 4554473404593569959}
 --- !u!82 &3550836797111730640
 AudioSource:
   m_ObjectHideFlags: 0

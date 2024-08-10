@@ -3,49 +3,50 @@ using UnityEngine;
 
 public class PlasmaShooting : MonoBehaviour
 {
-    public Transform firePoint;
-    public GameObject bulletPrefab;
-    private EnemyBossShooting bossStats;
-    private bool canShoot = false;
-    private bool reload = false;
-    private float timeBetweenShot = 0f;
-    private Bullet bulletStats;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject bulletPrefab;
 
-    void Start()
+    private EnemyBossShooting _bossStats;
+    private bool _canShoot = false;
+    private bool _reload = false;
+    private float _timeBetweenShot = 0f;
+
+    private void Start()
     {
-        bossStats = transform.parent.parent.GetComponent<EnemyBossShooting>();
+        _bossStats = transform.parent.parent.GetComponent<EnemyBossShooting>();
     }
-    void FixedUpdate()
+
+    private void Update()
     {
-        if(canShoot && !reload)
+        if(_canShoot && !_reload)
         {
             Shoot();
-            reload = true;
-            StartCoroutine(ReloadShot(timeBetweenShot));
+            _reload = true;
+            StartCoroutine(ReloadShot(_timeBetweenShot));
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        bulletStats = bullet.GetComponent<Bullet>();
-        bulletStats.Initialize(bossStats.plasmaDamage);
+        Bullet bulletStats = bullet.GetComponent<Bullet>();
+        bulletStats.Initialize(_bossStats.GetPlasmaDamage());
     }
 
     private IEnumerator ReloadShot(float interval)
     {
         yield return new WaitForSeconds(interval);
-        reload = false;
+        _reload = false;
     }
 
     public void StartAttack(float time)
     {
-        timeBetweenShot = time;
-        canShoot = true;
+        _timeBetweenShot = time;
+        _canShoot = true;
     }
 
     public void StopAttack()
     {
-        canShoot = false;
+        _canShoot = false;
     }
 }

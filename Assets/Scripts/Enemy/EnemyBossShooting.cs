@@ -1,64 +1,54 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBossShooting : MonoBehaviour
 {
-    [Header("Laser stats")]
-    public int laserDamage = 10;
-    [SerializeField] private GameObject[] laserM;
-    [SerializeField] private GameObject[] laserL;
-    [SerializeField] private GameObject[] laserR;
-    //[SerializeField] private float maxDistance;
-    [SerializeField] private float rechargeTime;
-    [SerializeField] private float shootingTime;
-    //[SerializeField] private float timeBetweenTakeDamage;
-    //[SerializeField] private LayerMask whatIsSolid;
-    
-    //private bool isHit = false;
-    //private bool canDamage = true;
-    private bool rechargeTimeLockedOut = true;
-    private float timer = 0f;
+    [SerializeField] private float timeBetweenAttack; // 2.5
+    [SerializeField] private int laserDamage = 10; // 35
+    [SerializeField] private int plasmaDamage = 20; // 50
+    [SerializeField] private float laserAttackDuration; // 3
+    [SerializeField] private float plasmaShotsAmount; // 5
+    [SerializeField] private float timeBetweenPlasmaShots; // 0.2
+    [SerializeField] private LaserShooting[] laserM;
+    [SerializeField] private LaserShooting[] laserL;
+    [SerializeField] private LaserShooting[] laserR;
+    [SerializeField] private PlasmaShooting[] plasmaM;
+    [SerializeField] private PlasmaShooting[] plasmaL1;
+    [SerializeField] private PlasmaShooting[] plasmaL2;
+    [SerializeField] private PlasmaShooting[] plasmaR1;
+    [SerializeField] private PlasmaShooting[] plasmaR2;
 
-    private Enemy enemyStats;
-    private int attackID = 0;
+    private bool _isCooldown = true;
+    private float _timer;
+    private int _attackID;
 
-    [Header("Plasma stats")]
-    public int plasmaDamage = 20;
-    [SerializeField] private float numbersOfShots;
-    [SerializeField] private float timeBetweenShots;
-    [SerializeField] private GameObject[] plasmaM;
-    [SerializeField] private GameObject[] plasmaL1;
-    [SerializeField] private GameObject[] plasmaL2;
-    [SerializeField] private GameObject[] plasmaR1;
-    [SerializeField] private GameObject[] plasmaR2;
-
-    void Start()
+    private void Start()
     {
-        
-        timer = rechargeTime;
+        _timer = timeBetweenAttack;
     }
 
-    void FixedUpdate()
+    public int GetLaserDamage() => laserDamage;
+    public int GetPlasmaDamage() => plasmaDamage;
+
+    private void Update()
     {
-        if(rechargeTimeLockedOut)
+        if(_isCooldown)
         {
-            timer -= Time.fixedDeltaTime;
-            if ( timer <= 0 )
+            _timer -= Time.deltaTime;
+            if ( _timer <= 0 )
             {
-                timer = rechargeTime;
-                rechargeTimeLockedOut = false;
+                _timer = timeBetweenAttack;
+                _isCooldown = false;
                 Attack();
             }
         }
     }
 
-    void Attack()
+    private void Attack()
     {
-        attackID = Random.Range(1, 13);
-        //attackID = 7;
+        _attackID = Random.Range(1, 13);
 
-        switch(attackID)
+        switch(_attackID)
         {
             case 1:
                 FullLaserAttack();
@@ -112,8 +102,7 @@ public class EnemyBossShooting : MonoBehaviour
                 SidePlasmaAttack();
                 SideLaserAttack();
                 break;
-        }
-        
+        } 
     }
 
     void FullLaserAttack()
@@ -124,25 +113,25 @@ public class EnemyBossShooting : MonoBehaviour
 
     void SideLaserAttack()
     {
-        foreach(GameObject laser in laserL)
+        foreach(LaserShooting laser in laserL)
         {
             laser.GetComponent<LaserShooting>().StartAttack();
-            StartCoroutine(EndLaserShooting(shootingTime, laser));
+            StartCoroutine(EndLaserShooting(laserAttackDuration, laser));
         }
 
-        foreach(GameObject laser in laserR)
+        foreach(LaserShooting laser in laserR)
         {
             laser.GetComponent<LaserShooting>().StartAttack();
-            StartCoroutine(EndLaserShooting(shootingTime, laser));
+            StartCoroutine(EndLaserShooting(laserAttackDuration, laser));
         }
     }
 
     void MidLaserAttack()
     {
-        foreach(GameObject laser in laserM)
+        foreach(LaserShooting laser in laserM)
         {
             laser.GetComponent<LaserShooting>().StartAttack();
-            StartCoroutine(EndLaserShooting(shootingTime, laser));
+            StartCoroutine(EndLaserShooting(laserAttackDuration, laser));
         }
     }
 
@@ -152,8 +141,7 @@ public class EnemyBossShooting : MonoBehaviour
         PlasmaAttackL1();
         PlasmaAttackL2();
         PlasmaAttackR1();
-        PlasmaAttackR2();
-        
+        PlasmaAttackR2(); 
     }
 
     void SidePlasmaAttack()
@@ -178,75 +166,72 @@ public class EnemyBossShooting : MonoBehaviour
 
     void PlasmaAttackM()
     {
-        foreach(GameObject plasma in plasmaM)
+        foreach(PlasmaShooting plasma in plasmaM)
         {
-            plasma.GetComponent<PlasmaShooting>().StartAttack(timeBetweenShots);
-            StartCoroutine(EndPlasmaShooting(numbersOfShots * timeBetweenShots, plasma));
+            plasma.GetComponent<PlasmaShooting>().StartAttack(timeBetweenPlasmaShots);
+            StartCoroutine(EndPlasmaShooting(plasmaShotsAmount * timeBetweenPlasmaShots, plasma));
         }
     }
 
     void PlasmaAttackL1()
     {
         int i = 4;
-        foreach(GameObject plasma in plasmaL1)
+        foreach(PlasmaShooting plasma in plasmaL1)
         {
             i--;
-            StartCoroutine(PlasmaShootWithDelay(0.02f*i,plasma));
+            StartCoroutine(PlasmaShootWithDelay(0.02f * i ,plasma));
         }
     }
 
     void PlasmaAttackL2()
     {
         int i = 4;
-        foreach(GameObject plasma in plasmaL2)
+        foreach(PlasmaShooting plasma in plasmaL2)
         {
             i--;
-            StartCoroutine(PlasmaShootWithDelay(0.02f*i,plasma));
+            StartCoroutine(PlasmaShootWithDelay(0.02f * i ,plasma));
         }
     }
 
     void PlasmaAttackR1()
     {
         int i = 4;
-        foreach(GameObject plasma in plasmaR1)
+        foreach(PlasmaShooting plasma in plasmaR1)
         {
             i--;
-            StartCoroutine(PlasmaShootWithDelay(0.02f*i,plasma));
+            StartCoroutine(PlasmaShootWithDelay(0.02f * i ,plasma));
         }
     }
 
     void PlasmaAttackR2()
     {
         int i = 4;
-        foreach(GameObject plasma in plasmaR2)
+        foreach(PlasmaShooting plasma in plasmaR2)
         {
             i--;
-            StartCoroutine(PlasmaShootWithDelay(0.02f*i,plasma));
+            StartCoroutine(PlasmaShootWithDelay(0.02f * i ,plasma));
         }
     }
 
-
-    private IEnumerator PlasmaShootWithDelay(float time, GameObject gun)
+    private IEnumerator PlasmaShootWithDelay(float time, PlasmaShooting gun)
     {
         yield return new WaitForSeconds(time);
-        gun.GetComponent<PlasmaShooting>().StartAttack(timeBetweenShots);
-        StartCoroutine(EndPlasmaShooting(numbersOfShots * timeBetweenShots, gun));
+        gun.StartAttack(timeBetweenPlasmaShots);
+        StartCoroutine(EndPlasmaShooting(plasmaShotsAmount * timeBetweenPlasmaShots, gun));
     }
 
-    private IEnumerator EndLaserShooting(float interval, GameObject gun)
+    private IEnumerator EndLaserShooting(float interval, LaserShooting gun)
     {
         yield return new WaitForSeconds(interval);
-        gun.GetComponent<LaserShooting>().StopAttack();
-        //laserL[0].GetComponent<LaserShooting>().StopAttack();
-        rechargeTimeLockedOut = true;
+        gun.StopAttack();
+        _isCooldown = true;
     }
 
-    private IEnumerator EndPlasmaShooting(float interval, GameObject gun)
+    private IEnumerator EndPlasmaShooting(float interval, PlasmaShooting gun)
     {
         yield return new WaitForSeconds(interval);
-        gun.GetComponent<PlasmaShooting>().StopAttack();
-        //laserL[0].GetComponent<LaserShooting>().StopAttack();
-        rechargeTimeLockedOut = true;
+        gun.StopAttack();
+        _isCooldown = true;
     }
     
 }
