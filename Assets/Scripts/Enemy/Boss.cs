@@ -1,9 +1,10 @@
-using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Boss : MonoBehaviour
 {
+    public event Action OnTakeDamage;
     [SerializeField] private int maxHp;
     [SerializeField] private int maxDef;
     [SerializeField] private GameObject deathEffect;
@@ -11,22 +12,20 @@ public class Boss : MonoBehaviour
     [SerializeField] private Vector3 offsetTextPosition;
     [SerializeField] private Color critColor;
 
-    private BossHealthBar bossHealthBarUI;
     private int health;
 
-    void Start()
+    public void Initialize()
     {
-        GameObject bossHPBar = GameObject.Find("Boss HP Bar");
-        bossHPBar.SetActive(true);
-        bossHealthBarUI = bossHPBar.GetComponent<BossHealthBar>();
         health = maxHp;
-        bossHealthBarUI.SetHealth(health, maxHp);
     }
+
+    public int GetHealth() => health;
+    public int GetMaxHealth() => maxHp;
 
     public void TakeDamage(int damage, int critChance, int critDamage)
     {
         bool isCrit = false;
-        if(Random.Range(0,10001) <= critChance)
+        if(UnityEngine.Random.Range(0,10001) <= critChance)
         {
             damage = damage + Mathf.RoundToInt(damage * critDamage / 10000);
             isCrit = true;
@@ -42,7 +41,8 @@ public class Boss : MonoBehaviour
             health -= damage - maxDef;
             DisplayTakenDamage((damage - maxDef).ToString(), isCrit);
         }
-        bossHealthBarUI.SetHealth(health, maxHp);
+        
+        OnTakeDamage?.Invoke();
         if(health <= 0)
             Death();
         

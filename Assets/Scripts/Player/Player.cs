@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IUpgradeable
@@ -76,7 +75,7 @@ public class Player : MonoBehaviour, IUpgradeable
         }
     }
 
-    void Death()
+    private void Death()
     {
         GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(effect, 0.5f);

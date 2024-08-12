@@ -9,13 +9,13 @@ public class WaveManager : MonoBehaviour
     public event Action OnStartNewWave;
 
     [SerializeField] private UIWavePanel uIWavePanel;
+    [SerializeField] private BossHealthBar bossHealtBar;
     [SerializeField] private float waveDuration;
     [SerializeField] private float newWaveTimeIncrease;
     [SerializeField] private float maxWaveTime;
     [SerializeField] private GameObject GemPanelBlock;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private GameObject gemToolTip;
-    [SerializeField] private GameObject bossHealtBar;
     [SerializeField] AudioSource waveCompleteSound;
 
     private GemManager _gemManager;
@@ -77,7 +77,8 @@ public class WaveManager : MonoBehaviour
         {
             OnBossWaveComplete?.Invoke();
             ClearObjects();
-            BossWaveComplete();
+            GameObject.Find("GameManager").GetComponent<GameOverScreen>().GameOver();
+            //BossWaveComplete();
             ClearObjects();
         }
         
@@ -145,8 +146,7 @@ public class WaveManager : MonoBehaviour
     {
         _timer = 90f;
         _isBossWave = true;
-        bossHealtBar.SetActive(true);
-        enemySpawner.BossSpawn();
+        enemySpawner.BossSpawn(bossHealtBar);
         enemySpawner.gameObject.SetActive(false);
     }
 
@@ -163,10 +163,5 @@ public class WaveManager : MonoBehaviour
         {
             Destroy(entity);
         }
-    }
-
-    private void BossWaveComplete()
-    {
-        GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>().Death();
     }
 }

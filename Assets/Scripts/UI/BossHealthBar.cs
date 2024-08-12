@@ -3,11 +3,32 @@ using UnityEngine.UI;
 
 public class BossHealthBar : MonoBehaviour
 {
-    public Image healthBar;
+    [SerializeField] private Image healthBar;
 
-    public void SetHealth(int health, int maxHealth)
+    private Boss _boss;
+
+    public void Initialize(Boss boss)
+    {
+        gameObject.SetActive(true);
+        _boss = boss;
+        _boss.OnTakeDamage += OnTakeDamage;
+
+        SetHealth(_boss.GetHealth(), _boss.GetMaxHealth());
+    }
+
+    private void OnDisable()
+    {
+        _boss.OnTakeDamage -= OnTakeDamage;
+    }
+
+    private void OnTakeDamage()
+    {
+        SetHealth(_boss.GetHealth(), _boss.GetMaxHealth());
+    }
+
+    private void SetHealth(int health, int maxHealth)
     {
         healthBar.fillAmount = (float) health / maxHealth;
-
     }
+
 }

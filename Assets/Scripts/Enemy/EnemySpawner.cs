@@ -59,10 +59,12 @@ public class EnemySpawner : MonoBehaviour
         UpdateProbability(1);
     }
 
-    public void BossSpawn()
+    public void BossSpawn(BossHealthBar bossHealthBar)
     {
         _isBossWave = true;
-        Instantiate(bossPrefab.gameObject ,new Vector3(0f, 3.54f, 0f), Quaternion.identity);
+        Boss boss = Instantiate(bossPrefab.gameObject ,new Vector3(0f, 3.54f, 0f), Quaternion.identity).GetComponent<Boss>();
+        boss.Initialize();
+        bossHealthBar.Initialize(boss);
     }
 
     private void Update()
