@@ -20,6 +20,7 @@ public class EnemySpawner : MonoBehaviour
     private float _timer;
     private List<Enemy> _enemiesOnScene = new List<Enemy>();
     private List<GameObject> _spawnPointsOnScene = new List<GameObject>();
+    private AudioManager _audioManager;
     private bool _isBossWave;
     private float _redZoneL;
     private float _redZoneR;
@@ -40,6 +41,8 @@ public class EnemySpawner : MonoBehaviour
         _waveManager = waveManager;
         waveManager.OnWaveComplete += OnWaveComplete;
         _timer = spawnInterval - 2f;
+
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
         _redZoneL = redZone.position.x - redZone.localScale.x / 2;
         _redZoneR = redZone.position.x + redZone.localScale.x / 2;
@@ -179,7 +182,7 @@ public class EnemySpawner : MonoBehaviour
 
         Destroy(enemySpawnPoint);
         Enemy newEnemy = Instantiate(enemysPrefabs[enemyID].gameObject, spawnPos, Quaternion.identity).GetComponent<Enemy>();
-        newEnemy.Initialize(_player, _waveManager.GetWave());
+        newEnemy.Initialize(_player, _waveManager.GetWave(), _audioManager);
         //_enemiesOnScene.Add(newEnemy);
         //CreateEnemySpawnPoint(marker, minXPos, maxXPos, minYPos, maxYPos, enemyID);
     }

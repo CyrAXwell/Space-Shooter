@@ -10,7 +10,8 @@ public class EnemyShieldStats : MonoBehaviour
     private Animator animator;
     [SerializeField] GameObject shieldEffect;
     private int wave = 1;
-    [SerializeField] AudioSource hitSound;
+
+    private AudioManager _audioManager;
 
     void Start()
     {
@@ -18,11 +19,13 @@ public class EnemyShieldStats : MonoBehaviour
         gameObject.SetActive(false);
         shieldHp = shieldDurability + addHp * (wave-1);
         animator = shieldEffect.GetComponent<Animator>(); 
+
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     public void TakeDamage(int damage)
     {
-        hitSound.Play();
+        _audioManager.PlaySFX(_audioManager.EnemyHit);
         shieldHp -= damage;
         transform.parent.GetComponent<Enemy>().DisplayTakenDamage(damage.ToString(), false);
         if(shieldHp <= 0)
@@ -36,8 +39,5 @@ public class EnemyShieldStats : MonoBehaviour
         animator.SetBool("ShieldActive", false);
         shieldHp = shieldDurability;
         gameObject.SetActive(false);
-        
     }
-
-
 }

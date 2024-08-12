@@ -6,6 +6,7 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
+    public event Action OnResetSkill;
     public event Action OnSkillCooldown;
     public event Action<float> OnTimerUpdate;
 
@@ -75,7 +76,7 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         }
         else
         {
-            OnUseSkill?.Invoke();
+            OnResetSkill?.Invoke();
             UseSkill();
             StopRapidFireSkill();
         }

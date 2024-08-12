@@ -8,20 +8,21 @@ public class GameOverScreen : MonoBehaviour
     public GameObject GameOverScreenUI;
     public GameObject GameWinScreenUI;
 
-    [SerializeField] AudioSource winSound;
-    [SerializeField] AudioSource loseSound;
     [SerializeField] AudioSource buttonSound;
     [SerializeField] AudioSource quitSound;
 
+    private AudioManager _audioManager;
+
     void Start()
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         GameOverScreenUI.SetActive(false);
         GameWinScreenUI.SetActive(false);
     }
 
     public void GameOver()
     {
-        loseSound.Play();
+        _audioManager.PlaySFX(_audioManager.Lose);
         GameOverScreenUI.SetActive(true);
         Time.timeScale = 0f;
         StateNameController.isPaused = true;
@@ -30,7 +31,7 @@ public class GameOverScreen : MonoBehaviour
 
     public void GameWin()
     {
-        winSound.Play();
+        _audioManager.PlaySFX(_audioManager.Win);
         GameWinScreenUI.SetActive(true);
         Time.timeScale = 0f;
         StateNameController.isPaused = true;

@@ -6,6 +6,7 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
+    public event Action OnResetSkill;
     public event Action OnSkillCooldown;
     public event Action<float> OnTimerUpdate;
 
@@ -27,9 +28,12 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     private ExplosionBullet bulletStats;
     private Player playerStats;
     private Shooting _shooting;
+    private AudioManager _audioManager;
 
     void Start()
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         _cooldownTimer = cooldown;
         playerStats = GetComponent<Player>();
         _shooting = GetComponent<Shooting>();
@@ -70,7 +74,7 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
 
         if(canShoot && !reload)
         {
-            PlayShootSound();
+            _audioManager.PlaySFX(_audioManager.Shoot);
             Shoot();
             reload = true;
             StartCoroutine(ReloadShot(timeBetweenShot));
@@ -111,7 +115,7 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
         {
             StopSkill();
         }else{
-            OnUseSkill?.Invoke();
+            OnResetSkill?.Invoke();
             StopSkill();
         }
     }
@@ -147,10 +151,5 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     {
         timeBetweenShot -= time;
 
-    }
-
-    void PlayShootSound()
-    {
-        shootSound.Play();
     }
 }

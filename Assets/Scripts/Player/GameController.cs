@@ -12,11 +12,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private Sprite[] skillIcons1;
     [SerializeField] private Sprite[] skillIcons2;
     [SerializeField] private Sprite[] upgradesPanel;
-    [SerializeField] private AudioSource buttonClickSound;
     [SerializeField] private Toggle soundToggle;
     [SerializeField] private GameObject ControlsTipsPanel;
 
     private Player _player;
+    private AudioManager _audioManager;
 
     public void InitializePlayer()
     {
@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour
         CreateCharacter();
         DisplayControlsTips();
         CheckSoundToggle();
+
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     public Player GetPlayer()
@@ -82,7 +84,7 @@ public class GameController : MonoBehaviour
 
     public void PlaySoundOnButtonClick()
     {
-        buttonClickSound.Play();
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
     }
 
     public void ChangeSoundState()

@@ -6,10 +6,14 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] AudioSource buttonClickSound;
     [SerializeField] Toggle soundToggle;
+
+    private AudioManager _audioManager;
+
     void Awake()
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         CheckSoundToggle();
     }
 
@@ -21,13 +25,13 @@ public class MainMenuManager : MonoBehaviour
 
     public void QuitButton()
     {
-        buttonClickSound.Play();
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
         StartCoroutine(GameQuitWithDelay(0.2f));
     }
 
     public void PlaySoundOnButtonClick()
     {
-        buttonClickSound.Play();
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
     }
 
     private IEnumerator LoadScenWithDelay(float interval, int scene)

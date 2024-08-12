@@ -1,17 +1,20 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelUpMenu : MonoBehaviour
 {
-    [SerializeField] private UpgradeSelector[] upgrades; // UpgradeSelector , SetUpgrade
+    public event Action OnRerollButton;
+
+    [SerializeField] private UpgradeSelector[] upgrades;
     [SerializeField] private GameObject[] upgradesHighlights;
     [SerializeField] private float rerollUpgradeAmount;
     [SerializeField] private Button rerollButton;
     [SerializeField] private GameObject rerollButtonHighlight;
     [SerializeField] private GameObject levelUpPanel;
-    [SerializeField] AudioSource levelUpSound;
 
     private float _rerollCounter;
+    private AudioManager _audioManager;
 
     private void DisableUpgradesOutline()
     {
@@ -21,7 +24,8 @@ public class LevelUpMenu : MonoBehaviour
 
     public void OpenLevelUpMenu()
     {
-        levelUpSound.Play();
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        _audioManager.PlaySFX(_audioManager.LevleUp);
 
         levelUpPanel.SetActive(true);
         DisableUpgradesOutline();
@@ -43,6 +47,7 @@ public class LevelUpMenu : MonoBehaviour
 
     public void RerollUpgrades()
     {
+        OnRerollButton?.Invoke();
         _rerollCounter --;
         if(_rerollCounter <= 0)
         {

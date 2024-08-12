@@ -3435,6 +3435,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sFXSource: {fileID: 1794954981}
   ButtonClick: {fileID: 8300000, guid: daaf3bf133c671e4f958ffbdfd6e7def, type: 3}
+  BackButtonClick: {fileID: 8300000, guid: 232c978fb80a2ad428950b889ba4e16f, type: 3}
+  CharacterSelection: {fileID: 8300000, guid: 90d7851240684b249a52f3ee07ee182b, type: 3}
+  EnemyHit: {fileID: 8300000, guid: ff2ec15ca0487db4eaf5dd97175fc757, type: 3}
+  WaveComplete: {fileID: 8300000, guid: 14ab57f623e4e3943b01c476aa088ee9, type: 3}
+  Lose: {fileID: 8300000, guid: 80acfe9425b7ce84eb9811ac3b7962c9, type: 3}
+  Win: {fileID: 8300000, guid: 6ef777e36cfaf2e4594aafa941274573, type: 3}
+  PlayerHit: {fileID: 8300000, guid: 454aed15d28d6844e9fa58b66979a3d9, type: 3}
+  Shoot: {fileID: 8300000, guid: 08392258f666a0547a1b9b42ec128ab5, type: 3}
+  LevleUp: {fileID: 8300000, guid: 92458ecaf2600dc4280e9f63b0bc69ba, type: 3}
+  UseSkill: {fileID: 8300000, guid: 3e48da5b62b72b44fa7c50241ca3c86b, type: 3}
 --- !u!4 &197019735
 Transform:
   m_ObjectHideFlags: 0
@@ -14409,7 +14419,7 @@ Transform:
   m_Children:
   - {fileID: 2105121078}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &463666002
 GameObject:
@@ -16478,15 +16488,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIWavePanel: {fileID: 523118914}
-  waveDuration: 1
+  bossHealtBar: {fileID: 1424760378}
+  waveDuration: 20
   newWaveTimeIncrease: 5
   maxWaveTime: 60
   GemPanelBlock: {fileID: 1454581689}
   enemySpawner: {fileID: 785566033}
   gemToolTip: {fileID: 908919756}
-  bossPrefab: {fileID: 4554473404926664086, guid: 5cb81b69971aedd43b188d5808a7d950, type: 3}
-  bossHealtBar: {fileID: 1424760376}
-  waveCompleteSound: {fileID: 523118910}
   waveCounter: 0
 --- !u!82 &523118910
 AudioSource:
@@ -21030,7 +21038,7 @@ Transform:
   - {fileID: 1907592164}
   - {fileID: 1537710372}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &788967019
 GameObject:
@@ -27757,7 +27765,6 @@ GameObject:
   - component: {fileID: 1206547078}
   - component: {fileID: 1206547081}
   - component: {fileID: 1206547079}
-  - component: {fileID: 1206547080}
   m_Layer: 5
   m_Name: Level UP Menu
   m_TagString: Untagged
@@ -27812,103 +27819,6 @@ MonoBehaviour:
   rerollButton: {fileID: 970404838}
   rerollButtonHighlight: {fileID: 1000714822}
   levelUpPanel: {fileID: 1461023094}
-  levelUpSound: {fileID: 1206547080}
---- !u!82 &1206547080
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206547077}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d60487c1fff6c3847abefb41edf51881, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!222 &1206547081
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -48185,7 +48095,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b75705ae0c227814e8c0312a034fe42b, type: 3}
   - {fileID: 21300000, guid: b75705ae0c227814e8c0312a034fe42b, type: 3}
   - {fileID: 21300000, guid: b077cfd4b05593b47854b07d46cff822, type: 3}
-  buttonClickSound: {fileID: 2098743618}
   soundToggle: {fileID: 949258937}
   ControlsTipsPanel: {fileID: 72296509}
 --- !u!4 &2098743615
@@ -48232,8 +48141,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverScreenUI: {fileID: 848676683}
   GameWinScreenUI: {fileID: 1909313217}
-  winSound: {fileID: 2098743622}
-  loseSound: {fileID: 2098743621}
   buttonSound: {fileID: 2098743618}
   quitSound: {fileID: 2098743624}
 --- !u!82 &2098743618

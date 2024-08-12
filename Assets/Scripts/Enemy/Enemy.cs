@@ -13,7 +13,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject powerUpIcon;
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private int dropXP;
-    [SerializeField] AudioSource hitSound;
     
     private Player _player;
     private int _health;
@@ -21,11 +20,13 @@ public class Enemy : MonoBehaviour
     private int _damage;
     private int _wave;
     private bool _powerUp = false;
+    private AudioManager _audioManager;
 
-    public void Initialize(Player player, int wave)
+    public void Initialize(Player player, int wave, AudioManager audioManager)
     {
         _player = player;
         _wave = wave;
+        _audioManager = audioManager;
         GetStatsByWave(wave);
     }
 
@@ -41,7 +42,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage, int critChance, int critDamage)
     {
         bool isCrit = false;
-        PlayHitSound();
+        _audioManager.PlaySFX(_audioManager.EnemyHit, 0.3f);
         if(UnityEngine.Random.Range(0,10001) <= critChance)
         {
             damage = damage + Mathf.RoundToInt(damage * critDamage / 10000);
@@ -110,10 +111,5 @@ public class Enemy : MonoBehaviour
             _damage = enemySO.Damage + enemySO.DamageIncrease * (_wave - 1);
             _powerUp = false; 
         }
-    }
-
-    void PlayHitSound()
-    {
-        hitSound.Play();
     }
 }

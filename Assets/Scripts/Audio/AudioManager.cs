@@ -7,6 +7,16 @@ public class AudioManager : MonoBehaviour
 
     [Header("UI")]
     public AudioClip ButtonClick;
+    public AudioClip BackButtonClick;
+    public AudioClip CharacterSelection;
+    public AudioClip EnemyHit;
+    public AudioClip WaveComplete;
+    public AudioClip Lose;
+    public AudioClip Win;
+    public AudioClip PlayerHit;
+    public AudioClip Shoot;
+    public AudioClip LevleUp;
+    public AudioClip UseSkill;
 
     public static AudioManager instance;
 
@@ -23,9 +33,9 @@ public class AudioManager : MonoBehaviour
         } 
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(AudioClip clip, float volume = 1f)
     {
-        sFXSource.PlayOneShot(clip, 1f);
+        sFXSource.PlayOneShot(clip, volume);
     }
 
     public void PauseSound()

@@ -5,6 +5,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
+    public event Action OnResetSkill;
     public event Action OnSkillCooldown;
     public event Action<float> OnTimerUpdate;
 
@@ -75,7 +76,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     {
         _cooldownTimer = cooldown;
         shield.DestroyShield();
-        OnUseSkill?.Invoke();
+        OnResetSkill?.Invoke();
     }
 
     public void UpgradeCooldown(float cooldown)

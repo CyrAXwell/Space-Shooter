@@ -6,16 +6,17 @@ public class Shooting : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float cooldown;
     [SerializeField] private Animator animator;
-    [SerializeField] AudioSource shootSound;
     
     private float _timer;
     private Player _playerStats;
     private bool _isCooldown;
     private bool _canShoot = true;
     private int _skillBonusDamage;
+    private AudioManager _audioManager;
 
     private void Start()
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         _timer = cooldown;
         _playerStats = GetComponent<Player>();
     }
@@ -42,7 +43,7 @@ public class Shooting : MonoBehaviour
 
     private void Shoot()
     {
-        PlayShootSound();
+        _audioManager.PlaySFX(_audioManager.Shoot, 0.2f);
         _isCooldown = true;
         _timer = cooldown;
 
@@ -56,6 +57,4 @@ public class Shooting : MonoBehaviour
             bulletStats.Initialize(_playerStats._activeATK + _skillBonusDamage, _playerStats._activeCRITRate, _playerStats._activeCRITDMG);
         }
     }
-
-    void PlayShootSound() => shootSound.Play();
 }

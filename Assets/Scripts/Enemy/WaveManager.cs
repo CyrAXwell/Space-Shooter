@@ -16,19 +16,21 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject GemPanelBlock;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private GameObject gemToolTip;
-    [SerializeField] AudioSource waveCompleteSound;
 
     private GemManager _gemManager;
     private Player _player;
     private float _timer; 
     private bool _stopTimer = true;
     private bool _isBossWave = false;
+    private AudioManager _audioManager;
 
     [HideInInspector] public int waveCounter;
     
 
     public void Initialize(GemManager gemManager, Player player)
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         _gemManager = gemManager;
         _player = player;
 
@@ -69,7 +71,7 @@ public class WaveManager : MonoBehaviour
         if(!_isBossWave)
         {
             OnWaveComplete?.Invoke();
-            waveCompleteSound.Play();
+            _audioManager.PlaySFX(_audioManager.WaveComplete, 0.5f);
             
             _gemManager.CreateGems();
             GemPanelBlock.SetActive(false);
@@ -127,7 +129,7 @@ public class WaveManager : MonoBehaviour
         waveCounter ++;
         GemPanelBlock.SetActive(true);
         
-        if(waveCounter == 2)
+        if(waveCounter == 20)
             BossWave();
         else
             enemySpawner.UpdateProbability(waveCounter);  

@@ -6,6 +6,7 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
+    public event Action OnResetSkill;
     public event Action OnSkillCooldown;
     public event Action<float> OnTimerUpdate;
 
@@ -16,7 +17,6 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     [SerializeField] private float timeBetweenDamage;
     [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private float cooldown;
-    [SerializeField] AudioSource shootSound;
     [SerializeField] private UpgradeSO[] upgrades;
     [SerializeField] private Sprite icon;
 
@@ -139,7 +139,7 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         {
             StopSkill();
         }else{
-            OnUseSkill?.Invoke();
+            OnResetSkill?.Invoke();
             StopSkill();
         }
     }
@@ -179,15 +179,5 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     {
         timeBetweenDamage -= time;
 
-    }
-
-    void PlayShootSound()
-    {
-        shootSound.Play();
-    }
-
-    void StopShootSound()
-    {
-        shootSound.Stop();
     }
 }

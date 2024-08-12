@@ -6,6 +6,7 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 {
     public event Action OnStartWave;
     public event Action OnUseSkill;
+    public event Action OnResetSkill;
     public event Action OnSkillCooldown;
     public event Action<float> OnTimerUpdate;
 
@@ -94,7 +95,7 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         {
             StopSkill();
         }else{
-            OnUseSkill?.Invoke();
+            OnResetSkill?.Invoke();
             UseSkill();
             StopSkill();
         }

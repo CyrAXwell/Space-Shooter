@@ -13,9 +13,11 @@ public class Boss : MonoBehaviour
     [SerializeField] private Color critColor;
 
     private int health;
+    private AudioManager _audioManager;
 
     public void Initialize()
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         health = maxHp;
     }
 
@@ -24,6 +26,7 @@ public class Boss : MonoBehaviour
 
     public void TakeDamage(int damage, int critChance, int critDamage)
     {
+        _audioManager.PlaySFX(_audioManager.EnemyHit, 0.3f);
         bool isCrit = false;
         if(UnityEngine.Random.Range(0,10001) <= critChance)
         {

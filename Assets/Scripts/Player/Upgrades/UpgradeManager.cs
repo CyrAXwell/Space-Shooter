@@ -24,6 +24,7 @@ public class UpgradeManager : MonoBehaviour
         _player = player;
         _skills = skills;
         _player.OnLevelUp += OnLevelUp;
+        levelUpMenu.OnRerollButton += OnRerollUpgrades;
 
         _upgrades.AddRange(_player.GetUpgrades());
 
@@ -48,12 +49,22 @@ public class UpgradeManager : MonoBehaviour
     private void OnDisable()
     {
         _player.OnLevelUp -= OnLevelUp;
+        levelUpMenu.OnRerollButton -= OnRerollUpgrades;
     }
 
     private void OnLevelUp()
     {
         levelUpMenu.OpenLevelUpMenu();
+        SetUpgrades();
+    }
 
+    private void OnRerollUpgrades()
+    {
+        SetUpgrades();
+    }
+
+    private void SetUpgrades()
+    {
         foreach (UpgradeSelector upgradeSelector in _upgradeSelectors)
             upgradeSelector.OnOpenLevelUpPanel();
     }

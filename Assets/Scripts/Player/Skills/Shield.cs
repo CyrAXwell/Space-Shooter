@@ -5,10 +5,12 @@ public class Shield : MonoBehaviour
 {
     private int shieldHp;
     private int healHP;
-    [SerializeField] AudioSource hitSound;
+    private AudioManager _audioManager;
 
     void Start()
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         shieldHp = transform.parent.gameObject.GetComponent<ShieldSkill>().GetShieldHealth();
         healHP = transform.parent.gameObject.GetComponent<ShieldSkill>().GetShieldHeal();
         gameObject.SetActive(false);
@@ -16,7 +18,7 @@ public class Shield : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        hitSound.Play();
+        _audioManager.PlaySFX(_audioManager.PlayerHit, 0.7f);
         shieldHp -= damage;
         if(shieldHp <= 0)
         {

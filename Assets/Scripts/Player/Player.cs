@@ -24,6 +24,7 @@ public class Player : MonoBehaviour, IUpgradeable
     private int _damage;
     private int _critDamage;
     private int _critChance;
+    private AudioManager _audioManager;
 
     public int _activeMaxHP;
     public int _activeHP;
@@ -34,6 +35,8 @@ public class Player : MonoBehaviour, IUpgradeable
 
     public void Initialize()
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         _skills = GetComponents<ISkillDisplayable>();
     }
     
@@ -60,7 +63,7 @@ public class Player : MonoBehaviour, IUpgradeable
 
     public void TakeDamage(int damage)
     {
-        hitSound.Play();
+        _audioManager.PlaySFX(_audioManager.PlayerHit, 0.7f);
 
         _activeHP -= damage <= _activeDEF ? 1 : damage - _activeDEF;
         
