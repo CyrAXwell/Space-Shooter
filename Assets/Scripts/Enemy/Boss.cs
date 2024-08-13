@@ -5,6 +5,8 @@ using System;
 public class Boss : MonoBehaviour
 {
     public event Action OnTakeDamage;
+    public event Action OnDeath;
+
     [SerializeField] private int maxHp;
     [SerializeField] private int maxDef;
     [SerializeField] private GameObject deathEffect;
@@ -67,7 +69,7 @@ public class Boss : MonoBehaviour
     {
         GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(effect, 0.5f);
-        GameObject.Find("GameManager").GetComponent<GameOverScreen>().GameWin();
+        OnDeath?.Invoke();
         Destroy(gameObject);
     }
 }

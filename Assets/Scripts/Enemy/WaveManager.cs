@@ -7,6 +7,7 @@ public class WaveManager : MonoBehaviour
     public event Action OnWaveComplete;
     public event Action OnBossWaveComplete;
     public event Action OnStartNewWave;
+    public event Action OnGameWin;
 
     [SerializeField] private UIWavePanel uIWavePanel;
     [SerializeField] private BossHealthBar bossHealtBar;
@@ -65,7 +66,6 @@ public class WaveManager : MonoBehaviour
 
     private void WaveComplete()
     {
-        ClearObjects(); // spawner
         PauseGame(); // gameController
         
         if(!_isBossWave)
@@ -78,13 +78,8 @@ public class WaveManager : MonoBehaviour
         }else
         {
             OnBossWaveComplete?.Invoke();
-            ClearObjects();
-            GameObject.Find("GameManager").GetComponent<GameOverScreen>().GameOver();
-            //BossWaveComplete();
-            ClearObjects();
         }
-        
-        ClearObjects();
+
         _player.transform.position = new Vector3(0f, -4.5f, 0f);
 
         switch(StateNameController.character)
@@ -108,6 +103,12 @@ public class WaveManager : MonoBehaviour
         }
         _player.FullHeal();
 
+        ClearObjects(); //spawner
+    }
+
+    public void OnBossDeath()
+    {
+        OnGameWin?.Invoke();
     }
 
     void PauseGame()
@@ -148,7 +149,8 @@ public class WaveManager : MonoBehaviour
     {
         _timer = 90f;
         _isBossWave = true;
-        enemySpawner.BossSpawn(bossHealtBar);
+        Boss boss = enemySpawner.BossSpawn(bossHealtBar);
+        boss.OnDeath += OnBossDeath;
         enemySpawner.gameObject.SetActive(false);
     }
 

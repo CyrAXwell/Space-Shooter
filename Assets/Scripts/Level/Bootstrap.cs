@@ -10,7 +10,6 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private SkillDisplayPanel skillDisplayPanel;
     [SerializeField] private GemManager gemManager;
     [SerializeField] private WaveManager waveManager;
-    
 
     private void Awake()
     {
@@ -19,7 +18,7 @@ public class Bootstrap : MonoBehaviour
 
     private void InitializePlayer()
     {
-        gameController.InitializePlayer();
+        gameController.InitializePlayer(waveManager);
 
         Player player = gameController.GetPlayer();
         player.Initialize();

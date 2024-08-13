@@ -7,6 +7,7 @@ public class Player : MonoBehaviour, IUpgradeable
     public event Action OnHealthChange;
     public event Action OnXPChange;
     public event Action OnLevelUp;
+    public event Action OnDeath;
     
     [SerializeField] private GameObject deathEffect;
     [SerializeField] private PlayerSO playerSO;
@@ -82,7 +83,7 @@ public class Player : MonoBehaviour, IUpgradeable
     {
         GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(effect, 0.5f);
-        GameObject.Find("GameManager").GetComponent<GameOverScreen>().GameOver();
+        OnDeath?.Invoke();
     }
 
     public void UpdateGemStats(int hpGem, int atkGem, int defGem, int critdmgGem, int critrateGem)
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour, IUpgradeable
     public ISkillDisplayable[] GetSkills() => _skills;
     public UpgradeSO[] GetUpgrades() => upgrades;
     public Sprite GetUpgradesPanelSprite() => playerSO.UpgradesPanelSprite;
+    public string GetName() => playerSO.PlayerName;
 
     public void SetXP(int addXP)
     {

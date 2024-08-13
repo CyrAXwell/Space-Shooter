@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02f6fea8a8e9cf419272d34ff5b344a, type: 3}
   m_Name: Player 1 Hunter
   m_EditorClassIdentifier: 
+  playerName: Hunter
   health: 100
   defense: 5
   damage: 20

@@ -4,26 +4,29 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private GameObject character1;
-    [SerializeField] private GameObject character2;
-    [SerializeField] private GameObject character3;
-    [SerializeField] private UpgradeSO[] upgrades;
+    [SerializeField] private Player character1;
+    [SerializeField] private Player character2;
+    [SerializeField] private Player character3;
     [SerializeField] private TMP_Text characterName;
-    [SerializeField] private Sprite[] skillIcons1;
-    [SerializeField] private Sprite[] skillIcons2;
-    [SerializeField] private Sprite[] upgradesPanel;
-    [SerializeField] private Toggle soundToggle;
     [SerializeField] private GameObject ControlsTipsPanel;
+    [SerializeField] private GameOverScreen gameOverScreen;
+    [SerializeField] private PauseMenu pauseMenu;
 
     private Player _player;
     private AudioManager _audioManager;
+    private WaveManager _waveManager;
 
-    public void InitializePlayer()
+    public void InitializePlayer(WaveManager waveManager)
     {
-        Pause();
+        PauseGame();
         CreateCharacter();
         DisplayControlsTips();
-        CheckSoundToggle();
+
+        _waveManager = waveManager;
+        _waveManager.OnGameWin += GameWin;
+        _waveManager.OnBossWaveComplete += GameOver;
+        gameOverScreen.Initialize(this);
+        pauseMenu.Initialize(this);
 
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
@@ -32,16 +35,42 @@ public class GameController : MonoBehaviour
     {
         return _player;
     }
-    
-    private void CreatePlayer(GameObject character, int skill1, int skill2, int upgrades ,string name)
-    {
-        GameObject playerObject = Instantiate(character, new Vector3(0f, -4.5f, 0f), Quaternion.identity);
-        _player = playerObject.GetComponent<Player>();
 
-        // GameObject.Find("Skill 1").transform.GetChild(1).gameObject.GetComponent<Image>().sprite = skillIcons1[skill1];
-        // GameObject.Find("Skill 2").transform.GetChild(1).gameObject.GetComponent<Image>().sprite = skillIcons2[skill2];
-        //GameObject.Find("Upgrades Display Panel").GetComponent<Image>().sprite = upgradesPanel[upgrades];
-        characterName.text = name;
+    public void CloseControlsTips()
+    {
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        ControlsTipsPanel.SetActive(false);
+        ResumeGame();
+        StateNameController.startTimers = true;
+    }
+
+    private void GameOver()
+    {
+        _audioManager.PlaySFX(_audioManager.Lose);
+
+        gameOverScreen.OpenGameOverMenu();
+        PauseGame();
+
+        _waveManager.ClearObjects();
+    }
+
+    private void GameWin()
+    {
+        _audioManager.PlaySFX(_audioManager.Win);
+
+        gameOverScreen.OpenGameWinMenu();
+        PauseGame();
+
+        _waveManager.ClearObjects();
+    }
+    
+    private void CreatePlayer(Player character)
+    {
+        GameObject playerObject = Instantiate(character.gameObject, new Vector3(0f, -4.5f, 0f), Quaternion.identity);
+        _player = playerObject.GetComponent<Player>();
+        _player.OnDeath += GameOver;
+
+        characterName.text = _player.GetName();
     }
 
     private void CreateCharacter()
@@ -49,18 +78,30 @@ public class GameController : MonoBehaviour
         switch(StateNameController.character)
         {
             default:
-                CreatePlayer(character1, 0, 0, 0, "Hunter");
+                CreatePlayer(character1);
                 break;
             case "Character 1":
-                CreatePlayer(character1, 0, 0, 0, "Hunter");    
+                CreatePlayer(character1);    
                 break;
             case "Character 2":
-                CreatePlayer(character2, 0, 1, 1, "Guardian"); 
+                CreatePlayer(character2); 
                 break;
             case "Character 3":
-                CreatePlayer(character3, 1, 2, 2, "Destroer"); 
+                CreatePlayer(character3); 
                 break;
         }
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        StateNameController.isPaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        StateNameController.isPaused = false;
     }
 
     private void DisplayControlsTips()
@@ -68,42 +109,10 @@ public class GameController : MonoBehaviour
         ControlsTipsPanel.SetActive(true);
     }
 
-    public void CloseControlsTips()
+    private void OnDisable()
     {
-        ControlsTipsPanel.SetActive(false);
-        Time.timeScale = 1f;
-        StateNameController.isPaused = false;
-        StateNameController.startTimers = true;
-    }
-
-    private void Pause()
-    {
-        Time.timeScale = 0f;
-        StateNameController.isPaused = true;
-    }
-
-    public void PlaySoundOnButtonClick()
-    {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
-    }
-
-    public void ChangeSoundState()
-    {
-        StateNameController.isSoundOff = !StateNameController.isSoundOff;
-        AudioListener.volume = StateNameController.isSoundOff ? 0f : 1f;
-    }
-    
-    private void CheckSoundToggle()
-    {
-        if(StateNameController.isSoundOff)
-        {
-            soundToggle.isOn = true;
-            ChangeSoundState();     
-        }
-        else
-        {
-            AudioListener.volume = 1f;
-            soundToggle.isOn = false;
-        }
+        _waveManager.OnGameWin -= GameWin;
+        _waveManager.OnBossWaveComplete -= GameOver; 
+        _player.OnDeath -= GameOver;
     }
 }

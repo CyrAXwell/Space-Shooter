@@ -1,65 +1,71 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
-    //public static bool isPaused;
-    private bool isAlredyPaused = false;
-    private bool menuIsOpen = false;
+    [SerializeField] private GameObject pauseMenuUI;
+    [SerializeField] private Toggle soundToggle;
 
-    public GameObject pauseMenuUI;
-    [SerializeField] GameObject tipsPanel;
-    [SerializeField] AudioSource buttonSound;
+    private GameController _gameController;
+    private AudioManager _audioManager;
 
-    void Start()
+    public void Initialize(GameController gameController)
     {
+        _gameController = gameController;
         pauseMenuUI.SetActive(false);
+
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+        soundToggle.SetIsOnWithoutNotify(StateNameController.isSoundOff);
     }
     
-    void Update()
+    private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(!menuIsOpen)
-            {
-                if(!tipsPanel.activeInHierarchy)
-                {
-                    Pause(); 
-                }
-            }else{
-                Resume();
-            }
+            if (StateNameController.startTimers && !StateNameController.isPaused && !pauseMenuUI.activeInHierarchy)
+                PauseGame();
+            else if (StateNameController.startTimers && StateNameController.isPaused && pauseMenuUI.activeInHierarchy)
+                ResumeGame();
         }
     }
 
-    public void Resume()
+    private void PauseGame()
     {
-        //buttonSound.Play();
-        pauseMenuUI.SetActive(false);
-        menuIsOpen = false;
-        if(!isAlredyPaused)
-        {
-            Time.timeScale = 1f;
-            StateNameController.isPaused = false;  
-        }
-        
-    }
-
-    void Pause()
-    {
+        _gameController.PauseGame();
         pauseMenuUI.SetActive(true);
-        menuIsOpen = true;
-        if(StateNameController.isPaused)
-        {
-            isAlredyPaused = true;
-        }else{
-            isAlredyPaused = false;
-            Time.timeScale = 0f;
-            StateNameController.isPaused = true;
-        }
-        
+    }
+
+    private void ResumeGame()
+    {
+        _gameController.ResumeGame();
+        pauseMenuUI.SetActive(false);
+    }
+
+    public void OnResumeButton()
+    {
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        ResumeGame();
+    }
+
+    public void OnMainMenuButton()
+    {
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _gameController.ResumeGame();
+        SceneManager.LoadScene(0);
+    }
+
+    public void OnGameQuitButton()
+    {
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        Application.Quit();
+    }
+
+    public void OnMuteSoundButton()
+    {
+        Debug.Log("mute");
+        StateNameController.isSoundOff = !StateNameController.isSoundOff;
+        _audioManager.MuteSound(StateNameController.isSoundOff);
     }
 }

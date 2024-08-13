@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New PlayerSO",menuName = "ScriptableObjects/PlayerSO")]
 public class PlayerSO : ScriptableObject
 {
+    [SerializeField] private string playerName;
     [SerializeField] private int health;
     [SerializeField] private int defense;
     [SerializeField] private int damage;
@@ -19,5 +20,6 @@ public class PlayerSO : ScriptableObject
     public int CritChance => critChance;
     public IEnumerable<UpgradeSO> Upgrades => upgrades;
     public Sprite UpgradesPanelSprite => upgradesPanelSprite;
+    public string PlayerName => playerName;
 
 }

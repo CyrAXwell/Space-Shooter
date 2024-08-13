@@ -4058,18 +4058,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2016365482}
-        m_TargetAssemblyTypeName: CharacterSelactManager, Assembly-CSharp
-        m_MethodName: PlaySoundOnBackButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &972812649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4329,6 +4317,7 @@ MonoBehaviour:
   Shoot: {fileID: 8300000, guid: 08392258f666a0547a1b9b42ec128ab5, type: 3}
   LevleUp: {fileID: 8300000, guid: 92458ecaf2600dc4280e9f63b0bc69ba, type: 3}
   UseSkill: {fileID: 8300000, guid: 3e48da5b62b72b44fa7c50241ca3c86b, type: 3}
+  TooltipButtonClick: {fileID: 0}
 --- !u!4 &1036440145
 Transform:
   m_ObjectHideFlags: 0
@@ -8271,7 +8260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c280244bebfd932498b8acbccafe6c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterSelectPanel: {fileID: 428672995}
+  toggleGroup: {fileID: 428672999}
 --- !u!4 &2016365483
 Transform:
   m_ObjectHideFlags: 0
@@ -8413,18 +8402,6 @@ MonoBehaviour:
       - m_Target: {fileID: 2016365482}
         m_TargetAssemblyTypeName: CharacterSelactManager, Assembly-CSharp
         m_MethodName: StartButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2016365482}
-        m_TargetAssemblyTypeName: CharacterSelactManager, Assembly-CSharp
-        m_MethodName: PlaySoundOnPlayButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

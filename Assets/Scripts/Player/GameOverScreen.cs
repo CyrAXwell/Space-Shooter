@@ -1,70 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameOverScreen : MonoBehaviour
 {
-    public GameObject GameOverScreenUI;
-    public GameObject GameWinScreenUI;
+    [SerializeField] private GameObject GameOverScreenUI;
+    [SerializeField] private GameObject GameWinScreenUI;
 
-    [SerializeField] AudioSource buttonSound;
-    [SerializeField] AudioSource quitSound;
-
+    private GameController _gameController;
     private AudioManager _audioManager;
 
-    void Start()
+    public void Initialize(GameController gameController)
     {
-        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        _gameController = gameController;
         GameOverScreenUI.SetActive(false);
         GameWinScreenUI.SetActive(false);
+
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
-    public void GameOver()
+    public void OpenGameOverMenu()
     {
-        _audioManager.PlaySFX(_audioManager.Lose);
         GameOverScreenUI.SetActive(true);
-        Time.timeScale = 0f;
-        StateNameController.isPaused = true;
-        GameObject.Find("Wave panel").GetComponent<WaveManager>().ClearObjects();
     }
 
-    public void GameWin()
+    public void OpenGameWinMenu()
     {
-        _audioManager.PlaySFX(_audioManager.Win);
         GameWinScreenUI.SetActive(true);
-        Time.timeScale = 0f;
-        StateNameController.isPaused = true;
-        GameObject.Find("Wave panel").GetComponent<WaveManager>().ClearObjects();
     }
 
     public void MainMenu()
     {
-        //buttonSound.Play();
-        GameOverScreenUI.SetActive(false);
-        Time.timeScale = 1f;
-        StateNameController.isPaused = false;
-        //StartCoroutine(MainMenuWithDelay(0.2f));
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _gameController.ResumeGame();
         SceneManager.LoadScene(0);
     }
 
     public void GameQuit()
     {
-        //quitSound.Play();
-        //StartCoroutine(GameQuitWithDelay(0.2f));
-        Application.Quit();
-    }
-
-    private IEnumerator MainMenuWithDelay(float interval)
-    {
-        yield return new WaitForSeconds(interval);
-        SceneManager.LoadScene(0);
-        
-    }
-
-    private IEnumerator GameQuitWithDelay(float interval)
-    {
-        yield return new WaitForSeconds(interval);
+        _audioManager.PlaySFX(_audioManager.ButtonClick);
         Application.Quit();
     }
     

@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip Shoot;
     public AudioClip LevleUp;
     public AudioClip UseSkill;
+    public AudioClip TooltipButtonClick; // 0.7f
 
     public static AudioManager instance;
 
@@ -38,13 +39,8 @@ public class AudioManager : MonoBehaviour
         sFXSource.PlayOneShot(clip, volume);
     }
 
-    public void PauseSound()
+    public void MuteSound(bool mute)
     {
-        sFXSource.mute = true;
-    }
-
-    public void ResumeSound()
-    {
-        sFXSource.mute = false;
+        sFXSource.mute = mute;
     }
 }
