@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
     }
 
     public int GetDamage() => _damage;
+    public int GetWave() => _wave;
 
     private void GetStatsByWave(int wave)
     {
@@ -64,7 +65,7 @@ public class Enemy : MonoBehaviour
             Death();
     }
 
-    void Death()
+    private void Death()
     {
         _player.SetXP(dropXP);
         GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);

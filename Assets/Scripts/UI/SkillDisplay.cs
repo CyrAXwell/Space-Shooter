@@ -19,7 +19,7 @@ public class SkillDisplay : MonoBehaviour
         _skill = skill;
         _skill.OnSkillCooldown += OnSkillCooldown;
         _skill.OnUseSkill += OnUseSkill;
-        _skill.OnUseSkill += OnResetSkill;
+        _skill.OnResetSkill += OnResetSkill;
         _skill.OnStartWave += OnStartWave;
         icon.sprite = _skill.GetSkillIcon();
     }
@@ -28,7 +28,7 @@ public class SkillDisplay : MonoBehaviour
     {
         _skill.OnSkillCooldown -= OnSkillCooldown;
         _skill.OnUseSkill -= OnUseSkill;
-        _skill.OnUseSkill -= OnResetSkill;
+        _skill.OnResetSkill -= OnResetSkill;
         _skill.OnStartWave -= OnStartWave;
     }
 
@@ -51,27 +51,18 @@ public class SkillDisplay : MonoBehaviour
 
     private void OnStartWave()
     {
-        DisplaySkillCharge();
+        DisplaySkillActive();
     }
 
-    public void DisplaySkillReady()
+    private void DisplaySkillReady()
     {
         transform.GetChild(0).gameObject.GetComponent<Image>().color = backgroundSkillOnColor;
         transform.GetChild(1).gameObject.GetComponent<Image>().color = Color.white;
     }
 
-    public void DisplaySkillActive()
+    private void DisplaySkillActive()
     {
         transform.GetChild(0).gameObject.GetComponent<Image>().color = backgroundSkillOffColor;
         transform.GetChild(1).gameObject.GetComponent<Image>().color = iconSkillOffColor;    
     }
-
-    public void DisplaySkillCharge()
-    {
-        transform.GetChild(0).gameObject.GetComponent<Image>().color = backgroundSkillOffColor;
-        transform.GetChild(1).gameObject.GetComponent<Image>().color = iconSkillOffColor;
-    }
-
-    
-
 }

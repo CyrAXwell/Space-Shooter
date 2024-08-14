@@ -9,14 +9,14 @@ public class AudioManager : MonoBehaviour
     public AudioClip ButtonClick;
     public AudioClip BackButtonClick;
     public AudioClip CharacterSelection;
-    public AudioClip EnemyHit;
+    public AudioClip EnemyHit; // 0.3f
     public AudioClip WaveComplete;
     public AudioClip Lose;
     public AudioClip Win;
     public AudioClip PlayerHit;
     public AudioClip Shoot;
     public AudioClip LevleUp;
-    public AudioClip UseSkill;
+    public AudioClip UseSkill; // 0.5f
     public AudioClip TooltipButtonClick; // 0.7f
 
     public static AudioManager instance;

@@ -17,14 +17,14 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     [SerializeField] private UpgradeSO[] upgrades;
     [SerializeField] private Sprite icon;
 
-    private float _cooldownTimer = 0f;
-
-    [NonSerialized] public bool isTimerLocked = false;
-    [NonSerialized] public bool isSkillActive = false;  
+    private float _cooldownTimer;
+    private bool _isTimerLocked = false;
 
     void Start()
     {
         _cooldownTimer = cooldown;
+
+        shield.Initialize(health, this);
 
         OnStartWave?.Invoke();
         OnTimerUpdate?.Invoke(_cooldownTimer);  
@@ -34,7 +34,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     {
         if(Input.GetKeyDown("e") && !StateNameController.isPaused)
         {
-            if(isTimerLocked)
+            if(_isTimerLocked)
             {
                 UseSkill();
                 OnUseSkill?.Invoke();
@@ -44,7 +44,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 
     void FixedUpdate()
     {
-        if(isTimerLocked == false  && StateNameController.startTimers)
+        if(_isTimerLocked == false  && StateNameController.startTimers)
         {
             _cooldownTimer -= Time.fixedDeltaTime;
             OnTimerUpdate?.Invoke(_cooldownTimer); 
@@ -52,7 +52,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
             if(_cooldownTimer <= 0)
             {
                 _cooldownTimer = 0;
-                isTimerLocked = true;
+                _isTimerLocked = true;
                 OnSkillCooldown?.Invoke(); 
             }
         }
@@ -64,12 +64,20 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     public UpgradeSO[] GetUpgrades() => upgrades;
     public Sprite GetSkillIcon() => icon;
     
-
-    void UseSkill()
+    private void UseSkill()
     {
         shield.gameObject.SetActive(true);
-        
+        shield.Initialize(health, this);
+
         _cooldownTimer = cooldown;
+    }
+
+    public void OnShieldDestroy()
+    {
+        shield.gameObject.SetActive(false);
+        _isTimerLocked = false;
+        gameObject.GetComponent<Player>().Heal(heal);
+        OnResetSkill?.Invoke();
     }
 
     public void ResetShieldSkill()
@@ -82,19 +90,16 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     public void UpgradeCooldown(float cooldown)
     {
         this.cooldown -= cooldown;
-        Debug.Log(this.cooldown);
     }
 
     public void UpgradeHealing(int hp)
     {
         heal += hp;
-        Debug.Log(heal);
     }
 
     public void UpgradeHealth(int hp)
     {
         health += hp;
-        Debug.Log(health);
     }
 
 }

@@ -11,6 +11,7 @@ public class SkillTimer : MonoBehaviour
     {
         _skill = skill;
         _skill.OnTimerUpdate += OnTimerUpdate;
+        _skill.OnResetSkill += OnResetSkill;
         _skill.OnSkillCooldown += OnSkillCooldown;
         _skill.OnUseSkill += OnUseSkill;
     }
@@ -18,6 +19,11 @@ public class SkillTimer : MonoBehaviour
     private void OnTimerUpdate(float value)
     {
         DisplayTime(value);
+    }
+
+    private void OnResetSkill()
+    {
+        DisplayTimeOff();
     }
 
     private void OnSkillCooldown()

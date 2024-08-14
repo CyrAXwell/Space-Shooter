@@ -1,43 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyShieldStats : MonoBehaviour
 {
-    public int  shieldDurability;
-    public int addHp;
-    private int shieldHp;
-    private Animator animator;
+    [SerializeField] private int baseHealth;
+    [SerializeField] private int healthIncrease;
     [SerializeField] GameObject shieldEffect;
-    private int wave = 1;
 
+    private int _health;
+    private EnemyShield _enemyShield;
+    private Animator _animator;
     private AudioManager _audioManager;
 
-    void Start()
+    public void Initialize(int wave, EnemyShield enemyShield)
     {
-        wave = GameObject.Find("Wave panel").GetComponent<WaveManager>().waveCounter;
-        gameObject.SetActive(false);
-        shieldHp = shieldDurability + addHp * (wave-1);
-        animator = shieldEffect.GetComponent<Animator>(); 
+        _health = baseHealth + healthIncrease * wave;
+        _enemyShield = enemyShield;
+    }
 
+    private void Start()
+    {
+        gameObject.SetActive(false);
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     public void TakeDamage(int damage)
     {
         _audioManager.PlaySFX(_audioManager.EnemyHit);
-        shieldHp -= damage;
+
+        _health -= damage;
         transform.parent.GetComponent<Enemy>().DisplayTakenDamage(damage.ToString(), false);
-        if(shieldHp <= 0)
-        {
+        if(_health <= 0)
             DestroyShield();
-        }
     }
 
-    void DestroyShield()
+    private void DestroyShield()
     {
-        animator.SetBool("ShieldActive", false);
-        shieldHp = shieldDurability;
-        gameObject.SetActive(false);
+        _enemyShield.OnShieldDestroy();
     }
 }

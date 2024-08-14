@@ -76,9 +76,10 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         }
         else
         {
-            OnResetSkill?.Invoke();
             UseSkill();
             StopRapidFireSkill();
+            OnResetSkill?.Invoke();
+            Debug.Log("Reset");
         }
     }
 

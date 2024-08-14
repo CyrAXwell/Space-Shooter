@@ -1,53 +1,49 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyShield : MonoBehaviour
 {
-    private GameObject shield;
-    [SerializeField] float shieldTimer;
-    [SerializeField] float activationTime;
-    private float timer;
-    private bool shieldTimerLocked = false;
-    private Animator[] animator;
-    private bool shieldActive = false;
+    [SerializeField] private float activationTime;
+    [SerializeField] private float recoveryTime; 
+    [SerializeField] private EnemyShieldStats shield; 
+    [SerializeField] private Animator animator;
+
+    private float _timer;
+    private bool _shieldIsActive;
    
-    void Start()
+    private void Start()
     {
-        shield = transform.GetChild(4).gameObject;
-        timer = shieldTimer;
-        animator = GetComponentsInChildren<Animator>();
+        _timer = activationTime;
     }
 
-    void Update()
+    private void Update()
     {
-        if(shieldTimerLocked && !shieldActive)
+        if (_timer > 0)
         {
-            shieldActive = true;
-            animator[2].SetBool("ShieldActivation", true);
+            _timer -= Time.deltaTime;
+        }
+        else if (!_shieldIsActive)
+        {
+            _shieldIsActive = true;
+            animator.SetBool("ShieldActivation", true);
             StartCoroutine(ShieldActivation(activationTime));
         }
     }
 
-
-    void FixedUpdate()
+    public void OnShieldDestroy()
     {
-        if(shieldTimerLocked == false)
-        {
-            shieldTimer -= Time.fixedDeltaTime;
-            if(shieldTimer <= 0)
-            {
-                shieldTimerLocked = true;
-            }
-        }
-        
+        animator.SetBool("ShieldActive", false);
+        shield.gameObject.SetActive(false);
+        _timer = recoveryTime;
+        _shieldIsActive = false;
     }
 
     private IEnumerator ShieldActivation(float time)
     {   
         yield return new WaitForSeconds(time);
-        animator[2].SetBool("ShieldActivation", false);
-        animator[2].SetBool("ShieldActive", true);
-        shield.SetActive(true);
+        animator.SetBool("ShieldActivation", false);
+        animator.SetBool("ShieldActive", true);
+        shield.gameObject.SetActive(true);
+        shield.Initialize(gameObject.GetComponent<Enemy>().GetWave(), this);
     }
 }
