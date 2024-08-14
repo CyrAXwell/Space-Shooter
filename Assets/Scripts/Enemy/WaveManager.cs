@@ -67,7 +67,7 @@ public class WaveManager : MonoBehaviour
     private void WaveComplete()
     {
         PauseGame(); // gameController
-        
+
         if(!_isBossWave)
         {
             OnWaveComplete?.Invoke();
@@ -85,11 +85,11 @@ public class WaveManager : MonoBehaviour
         switch(StateNameController.character)
         {
             case "Character 1":
-                _player.GetComponent<ShieldSkill>().ResetShieldSkill();
-                _player.GetComponent<RapidFireSkill>().ResetRapidFireSkill(); 
+                _player.GetComponent<ShieldSkill>().ResetSkill();
+                _player.GetComponent<RapidFireSkill>().ResetSkill(); 
                 break;
             case "Character 2":
-                _player.GetComponent<ShieldSkill>().ResetShieldSkill();
+                _player.GetComponent<ShieldSkill>().ResetSkill();
                 _player.GetComponent<ExplosionBulletsSkill>().ResetSkill(); 
                 break;
             case "Character 3":
@@ -97,8 +97,8 @@ public class WaveManager : MonoBehaviour
                 _player.GetComponent<LaserSkill>().ResetSkill(); 
                 break;
             default:
-                _player.GetComponent<ShieldSkill>().ResetShieldSkill();
-                _player.GetComponent<RapidFireSkill>().ResetRapidFireSkill(); 
+                _player.GetComponent<ShieldSkill>().ResetSkill();
+                _player.GetComponent<RapidFireSkill>().ResetSkill(); 
                 break;
         }
         _player.FullHeal();

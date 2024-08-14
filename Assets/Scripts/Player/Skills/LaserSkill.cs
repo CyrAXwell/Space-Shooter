@@ -20,34 +20,45 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     [SerializeField] private UpgradeSO[] upgrades;
     [SerializeField] private Sprite icon;
 
-    private bool isHit = false;
-    private bool canDamage = true;
-    private bool canShoot = false;
+    private bool _canDamage = true;
+    private bool _canShoot = false;
     private float _cooldownTimer;
-    private bool isTimerLocked;
-    private bool isSkillActive = false;
-    private Player player;
+    private bool _isTimerLocked;
+    private bool _isSkillActive = false;
     private Shooting _shooting;
+    private Player _player;
 
-    void Start()
+    private void Start()
     {
         _cooldownTimer = cooldown;
         
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        _player = GetComponent<Player>();
         _shooting = GetComponent<Shooting>();
 
         OnStartWave?.Invoke();
         OnTimerUpdate?.Invoke(_cooldownTimer); 
     }
 
-    void Update()
+    private void Update()
     {
+        if(!_isTimerLocked && StateNameController.startTimers)
+        {
+            _cooldownTimer -= Time.deltaTime;
+            OnTimerUpdate?.Invoke(_cooldownTimer);
+            if(_cooldownTimer <= 0)
+            {
+                _cooldownTimer = 0;
+                _isTimerLocked = true;
+                OnSkillCooldown?.Invoke();  
+            }
+        }
+
         if(Input.GetKeyDown("r") && !StateNameController.isPaused)
         {
-            if(isTimerLocked && !isSkillActive)
+            if(_isTimerLocked && !_isSkillActive)
             {
-                isSkillActive = true;
-                canShoot = true;
+                _isSkillActive = true;
+                _canShoot = true;
                 StartCoroutine(LaserSkillEnd(duration));
                 laserSprite.gameObject.SetActive(true);
                 laserSprite.size = new Vector2(laserSprite.size.x, 0); 
@@ -56,30 +67,12 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
                 OnUseSkill?.Invoke();
             }
         }
-    }
 
-    void FixedUpdate()
-    {
-        if(isTimerLocked == false && StateNameController.startTimers)
-        {
-            _cooldownTimer -= Time.fixedDeltaTime;
-            OnTimerUpdate?.Invoke(_cooldownTimer);
-            if(_cooldownTimer <= 0)
-            {
-                _cooldownTimer = 0;
-                isTimerLocked = true;
-                OnSkillCooldown?.Invoke();  
-            }
-        }
-
-        if(canShoot)
-        {
+        if(_canShoot)
             UseSkill();
-        }
-        
     }
 
-    void UseSkill()
+    private void UseSkill()
     {
         Vector2 startPoint = new Vector2(laserSprite.transform.position.x, laserSprite.transform.position.y);
         Vector2 endPoint = new Vector2(laserSprite.transform.position.x, laserSprite.transform.position.y + maxLaserDistance);
@@ -87,22 +80,22 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         Debug.Log((endPoint - startPoint).normalized);
         Debug.Log((endPoint - startPoint).magnitude);
 
-        isHit = false;
+        bool isHit = false;
         for (int i = 0; i < hits.Length; i++)
         {
             
             if (hits[i].collider != null) 
             {
-                if (hits[i].collider.CompareTag("Enemy") && canDamage) {
-                    hits[i].collider.GetComponent<Enemy>().TakeDamage(player._activeATK + skillBonusDamage, player._activeCRITRate, player._activeCRITDMG);
+                if (hits[i].collider.CompareTag("Enemy") && _canDamage) {
+                    hits[i].collider.GetComponent<Enemy>().TakeDamage(_player.GetActiveATK() + skillBonusDamage, _player.GetActiveCRITRate(), _player.GetActiveCRITDMG());
                     StartCoroutine(CanLaserDamage(timeBetweenDamage)); 
                 }
-                if (hits[i].collider.CompareTag("EnemyShield") && canDamage) {
-                    hits[i].collider.GetComponent<EnemyShieldStats>().TakeDamage(player._activeATK + skillBonusDamage);
+                if (hits[i].collider.CompareTag("EnemyShield") && _canDamage) {
+                    hits[i].collider.GetComponent<EnemyShieldStats>().TakeDamage(_player.GetActiveATK() + skillBonusDamage);
                     StartCoroutine(CanLaserDamage(timeBetweenDamage));
                 }
-                if (hits[i].collider.CompareTag("Boss") && canDamage) {
-                    hits[i].collider.GetComponent<Boss>().TakeDamage(player._activeATK + skillBonusDamage, player._activeCRITRate, player._activeCRITDMG);
+                if (hits[i].collider.CompareTag("Boss") && _canDamage) {
+                    hits[i].collider.GetComponent<Boss>().TakeDamage(_player.GetActiveATK() + skillBonusDamage, _player.GetActiveCRITRate(), _player.GetActiveCRITDMG());
                     StartCoroutine(CanLaserDamage(timeBetweenDamage));
                 }
                 
@@ -119,37 +112,32 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
 
     private IEnumerator CanLaserDamage(float interval)
     {
-        canDamage = false;
+        _canDamage = false;
         yield return new WaitForSeconds(interval);
-        canDamage = true;
+        _canDamage = true;
     }
 
     private IEnumerator LaserSkillEnd(float interval)
     {
         yield return new WaitForSeconds(interval);
-        if(isSkillActive)
-        {
+        if(_isSkillActive)
             StopSkill();
-        }
     }
 
     public void ResetSkill()
     {
-        if(isSkillActive)
-        {
-            StopSkill();
-        }else{
+        if(!_isSkillActive)
             OnResetSkill?.Invoke();
-            StopSkill();
-        }
+
+        StopSkill();
     }
 
-    void StopSkill()
+    private void StopSkill()
     {
-        canShoot = false;
+        _canShoot = false;
         laserSprite.gameObject.SetActive(false);
-        isSkillActive = false;
-        isTimerLocked = false;
+        _isSkillActive = false;
+        _isTimerLocked = false;
         _shooting.ResumeShooting();
         _cooldownTimer = cooldown;
     }
@@ -160,24 +148,20 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     public void UpgradeDuration(float time)
     {
         duration += time;
-
     }
 
     public void UpgradeCooldown(float time)
     {
         cooldown -= time;
-
     }
 
     public void UpgradeDamage(int addDamage)
     {
         skillBonusDamage += addDamage;
-
     }
 
     public void UpgradeFireRate(float time)
     {
         timeBetweenDamage -= time;
-
     }
 }

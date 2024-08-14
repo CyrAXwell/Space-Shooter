@@ -17,13 +17,12 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     [SerializeField] private UpgradeSO[] upgrades;
     [SerializeField] private Sprite icon;
 
-    private bool isTimerLocked = false;
-    private bool isSkillActive = false;
-
+    private bool _isTimerLocked = false;
+    private bool _isSkillActive = false;
     private float _cooldownTimer;
     private Shooting _shooting;
     
-    void Start()
+    private void Start()
     {
         _cooldownTimer = cooldown;
         _shooting = GetComponent<Shooting>();
@@ -32,26 +31,23 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         OnTimerUpdate?.Invoke(_cooldownTimer); 
     }
 
-    void FixedUpdate()
+    private void Update()
     {
-        if(isTimerLocked == false && StateNameController.startTimers)
+        if(!_isTimerLocked && StateNameController.startTimers)
         {
-            _cooldownTimer -= Time.fixedDeltaTime;
+            _cooldownTimer -= Time.deltaTime;
             OnTimerUpdate?.Invoke(_cooldownTimer);
 
             if(_cooldownTimer <= 0)
             {
-                isTimerLocked = true;
+                _isTimerLocked = true;
                 OnSkillCooldown?.Invoke();
             }
         }
-    }
 
-    void Update()
-    {
         if(Input.GetKeyDown("r") && !StateNameController.isPaused)
         {
-            if(isTimerLocked & !isSkillActive)
+            if(_isTimerLocked & !_isSkillActive)
             {
                 UseSkill();
                 OnUseSkill?.Invoke();
@@ -59,18 +55,18 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         }
     }
 
-    void UseSkill()
+    private void UseSkill()
     {
-        isSkillActive = true;
+        _isSkillActive = true;
         _cooldownTimer = _shooting.GetCooldown();
         _shooting.UpdateCooldown(timeBetweenShot);
         _shooting.UpdateSkillBonusDamage(skillBonusDamage);
         StartCoroutine(EndRapidFireSkill(durartion));
     }
 
-    public void ResetRapidFireSkill()
+    public void ResetSkill()
     {
-        if(isSkillActive)
+        if(_isSkillActive)
         {
             StopRapidFireSkill();
         }
@@ -79,14 +75,13 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
             UseSkill();
             StopRapidFireSkill();
             OnResetSkill?.Invoke();
-            Debug.Log("Reset");
         }
     }
 
     private IEnumerator EndRapidFireSkill(float interval)
     {
         yield return new WaitForSeconds(interval);
-        if(isSkillActive)
+        if(_isSkillActive)
             StopRapidFireSkill();
     }
 
@@ -95,37 +90,31 @@ public class RapidFireSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         _shooting.UpdateCooldown(_cooldownTimer);
         _shooting.UpdateSkillBonusDamage(0);
 
-        isTimerLocked = false;
-        isSkillActive = false;
+        _isTimerLocked = false;
+        _isSkillActive = false;
         _cooldownTimer = cooldown;
     }
 
     public UpgradeSO[] GetUpgrades() => upgrades;
     public Sprite GetSkillIcon() => icon;
 
-
     public void UpgradeDuration(float time)
     {
         durartion += time;
-
     }
 
     public void UpgradeCooldown(float time)
     {
         cooldown -= time;
-
     }
 
     public void UpgradeDamage(int addDamage)
     {
         skillBonusDamage += addDamage;
-
     }
 
     public void UpgradeFireRate(float time)
     {
         timeBetweenShot -= time;
-        Debug.Log(timeBetweenShot);
-
     }
 }

@@ -17,54 +17,49 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     [SerializeField] private UpgradeSO[] upgrades;
     [SerializeField] private Sprite icon;
 
-    private bool isSkillActive;
+    private bool _isSkillActive;
     private float _cooldownTimer;
-    private bool isTimerLocked = false;
-    private Player player;
+    private bool _isTimerLocked = false;
+    private Player _player;
 
-    void Start()
+    private void Start()
     {
         _cooldownTimer = cooldown;
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        _player = GetComponent<Player>();
 
         OnStartWave?.Invoke();
         OnTimerUpdate?.Invoke(_cooldownTimer); 
     }
 
-    void Update()
+    private void Update()
     {
-        if(Input.GetKeyDown("e") && !StateNameController.isPaused)
+        if(!_isTimerLocked && StateNameController.startTimers)
         {
-            if(isTimerLocked && !isSkillActive)
-            {
-                UseSkill();
-                OnUseSkill?.Invoke();
-            }
-        
-        }
-        
-    }
-
-    void FixedUpdate()
-    {
-        if(isTimerLocked == false && StateNameController.startTimers)
-        {
-            _cooldownTimer -= Time.fixedDeltaTime;
+            _cooldownTimer -= Time.deltaTime;
             OnTimerUpdate?.Invoke(_cooldownTimer); 
             if(_cooldownTimer <= 0)
             {
                 _cooldownTimer = 0;
-                isTimerLocked = true;
+                _isTimerLocked = true;
                 OnSkillCooldown?.Invoke(); 
             }
-        } 
+        }
+
+        if(Input.GetKeyDown("e") && !StateNameController.isPaused)
+        {
+            if(_isTimerLocked && !_isSkillActive)
+            {
+                UseSkill();
+                OnUseSkill?.Invoke();
+            }
+        }
     }
 
-    void UseSkill()
+    private void UseSkill()
     {
-        player.Heal(regenerationValue);
-        isSkillActive = true;
+        _player.Heal(regenerationValue);
+        _isSkillActive = true;
         StartCoroutine(Regen(healInterval));
         StartCoroutine(RegenEnd(duration));
     }
@@ -72,9 +67,9 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     private IEnumerator Regen(float interval)
     {
         yield return new WaitForSeconds(interval);
-        if(isSkillActive)
+        if(_isSkillActive)
         {
-            player.Heal(regenerationValue);
+            _player.Heal(regenerationValue);
             StartCoroutine(Regen(healInterval));
         }
     }
@@ -82,29 +77,27 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     private IEnumerator RegenEnd(float interval)
     {
         yield return new WaitForSeconds(interval);
-        if(isSkillActive)
+        if(_isSkillActive)
         {
             StopSkill();
         }
-
     }
 
     public void ResetSkill()
     {
-        if(isSkillActive)
+        if(!_isSkillActive)
         {
-            StopSkill();
-        }else{
-            OnResetSkill?.Invoke();
+           OnResetSkill?.Invoke();
             UseSkill();
-            StopSkill();
         }
+
+        StopSkill();
     }
 
-    void StopSkill()
+    private void StopSkill()
     {
-        isSkillActive = false;
-        isTimerLocked = false;
+        _isSkillActive = false;
+        _isTimerLocked = false;
         _cooldownTimer = cooldown;
     }
 

@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip Lose;
     public AudioClip Win;
     public AudioClip PlayerHit;
-    public AudioClip Shoot;
+    public AudioClip Shoot; // 0.2f
     public AudioClip LevleUp;
     public AudioClip UseSkill; // 0.5f
     public AudioClip TooltipButtonClick; // 0.7f

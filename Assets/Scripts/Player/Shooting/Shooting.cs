@@ -54,7 +54,7 @@ public class Shooting : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, transform.rotation);
             Destroy(bullet, 2f);
             Bullet bulletStats = bullet.GetComponent<Bullet>();
-            bulletStats.Initialize(_playerStats._activeATK + _skillBonusDamage, _playerStats._activeCRITRate, _playerStats._activeCRITDMG);
+            bulletStats.Initialize(_playerStats.GetActiveATK() + _skillBonusDamage, _playerStats.GetActiveCRITRate(), _playerStats.GetActiveCRITDMG());
         }
     }
 }

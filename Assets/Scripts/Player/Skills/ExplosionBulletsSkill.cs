@@ -20,74 +20,67 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     [SerializeField] private UpgradeSO[] upgrades;
     [SerializeField] private Sprite icon;
 
-    private bool isSkillActive = false;
+    private bool _isSkillActive = false;
     private float _cooldownTimer;
-    private bool isTimerLocked;
-    private bool canShoot = false;
-    private bool reload = false;
-    private ExplosionBullet bulletStats;
-    private Player playerStats;
+    private bool _isTimerLocked;
+    private bool _canShoot = false;
+    private bool _reload = false;
+    private Player _playerStats;
     private Shooting _shooting;
     private AudioManager _audioManager;
 
-    void Start()
+    private void Start()
     {
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
         _cooldownTimer = cooldown;
-        playerStats = GetComponent<Player>();
+        _playerStats = GetComponent<Player>();
         _shooting = GetComponent<Shooting>();
 
         OnStartWave?.Invoke();
         OnTimerUpdate?.Invoke(_cooldownTimer); 
     }
 
-    void Update()
+    private void Update()
     {
+        if(!_isTimerLocked && StateNameController.startTimers)
+        {
+            _cooldownTimer -= Time.deltaTime;
+            OnTimerUpdate?.Invoke(_cooldownTimer); 
+            if(_cooldownTimer <= 0)
+            {
+                _cooldownTimer = 0;
+                _isTimerLocked = true;
+                OnSkillCooldown?.Invoke();
+            }
+        }
+
         if(Input.GetKeyDown("r") && !StateNameController.isPaused)
         {
-            if(isTimerLocked && !isSkillActive)
+            if(_isTimerLocked && !_isSkillActive)
             {
-                canShoot = true;
-                isSkillActive = true;
+                _canShoot = true;
+                _isSkillActive = true;
                 _shooting.StopShooting();
                 OnUseSkill?.Invoke();
                 StartCoroutine(ShootSkillEnd(duration));
             }
         } 
-    }
 
-    void FixedUpdate()
-    {
-        if(isTimerLocked == false  && StateNameController.startTimers)
+        if(_canShoot && !_reload)
         {
-            _cooldownTimer -= Time.fixedDeltaTime;
-            OnTimerUpdate?.Invoke(_cooldownTimer); 
-            if(_cooldownTimer <= 0)
-            {
-                _cooldownTimer = 0;
-                isTimerLocked = true;
-                OnSkillCooldown?.Invoke();
-                
-            }
-        }
-
-        if(canShoot && !reload)
-        {
-            _audioManager.PlaySFX(_audioManager.Shoot);
+            _audioManager.PlaySFX(_audioManager.Shoot, 0.2f);
             Shoot();
-            reload = true;
+            _reload = true;
             StartCoroutine(ReloadShot(timeBetweenShot));
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        bulletStats = bullet.GetComponent<ExplosionBullet>();
-        bulletStats.damage = playerStats._activeATK + skillBonusDamage;
-        bulletStats.critChance = playerStats._activeCRITRate;
-        bulletStats.critDamage = playerStats._activeCRITDMG;
+        ExplosionBullet bulletStats = bullet.GetComponent<ExplosionBullet>();
+        bulletStats.Initialize(_playerStats.GetActiveATK() + skillBonusDamage, _playerStats.GetActiveCRITRate(), _playerStats.GetActiveCRITDMG());
     }
 
     public UpgradeSO[] GetUpgrades() => upgrades;
@@ -96,35 +89,29 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     private IEnumerator ReloadShot(float interval)
     {
         yield return new WaitForSeconds(interval);
-        reload = false;
+        _reload = false;
     }
 
     private IEnumerator ShootSkillEnd(float interval)
     {
         yield return new WaitForSeconds(interval);
-        if(isSkillActive)
-        {
-            StopSkill();
-        }
-        
+        if(_isSkillActive)
+            StopSkill();  
     }
 
     public void ResetSkill()
     {
-        if(isSkillActive)
-        {
-            StopSkill();
-        }else{
+        if(!_isSkillActive)
             OnResetSkill?.Invoke();
-            StopSkill();
-        }
+
+        StopSkill();
     }
 
-    void StopSkill()
+    private void StopSkill()
     {
-        canShoot = false;
-        isSkillActive = false;
-        isTimerLocked = false;
+        _canShoot = false;
+        _isSkillActive = false;
+        _isTimerLocked = false;
         _shooting.ResumeShooting();
         _cooldownTimer = cooldown;
     }
@@ -132,24 +119,20 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     public void UpgradeDuration(float time)
     {
         duration += time;
-
     }
 
     public void UpgradeCooldown(float time)
     {
         cooldown -= time;
-
     }
 
     public void UpgradeDamage(int addDamage)
     {
         skillBonusDamage += addDamage;
-
     }
 
     public void UpgradeFireRate(float time)
     {
         timeBetweenShot -= time;
-
     }
 }

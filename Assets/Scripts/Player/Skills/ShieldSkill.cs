@@ -20,7 +20,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     private float _cooldownTimer;
     private bool _isTimerLocked = false;
 
-    void Start()
+    private void Start()
     {
         _cooldownTimer = cooldown;
 
@@ -30,23 +30,11 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         OnTimerUpdate?.Invoke(_cooldownTimer);  
     }
 
-    void Update()
+    private void Update()
     {
-        if(Input.GetKeyDown("e") && !StateNameController.isPaused)
+        if(!_isTimerLocked && StateNameController.startTimers)
         {
-            if(_isTimerLocked)
-            {
-                UseSkill();
-                OnUseSkill?.Invoke();
-            }
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if(_isTimerLocked == false  && StateNameController.startTimers)
-        {
-            _cooldownTimer -= Time.fixedDeltaTime;
+            _cooldownTimer -= Time.deltaTime;
             OnTimerUpdate?.Invoke(_cooldownTimer); 
 
             if(_cooldownTimer <= 0)
@@ -56,7 +44,15 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
                 OnSkillCooldown?.Invoke(); 
             }
         }
-        
+
+        if(Input.GetKeyDown("e") && !StateNameController.isPaused)
+        {
+            if(_isTimerLocked)
+            {
+                UseSkill();
+                OnUseSkill?.Invoke();
+            }
+        }
     }
 
     public int GetShieldHealth() => health;
@@ -80,7 +76,7 @@ public class ShieldSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         OnResetSkill?.Invoke();
     }
 
-    public void ResetShieldSkill()
+    public void ResetSkill()
     {
         _cooldownTimer = cooldown;
         shield.DestroyShield();

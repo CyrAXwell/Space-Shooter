@@ -18,21 +18,19 @@ public class Player : MonoBehaviour, IUpgradeable
     private int _level = 1;
     private int _exp = 0;
     private int _maxExp = 1;
-
     private int _health;
     private int _maxHealth;
     private int _def;
     private int _damage;
     private int _critDamage;
     private int _critChance;
+    private int _activeMaxHP;
+    private int _activeHP;
+    private int _activeATK;
+    private int _activeDEF;
+    private int _activeCRITDMG;
+    private int _activeCRITRate;
     private AudioManager _audioManager;
-
-    public int _activeMaxHP;
-    public int _activeHP;
-    public int _activeATK;
-    public int _activeDEF;
-    public int _activeCRITDMG;
-    public int _activeCRITRate;
 
     public void Initialize()
     {
@@ -41,7 +39,7 @@ public class Player : MonoBehaviour, IUpgradeable
         _skills = GetComponents<ISkillDisplayable>();
     }
     
-    void Start()
+    private void Start()
     {
         _maxHealth = playerSO.Health;
         _health = _maxHealth;

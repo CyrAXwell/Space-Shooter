@@ -2,35 +2,35 @@ using UnityEngine;
 
 public class ExplosionBullet : MonoBehaviour
 {
-    public int damage;
-    public int critChance;
-    public int critDamage;
+    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private float speed;
+    [SerializeField] private LayerMask whatIsSolid;
+    [SerializeField] private float splashRange;
+    [SerializeField] private float lifeTime;
 
-    public float speed;
-    public float splashRange;
-    public float lifeTime;
-    public LayerMask whatIsSolid;
-
-    private Vector2 mPrevPos;
-    private Vector2 pos;
-
-    public GameObject hitEffect;
+    private int _damage;
+    private int _critChance;
+    private int _critDamage;
 
     private void Start()
     {
-        mPrevPos.x = transform.position.x;
-        mPrevPos.y = transform.position.y;
         Invoke("DestroyBullet", lifeTime);
+    }
+
+    public void Initialize(int damage, int critChance = 0,  int critDamage = 0)
+    {
+        _damage = damage;
+        _critChance = critChance;
+        _critDamage = critDamage;
     }
 
     private void FixedUpdate()
     {
-        mPrevPos = transform.position;
+        Vector2 mPrevPos = transform.position;
 
         transform.Translate(Vector2.up * speed * Time.deltaTime);
 
-        pos.x = transform.position.x;
-        pos.y = transform.position.y;
+        Vector2 pos = transform.position;
 
         RaycastHit2D[] hits = Physics2D.RaycastAll(mPrevPos, (pos - mPrevPos).normalized, (pos - mPrevPos).magnitude, whatIsSolid);
         for (int i = 0; i < hits.Length; i++)
@@ -40,36 +40,31 @@ public class ExplosionBullet : MonoBehaviour
                 GameObject effect = Instantiate(hitEffect, hits[i].point, Quaternion.identity);
                 Destroy(effect,0.5f);
                 ExplosionDamage(hits[i].point);
-                
             }
-
         }
-
         Debug.DrawLine(transform.position, mPrevPos);
- 
     }
 
-    void DestroyBullet() {
-        
+    private void DestroyBullet() 
+    {  
         Destroy(gameObject);
     }
 
-    void ExplosionDamage(Vector2 point)
+    private void ExplosionDamage(Vector2 point)
     {
         var hitColliders = Physics2D.OverlapCircleAll(point, splashRange);
         foreach(var hitCollider in hitColliders)
         {
             if (hitCollider.CompareTag("Enemy")) {
-                hitCollider.GetComponent<Enemy>().TakeDamage(damage, critChance, critDamage);
+                hitCollider.GetComponent<Enemy>().TakeDamage(_damage, _critChance, _critDamage);
             }
             if (hitCollider.CompareTag("EnemyShield")) {
-                hitCollider.GetComponent<EnemyShieldStats>().TakeDamage(damage);
+                hitCollider.GetComponent<EnemyShieldStats>().TakeDamage(_damage);
             }
             if (hitCollider.CompareTag("Boss")) {
-                hitCollider.GetComponent<Boss>().TakeDamage(damage, critChance, critDamage);
+                hitCollider.GetComponent<Boss>().TakeDamage(_damage, _critChance, _critDamage);
             }
         }
-        
         DestroyBullet();
     }
 }
