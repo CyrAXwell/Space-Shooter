@@ -6,12 +6,14 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private LayerMask whatIsSolid;
 
+    private ObjectPoolManager _objectPool;
     private int _damage;
     private int _critChance;
     private int _critDamage;
 
-    public void Initialize(int damage, int critChance = 0,  int critDamage = 0)
+    public void Initialize(ObjectPoolManager objectPool, int damage, int critChance = 0,  int critDamage = 0)
     {
+        _objectPool = objectPool;
         _damage = damage;
         _critChance = critChance;
         _critDamage = critDamage;
@@ -40,7 +42,8 @@ public class Bullet : MonoBehaviour
 
                 GameObject effect = Instantiate(hitEffect, hits[i].point, Quaternion.identity);
                 Destroy(effect,1f);
-                Destroy(gameObject);
+                _objectPool.ReleaseBullet(this);
+                //Destroy(gameObject);
                 break;
             }
         }

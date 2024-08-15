@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyShooting : MonoBehaviour
 {
     [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private float numbersOfShots;
     [SerializeField] private float timeBetweenShots;
     [SerializeField] private float rechargeTime;
@@ -13,6 +13,12 @@ public class EnemyShooting : MonoBehaviour
     private Enemy _enemyStats;
     private float _timer;
     private float _shotCounter;
+    private ObjectPoolManager _objectPool;
+
+    public void Initialize(ObjectPoolManager objectPool)
+    {
+        _objectPool = objectPool;
+    }
 
     private void OnEnable()
     {
@@ -47,9 +53,14 @@ public class EnemyShooting : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Bullet bulletStats = bullet.GetComponent<Bullet>();
-        bulletStats.Initialize(_enemyStats.GetDamage());
+        Bullet bullet = _objectPool.GetBullet(bulletPrefab);
+
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
+        bullet.gameObject.name = bulletPrefab.name.ToString();
+        _objectPool.ReleaseBullet(bullet, 2f);
+
+        bullet.Initialize(_objectPool, _enemyStats.GetDamage());
         
         animator.SetTrigger("Shoot");
     }

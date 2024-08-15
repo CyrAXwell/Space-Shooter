@@ -20,6 +20,7 @@ public class WaveManager : MonoBehaviour
 
     private GemManager _gemManager;
     private Player _player;
+    private ObjectPoolManager _objectPoolManager;
     private float _timer; 
     private bool _stopTimer = true;
     private bool _isBossWave = false;
@@ -28,12 +29,13 @@ public class WaveManager : MonoBehaviour
     [HideInInspector] public int waveCounter;
     
 
-    public void Initialize(GemManager gemManager, Player player)
+    public void Initialize(GemManager gemManager, Player player, ObjectPoolManager objectPoolManager)
     {
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
         _gemManager = gemManager;
         _player = player;
+        _objectPoolManager = objectPoolManager;
 
         _timer = waveDuration;
         _stopTimer = false;
@@ -41,7 +43,7 @@ public class WaveManager : MonoBehaviour
         waveCounter = 1;
 
         uIWavePanel.Initialize(this, gemManager);
-        enemySpawner.Initialize(_player, this);
+        enemySpawner.Initialize(_player, this, _objectPoolManager);
     }
     
     public int GetWave() => waveCounter;
@@ -75,7 +77,8 @@ public class WaveManager : MonoBehaviour
             
             _gemManager.CreateGems();
             GemPanelBlock.SetActive(false);
-        }else
+        }
+        else
         {
             OnBossWaveComplete?.Invoke();
         }
@@ -156,7 +159,7 @@ public class WaveManager : MonoBehaviour
 
     public void ClearObjects()
     {
-        enemySpawner.ClearPools();
+        //enemySpawner.ClearPools();
         // GameObject[] surviveEnemies =  GameObject.FindGameObjectsWithTag("Enemy");
         // foreach(GameObject surviveEnemy in surviveEnemies)
         // {

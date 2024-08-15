@@ -14648,6 +14648,7 @@ MonoBehaviour:
   skillDisplayPanel: {fileID: 968019942}
   gemManager: {fileID: 1976793813}
   waveManager: {fileID: 523118909}
+  objectPoolManager: {fileID: 999477338}
 --- !u!1 &470734747
 GameObject:
   m_ObjectHideFlags: 0
@@ -16490,7 +16491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uIWavePanel: {fileID: 523118914}
   bossHealtBar: {fileID: 1424760378}
-  waveDuration: 20
+  waveDuration: 10
   newWaveTimeIncrease: 5
   maxWaveTime: 60
   GemPanelBlock: {fileID: 1454581689}
@@ -24802,6 +24803,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &999477337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 999477339}
+  - component: {fileID: 999477338}
+  m_Layer: 0
+  m_Name: ObjectPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &999477338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999477337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad6fb2af7f78da45914ce79eee65314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &999477339
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999477337}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.1673334, y: 0.7955401, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1000714822
 GameObject:
   m_ObjectHideFlags: 0

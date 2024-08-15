@@ -10,6 +10,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private SkillDisplayPanel skillDisplayPanel;
     [SerializeField] private GemManager gemManager;
     [SerializeField] private WaveManager waveManager;
+    [SerializeField] private ObjectPoolManager objectPoolManager;
 
     private void Awake()
     {
@@ -20,8 +21,12 @@ public class Bootstrap : MonoBehaviour
     {
         gameController.InitializePlayer(waveManager);
 
+        objectPoolManager.Initialize(waveManager);
+
         Player player = gameController.GetPlayer();
         player.Initialize();
+        player.GetComponent<Shooting>().Initialize(objectPoolManager);
+
         uIShipParameters.Initialize(player);
         uIHealthBar.Initialize(player);
         uIXPBar.Initialize(player);
@@ -30,6 +35,6 @@ public class Bootstrap : MonoBehaviour
         skillDisplayPanel.Initialize(player.GetSkills());
 
         gemManager.Initialize(player);
-        waveManager.Initialize(gemManager, player);
+        waveManager.Initialize(gemManager, player, objectPoolManager);
     }
 }

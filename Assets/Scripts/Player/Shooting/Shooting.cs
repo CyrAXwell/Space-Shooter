@@ -3,7 +3,7 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     [SerializeField] private Transform[] firePoints; 
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Bullet bulletPrefab;
     [SerializeField] private float cooldown;
     [SerializeField] private Animator animator;
     
@@ -12,7 +12,13 @@ public class Shooting : MonoBehaviour
     private bool _isCooldown;
     private bool _canShoot = true;
     private int _skillBonusDamage;
+    private ObjectPoolManager _objectPool;
     private AudioManager _audioManager;
+
+    public void Initialize(ObjectPoolManager objectPool)
+    {
+        _objectPool = objectPool;
+    }
 
     private void Start()
     {
@@ -51,10 +57,13 @@ public class Shooting : MonoBehaviour
         
         foreach (Transform firePoint in firePoints)
         {
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, transform.rotation);
-            Destroy(bullet, 2f);
-            Bullet bulletStats = bullet.GetComponent<Bullet>();
-            bulletStats.Initialize(_playerStats.GetActiveATK() + _skillBonusDamage, _playerStats.GetActiveCRITRate(), _playerStats.GetActiveCRITDMG());
+            Bullet bullet = _objectPool.GetBullet(bulletPrefab);
+            bullet.transform.position = firePoint.position;
+            bullet.gameObject.name = bulletPrefab.name.ToString();
+            _objectPool.ReleaseBullet(bullet, 2f);
+            //GameObject bullet = Instantiate(bulletPrefab, firePoint.position, transform.rotation);
+            //Destroy(bullet, 2f);
+            bullet.Initialize(_objectPool, _playerStats.GetActiveATK() + _skillBonusDamage, _playerStats.GetActiveCRITRate(), _playerStats.GetActiveCRITDMG());
         }
     }
 }

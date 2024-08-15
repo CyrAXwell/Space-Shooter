@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1211378369903914431}
   m_Layer: 0
   m_Name: EnemySpawnMarker
-  m_TagString: Entity
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,11 +118,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dff07dcfa0a2fe45b1e45a840fc7237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab:
-  - {fileID: 9208478285584071749, guid: 3dc447cf87b03434d8409d1bc0aab063, type: 3}
-  - {fileID: 7144994060357231598, guid: 883285f50a4a70d4ca24e92a8f164b4b, type: 3}
-  - {fileID: 8521321186513682579, guid: ed303f79428a89e4dac8d6d8786d41b6, type: 3}
-  - {fileID: 4399735076692722489, guid: d4f6d2cc6191e8c4ab22205deb0436a1, type: 3}
-  - {fileID: 4912855352293279747, guid: 9126aca1752f680418b771980ddda6fb, type: 3}
-  - {fileID: 6181706287609022333, guid: 1f151f81fc9c30546b587051293ddf38, type: 3}
-  enemyID: 0

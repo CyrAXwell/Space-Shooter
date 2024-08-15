@@ -281,12 +281,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6e777542066a4a14ea69c929f651a037, type: 2}
   - {fileID: 11400000, guid: a2f252c1d947379458d3e33ae5a0d41c, type: 2}
   - {fileID: 11400000, guid: 6cbd9537ebee7c84a82cb293cef76eda, type: 2}
-  _activeMaxHP: 0
-  _activeHP: 0
-  _activeATK: 0
-  _activeDEF: 0
-  _activeCRITDMG: 0
-  _activeCRITRate: 0
 --- !u!114 &6193537661522627162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,7 +295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoints:
   - {fileID: 233630617557323910}
-  bulletPrefab: {fileID: 6888276821396168219, guid: fc0edce69c2f8694d95602bfe4f559e2, type: 3}
+  bulletPrefab: {fileID: 5442169122191372094, guid: 4730f3bd96ccdd149b542cbbad3812f6, type: 3}
   cooldown: 0.3
   animator: {fileID: 233630619119463064}
 --- !u!114 &233630617473281690

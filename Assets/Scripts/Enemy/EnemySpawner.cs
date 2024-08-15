@@ -15,11 +15,12 @@ public class EnemySpawner : MonoBehaviour
 
     private Player _player;
     private WaveManager _waveManager;
+    private ObjectPoolManager _objectPoolManager;
     private int[] _enemySpawnProbability = {0, 0, 0, 0, 0, 0};
     private int[] _cumulativeProbability = {0, 0, 0, 0, 0, 0};
     private float _timer;
     private Dictionary<string, CustoObjectmPool<Enemy>> _enemiesPools = new Dictionary<string, CustoObjectmPool<Enemy>>();
-    private List<GameObject> _spawnPointsOnScene = new List<GameObject>();
+    private CustoObjectmPool<EnemySpawnPoint> _spawnPointsPool;
     private AudioManager _audioManager;
     private bool _isBossWave;
     private float _redZoneL;
@@ -35,10 +36,11 @@ public class EnemySpawner : MonoBehaviour
     private float _greenZoneTop;
     private float _greenZoneBottom;
 
-    public void Initialize(Player player, WaveManager waveManager)
+    public void Initialize(Player player, WaveManager waveManager, ObjectPoolManager objectPoolManager)
     {
         _player = player;
         _waveManager = waveManager;
+        _objectPoolManager = objectPoolManager;
         waveManager.OnWaveComplete += OnWaveComplete;
         _timer = spawnInterval - 2f;
 
@@ -143,8 +145,7 @@ public class EnemySpawner : MonoBehaviour
     private void OnWaveComplete()
     {
         StopAllCoroutines();
-        foreach (GameObject spawnPoint in _spawnPointsOnScene)
-            Destroy(spawnPoint);
+        ClearPools();
     }
 
     private IEnumerator SpawnEnemyWithDelay(float interval, EnemySpawnPoint marker, int enemyID)
@@ -179,8 +180,9 @@ public class EnemySpawner : MonoBehaviour
         Vector3 spawnPos = new Vector3(Random.Range(minXPos, maxXPos), Random.Range(minYPos, maxYPos), 0);
 
         yield return new WaitForSeconds(interval);
-        GameObject enemySpawnPoint = Instantiate(marker.gameObject, spawnPos, Quaternion.identity);
-        _spawnPointsOnScene.Add(enemySpawnPoint);
+
+        EnemySpawnPoint enemySpawnPoint = _spawnPointsPool.Get();
+        enemySpawnPoint.transform.position = spawnPos;
         
         yield return new WaitForSeconds(1.5f);
 
@@ -188,11 +190,16 @@ public class EnemySpawner : MonoBehaviour
         newEnemy.Initialize(_player, _waveManager.GetWave(), _audioManager, this);
         newEnemy.transform.position = enemySpawnPoint.transform.position;
         newEnemy.name = enemysPrefabs[enemyID].ToString();
-        Destroy(enemySpawnPoint);
+        newEnemy.GetComponent<EnemyShooting>().Initialize(_objectPoolManager);
+
+
+        _spawnPointsPool.Release(enemySpawnPoint);
     }
 
     private void CreatePools()
     {
+        _spawnPointsPool = new CustoObjectmPool<EnemySpawnPoint>(enemyMarkerPrefab, 0);
+
         for (int i = 0; i < enemysPrefabs.Length; i++)
         {
             _enemiesPools.Add(enemysPrefabs[i].ToString(), new CustoObjectmPool<Enemy>(enemysPrefabs[i], 0));
@@ -204,8 +211,9 @@ public class EnemySpawner : MonoBehaviour
         _enemiesPools[enemy.name.ToString()].Release(enemy);
     }
 
-    public void ClearPools()
+    private void ClearPools()
     {
+        _spawnPointsPool.ReleaseAll();
         for (int i = 0; i < enemysPrefabs.Length; i++)
         {
             _enemiesPools[enemysPrefabs[i].ToString()].ReleaseAll();

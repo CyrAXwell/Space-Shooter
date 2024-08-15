@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5442169122191372094}
   m_Layer: 0
   m_Name: Ship 3 Bullet Raycast Prefab
-  m_TagString: Entity
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,11 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitEffect: {fileID: 964922355865631147, guid: fcce28cb1519ef648a8b3ea8b9886bb4, type: 3}
-  damage: 0
-  critChance: 0
-  critDamage: 0
   speed: 10
-  lifeTime: 2
   whatIsSolid:
     serializedVersion: 2
     m_Bits: 2240

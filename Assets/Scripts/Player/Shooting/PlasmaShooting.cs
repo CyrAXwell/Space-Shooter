@@ -30,7 +30,7 @@ public class PlasmaShooting : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet bulletStats = bullet.GetComponent<Bullet>();
-        bulletStats.Initialize(_bossStats.GetPlasmaDamage());
+        //bulletStats.Initialize(_bossStats.GetPlasmaDamage());
     }
 
     private IEnumerator ReloadShot(float interval)
