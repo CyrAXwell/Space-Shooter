@@ -14,13 +14,13 @@ public class EnemyShooting : MonoBehaviour
     private float _timer;
     private float _shotCounter;
 
-    void Start()
+    private void OnEnable()
     {
         _timer = rechargeTime + Random.Range(0f, rechargeTimeDelta);
         _enemyStats = GetComponent<Enemy>();
     }
 
-    void Update()
+    private void Update()
     {
         _timer -= Time.deltaTime;
 

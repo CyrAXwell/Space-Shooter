@@ -11,7 +11,7 @@ public class EnemyShield : MonoBehaviour
     private float _timer;
     private bool _shieldIsActive;
    
-    private void Start()
+    private void OnEnable()
     {
         _timer = activationTime;
     }

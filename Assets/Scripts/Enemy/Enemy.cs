@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int dropXP;
     
     private Player _player;
+    private EnemySpawner _spawner;
     private int _health;
     private int _defense;
     private int _damage;
@@ -22,10 +23,11 @@ public class Enemy : MonoBehaviour
     private bool _powerUp = false;
     private AudioManager _audioManager;
 
-    public void Initialize(Player player, int wave, AudioManager audioManager)
+    public void Initialize(Player player, int wave, AudioManager audioManager, EnemySpawner spawner)
     {
         _player = player;
         _wave = wave;
+        _spawner = spawner;
         _audioManager = audioManager;
         GetStatsByWave(wave);
     }
@@ -70,7 +72,8 @@ public class Enemy : MonoBehaviour
         _player.SetXP(dropXP);
         GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(effect, 0.5f);
-        Destroy(gameObject);
+        _spawner.OnEnemyDeath(this);
+        //Destroy(gameObject);
     }
 
     public void DisplayTakenDamage(string text, bool crit)

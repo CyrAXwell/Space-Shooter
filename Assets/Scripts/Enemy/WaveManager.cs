@@ -156,11 +156,12 @@ public class WaveManager : MonoBehaviour
 
     public void ClearObjects()
     {
-        GameObject[] surviveEnemies =  GameObject.FindGameObjectsWithTag("Enemy");
-        foreach(GameObject surviveEnemy in surviveEnemies)
-        {
-            Destroy(surviveEnemy);
-        }
+        enemySpawner.ClearPools();
+        // GameObject[] surviveEnemies =  GameObject.FindGameObjectsWithTag("Enemy");
+        // foreach(GameObject surviveEnemy in surviveEnemies)
+        // {
+        //     Destroy(surviveEnemy);
+        // }
 
         GameObject[] entities =  GameObject.FindGameObjectsWithTag("Entity");
         foreach(GameObject entity in entities)

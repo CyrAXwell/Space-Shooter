@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
     private int[] _enemySpawnProbability = {0, 0, 0, 0, 0, 0};
     private int[] _cumulativeProbability = {0, 0, 0, 0, 0, 0};
     private float _timer;
-    private List<Enemy> _enemiesOnScene = new List<Enemy>();
+    private Dictionary<string, CustoObjectmPool<Enemy>> _enemiesPools = new Dictionary<string, CustoObjectmPool<Enemy>>();
     private List<GameObject> _spawnPointsOnScene = new List<GameObject>();
     private AudioManager _audioManager;
     private bool _isBossWave;
@@ -41,6 +41,8 @@ public class EnemySpawner : MonoBehaviour
         _waveManager = waveManager;
         waveManager.OnWaveComplete += OnWaveComplete;
         _timer = spawnInterval - 2f;
+
+        CreatePools();
 
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
@@ -182,16 +184,31 @@ public class EnemySpawner : MonoBehaviour
         
         yield return new WaitForSeconds(1.5f);
 
+        Enemy newEnemy = _enemiesPools[enemysPrefabs[enemyID].ToString()].Get();
+        newEnemy.Initialize(_player, _waveManager.GetWave(), _audioManager, this);
+        newEnemy.transform.position = enemySpawnPoint.transform.position;
+        newEnemy.name = enemysPrefabs[enemyID].ToString();
         Destroy(enemySpawnPoint);
-        Enemy newEnemy = Instantiate(enemysPrefabs[enemyID].gameObject, spawnPos, Quaternion.identity).GetComponent<Enemy>();
-        newEnemy.Initialize(_player, _waveManager.GetWave(), _audioManager);
-        //_enemiesOnScene.Add(newEnemy);
-        //CreateEnemySpawnPoint(marker, minXPos, maxXPos, minYPos, maxYPos, enemyID);
     }
 
-    private void CreateEnemySpawnPoint(EnemySpawnPoint marker, float minXPos, float maxXPos, float minYPos, float maxYPos, int enemyID)
+    private void CreatePools()
     {
-        GameObject newEnemySpawnPoint = Instantiate(marker.gameObject, new Vector3(Random.Range(minXPos, maxXPos), Random.Range(minYPos, maxYPos), 0), Quaternion.identity);
-        newEnemySpawnPoint.GetComponent<EnemySpawnPoint>().Initialize(enemysPrefabs[enemyID]);
+        for (int i = 0; i < enemysPrefabs.Length; i++)
+        {
+            _enemiesPools.Add(enemysPrefabs[i].ToString(), new CustoObjectmPool<Enemy>(enemysPrefabs[i], 0));
+        }
+    }
+
+    public void OnEnemyDeath(Enemy enemy)
+    {
+        _enemiesPools[enemy.name.ToString()].Release(enemy);
+    }
+
+    public void ClearPools()
+    {
+        for (int i = 0; i < enemysPrefabs.Length; i++)
+        {
+            _enemiesPools[enemysPrefabs[i].ToString()].ReleaseAll();
+        }
     }
 }

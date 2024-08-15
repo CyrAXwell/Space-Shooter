@@ -17,7 +17,7 @@ public class EnemyMovement : MonoBehaviour
     private float _minY;
     private float _maxY;
 
-    void Start()
+    private void OnEnable()
     {
         _rb = GetComponent<Rigidbody2D>();
         Vector3 spawnPoint = _rb.transform.position;
@@ -35,7 +35,7 @@ public class EnemyMovement : MonoBehaviour
         _newPoint = new Vector2(Random.Range(_minX, _maxX), Random.Range(_minY, _maxY));
     }
 
-    void Update()
+    private void Update()
     {
         _rb.transform.position = Vector2.MoveTowards(_rb.transform.position, _newPoint, speed * Time.deltaTime);
 

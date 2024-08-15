@@ -16,13 +16,13 @@ public class EnemyLaserShooting : MonoBehaviour
     private float _timer;
     private bool _canDamage = true;
 
-    void Start()
+    private void OnEnable()
     {
         _timer = rechargeTime + Random.Range(0f, rechargeTimeDelta);
         _enemyStats = GetComponent<Enemy>();
     }
 
-    void Update()
+    private void Update()
     {
         if ( _timer > 0)
         {
