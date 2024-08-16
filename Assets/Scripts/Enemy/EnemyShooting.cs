@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyShooting : MonoBehaviour
@@ -58,7 +59,7 @@ public class EnemyShooting : MonoBehaviour
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
         bullet.gameObject.name = bulletPrefab.name.ToString();
-        _objectPool.ReleaseBullet(bullet, 2f);
+        _objectPool.ReleaseBullet(bullet, 3f);
 
         bullet.Initialize(_objectPool, _enemyStats.GetDamage());
         

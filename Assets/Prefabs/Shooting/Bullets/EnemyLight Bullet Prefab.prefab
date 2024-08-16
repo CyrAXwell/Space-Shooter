@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800354963f6ae6442ae1dc5003507be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitEffect: {fileID: 964922355865631147, guid: fcce28cb1519ef648a8b3ea8b9886bb4, type: 3}
+  hitEffect: {fileID: 997997662225579002, guid: fcce28cb1519ef648a8b3ea8b9886bb4, type: 3}
   speed: 7
   whatIsSolid:
     serializedVersion: 2

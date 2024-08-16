@@ -60,9 +60,7 @@ public class Shooting : MonoBehaviour
             Bullet bullet = _objectPool.GetBullet(bulletPrefab);
             bullet.transform.position = firePoint.position;
             bullet.gameObject.name = bulletPrefab.name.ToString();
-            _objectPool.ReleaseBullet(bullet, 2f);
-            //GameObject bullet = Instantiate(bulletPrefab, firePoint.position, transform.rotation);
-            //Destroy(bullet, 2f);
+            _objectPool.ReleaseBullet(bullet, 1f);
             bullet.Initialize(_objectPool, _playerStats.GetActiveATK() + _skillBonusDamage, _playerStats.GetActiveCRITRate(), _playerStats.GetActiveCRITDMG());
         }
     }

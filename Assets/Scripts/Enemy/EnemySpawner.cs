@@ -187,7 +187,7 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         Enemy newEnemy = _enemiesPools[enemysPrefabs[enemyID].ToString()].Get();
-        newEnemy.Initialize(_player, _waveManager.GetWave(), _audioManager, this);
+        newEnemy.Initialize(_player, _waveManager.GetWave(), _audioManager, this, _objectPoolManager);
         newEnemy.transform.position = enemySpawnPoint.transform.position;
         newEnemy.name = enemysPrefabs[enemyID].ToString();
         newEnemy.GetComponent<EnemyShooting>().Initialize(_objectPoolManager);

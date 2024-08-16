@@ -9,9 +9,7 @@ public class Player : MonoBehaviour, IUpgradeable
     public event Action OnLevelUp;
     public event Action OnDeath;
     
-    [SerializeField] private GameObject deathEffect;
     [SerializeField] private PlayerSO playerSO;
-    [SerializeField] private AudioSource hitSound;
     [SerializeField] private UpgradeSO[] upgrades;
 
     private ISkillDisplayable[] _skills;
@@ -79,8 +77,6 @@ public class Player : MonoBehaviour, IUpgradeable
 
     private void Death()
     {
-        GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
-        Destroy(effect, 0.5f);
         OnDeath?.Invoke();
     }
 

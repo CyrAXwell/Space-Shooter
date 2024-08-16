@@ -7,15 +7,16 @@ public class Enemy : MonoBehaviour
     public event Action OnDeath;
 
     [SerializeField] private EnemySO enemySO;
-    [SerializeField] private GameObject damageText;
+    [SerializeField] private ExplosionEffect damageText;
     [SerializeField] private Vector3 offsetTextPosition;
     [SerializeField] private Color critColor;
     [SerializeField] private GameObject powerUpIcon;
-    [SerializeField] private GameObject deathEffect;
+    [SerializeField] private ExplosionEffect deathEffect;
     [SerializeField] private int dropXP;
     
     private Player _player;
     private EnemySpawner _spawner;
+    private ObjectPoolManager _objectPool;
     private int _health;
     private int _defense;
     private int _damage;
@@ -23,11 +24,12 @@ public class Enemy : MonoBehaviour
     private bool _powerUp = false;
     private AudioManager _audioManager;
 
-    public void Initialize(Player player, int wave, AudioManager audioManager, EnemySpawner spawner)
+    public void Initialize(Player player, int wave, AudioManager audioManager, EnemySpawner spawner, ObjectPoolManager objectPool)
     {
         _player = player;
         _wave = wave;
         _spawner = spawner;
+        _objectPool = objectPool;
         _audioManager = audioManager;
         GetStatsByWave(wave);
     }
@@ -70,19 +72,22 @@ public class Enemy : MonoBehaviour
     private void Death()
     {
         _player.SetXP(dropXP);
-        GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
-        Destroy(effect, 0.5f);
+        ExplosionEffect effect = _objectPool.GetEffect(deathEffect);
+        effect.transform.position = transform.position;
+        effect.gameObject.name = deathEffect.name.ToString();
+        _objectPool.ReleaseEffect(effect, 0.5f);
         _spawner.OnEnemyDeath(this);
-        //Destroy(gameObject);
     }
 
     public void DisplayTakenDamage(string text, bool crit)
     {
-        GameObject displayText = Instantiate(damageText, transform.position + offsetTextPosition, Quaternion.identity);
-        Destroy(displayText,0.5f);
-        displayText.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
+        ExplosionEffect effect = _objectPool.GetEffect(damageText);
+        effect.transform.position = transform.position + offsetTextPosition;
+        effect.gameObject.name = damageText.name.ToString();
+        _objectPool.ReleaseEffect(effect, 0.5f);
+        effect.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
         if(crit)
-            displayText.transform.GetChild(0).GetComponent<TMP_Text>().color = critColor;   
+            effect.transform.GetChild(0).GetComponent<TMP_Text>().color = critColor;   
     }
 
     void OnTriggerEnter2D(Collider2D collider)
