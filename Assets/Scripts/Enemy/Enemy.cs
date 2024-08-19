@@ -105,13 +105,13 @@ public class Enemy : MonoBehaviour
         if (collider.gameObject.tag == "PowerUp" && !_powerUp)
         {
            powerUpIcon.SetActive(true);
-           _defense = (int)Mathf.Round(_defense * collider.transform.parent.GetComponent<PowerUp>().multiplier); 
-           _damage = (int)Mathf.Round(_damage * collider.transform.parent.GetComponent<PowerUp>().multiplier);
+           _defense = (int)Mathf.Round(_defense * collider.transform.parent.GetComponent<PowerUp>().GetPowerMultiplier()); 
+           _damage = (int)Mathf.Round(_damage * collider.transform.parent.GetComponent<PowerUp>().GetPowerMultiplier());
            _powerUp = true; 
         }
     }
 
-    public void DeActivatePowerUp(Collider2D collider)
+    private void DeActivatePowerUp(Collider2D collider)
     {
         if (collider.gameObject.tag == "PowerUp")
         {

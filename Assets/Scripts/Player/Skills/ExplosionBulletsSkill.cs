@@ -16,7 +16,6 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     [SerializeField] float timeBetweenShot;
     [SerializeField] private float cooldown;
     [SerializeField] private float duration;
-    [SerializeField] AudioSource shootSound;
     [SerializeField] private UpgradeSO[] upgrades;
     [SerializeField] private Sprite icon;
 

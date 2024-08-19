@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour
     [Header("UI")]
     public AudioClip ButtonClick; // 0.7f
     public AudioClip BackButtonClick; // 1f?
-    public AudioClip CharacterSelection; // 1f? - 0.7f
+    public AudioClip CharacterSelection; //0.7f
     public AudioClip EnemyHit; // 0.3f
     public AudioClip WaveComplete; // 0.5f
     public AudioClip Lose; // 0.7f

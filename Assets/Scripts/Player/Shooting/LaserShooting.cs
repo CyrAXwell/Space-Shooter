@@ -12,12 +12,12 @@ public class LaserShooting : MonoBehaviour
     private bool _canShoot = false;
     private EnemyBossShooting _bossStats;
 
-    void Start()
+    private void Start()
     {
         _bossStats = transform.parent.parent.GetComponent<EnemyBossShooting>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if(_canShoot)
         {

@@ -30,5 +30,5 @@ public class CharacterSelactManager : MonoBehaviour
     }
 
     public void PlaySoundOnSelectCharracter() =>
-        _audioManager.PlaySFX(_audioManager.CharacterSelection);
+        _audioManager.PlaySFX(_audioManager.CharacterSelection, 0.7f);
 }

@@ -114,13 +114,13 @@ public class WaveManager : MonoBehaviour
         OnGameWin?.Invoke();
     }
 
-    void PauseGame()
+    private void PauseGame()
     {
         Time.timeScale = 0f;
         StateNameController.isPaused = true;
     }
 
-    void UnPauseGame()
+    private void UnPauseGame()
     {
         Time.timeScale = 1f;
         StateNameController.isPaused = false;
@@ -148,7 +148,7 @@ public class WaveManager : MonoBehaviour
         UnPauseGame();
     }
 
-    void BossWave()
+    private void BossWave()
     {
         _timer = 90f;
         _isBossWave = true;
@@ -159,13 +159,6 @@ public class WaveManager : MonoBehaviour
 
     public void ClearObjects()
     {
-        //enemySpawner.ClearPools();
-        // GameObject[] surviveEnemies =  GameObject.FindGameObjectsWithTag("Enemy");
-        // foreach(GameObject surviveEnemy in surviveEnemies)
-        // {
-        //     Destroy(surviveEnemy);
-        // }
-
         GameObject[] entities =  GameObject.FindGameObjectsWithTag("Entity");
         foreach(GameObject entity in entities)
         {

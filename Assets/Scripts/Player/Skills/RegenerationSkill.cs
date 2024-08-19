@@ -102,7 +102,6 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     }
 
     public UpgradeSO[] GetUpgrades() => upgrades;
-
     public Sprite GetSkillIcon() => icon;
 
     public void UpgradeCooldown(float time)

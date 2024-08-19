@@ -7,14 +7,14 @@ public class CharacterController : MonoBehaviour
 
     private Vector2 _direction;
     private Rigidbody2D _rb2D;
-    public float currentSpeed = 0f;
+    private float _currentSpeed;
 
-    void Start()
+    private void Start()
     {
         _rb2D = GetComponent<Rigidbody2D>();
     }
     
-    void Update() {
+    private void Update() {
         _direction.x = Input.GetAxisRaw("Horizontal");
         _direction.y = Input.GetAxisRaw("Vertical");
         
@@ -22,18 +22,18 @@ public class CharacterController : MonoBehaviour
 
         if(_direction.magnitude > 0f)
         {
-            currentSpeed += Time.deltaTime * acceleration;
-            currentSpeed = currentSpeed > speed ? speed : currentSpeed;
+            _currentSpeed += Time.deltaTime * acceleration;
+            _currentSpeed = _currentSpeed > speed ? speed : _currentSpeed;
         }
         else
         {
-            currentSpeed = 0;
+            _currentSpeed = 0;
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        _rb2D.velocity = _direction * currentSpeed;
+        _rb2D.velocity = _direction * _currentSpeed;
     }
 
 }

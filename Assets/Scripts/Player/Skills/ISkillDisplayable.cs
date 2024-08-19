@@ -10,5 +10,4 @@ public interface ISkillDisplayable
     public event Action<float> OnTimerUpdate;
 
     public Sprite GetSkillIcon();
-
 }

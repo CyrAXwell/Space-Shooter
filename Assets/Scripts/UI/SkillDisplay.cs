@@ -7,7 +7,6 @@ public class SkillDisplay : MonoBehaviour
     [SerializeField] private Color backgroundSkillOffColor; // "#16181b"
     [SerializeField] private Color backgroundSkillOnColor; // "#3557d2"
     [SerializeField] private Color iconSkillOffColor; // "#2d3234"
-    [SerializeField] AudioSource skillSound;
 
     private ISkillDisplayable _skill;
     private AudioManager _audioManager;

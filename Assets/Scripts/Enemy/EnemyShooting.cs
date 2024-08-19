@@ -52,7 +52,7 @@ public class EnemyShooting : MonoBehaviour
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
         Bullet bullet = _objectPool.GetObject(bulletPrefab).GetComponent<Bullet>();
 

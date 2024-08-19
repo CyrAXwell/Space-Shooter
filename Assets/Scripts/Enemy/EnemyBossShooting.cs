@@ -122,13 +122,13 @@ public class EnemyBossShooting : MonoBehaviour
         } 
     }
 
-    void FullLaserAttack()
+    private void FullLaserAttack()
     {
         SideLaserAttack();
         MidLaserAttack();
     }
 
-    void SideLaserAttack()
+    private void SideLaserAttack()
     {
         foreach(LaserShooting laser in laserL)
         {
@@ -143,7 +143,7 @@ public class EnemyBossShooting : MonoBehaviour
         }
     }
 
-    void MidLaserAttack()
+    private void MidLaserAttack()
     {
         foreach(LaserShooting laser in laserM)
         {
@@ -152,7 +152,7 @@ public class EnemyBossShooting : MonoBehaviour
         }
     }
 
-    void FullPlasmaAttack()
+    private void FullPlasmaAttack()
     {
         PlasmaAttackM();
         PlasmaAttackL1();
@@ -161,7 +161,7 @@ public class EnemyBossShooting : MonoBehaviour
         PlasmaAttackR2(); 
     }
 
-    void SidePlasmaAttack()
+    private void SidePlasmaAttack()
     {
         PlasmaAttackL1();
         PlasmaAttackL2();
@@ -169,19 +169,19 @@ public class EnemyBossShooting : MonoBehaviour
         PlasmaAttackR2();
     }
 
-    void Side1PlasmaAttack()
+    private void Side1PlasmaAttack()
     {
         PlasmaAttackL1();
         PlasmaAttackR1();
     }
 
-    void Side2PlasmaAttack()
+    private void Side2PlasmaAttack()
     {
         PlasmaAttackL2();
         PlasmaAttackR2();
     }
 
-    void PlasmaAttackM()
+    private void PlasmaAttackM()
     {
         foreach(PlasmaShooting plasma in plasmaM)
         {
@@ -190,7 +190,7 @@ public class EnemyBossShooting : MonoBehaviour
         }
     }
 
-    void PlasmaAttackL1()
+    private void PlasmaAttackL1()
     {
         int i = 4;
         foreach(PlasmaShooting plasma in plasmaL1)
@@ -200,7 +200,7 @@ public class EnemyBossShooting : MonoBehaviour
         }
     }
 
-    void PlasmaAttackL2()
+    private void PlasmaAttackL2()
     {
         int i = 4;
         foreach(PlasmaShooting plasma in plasmaL2)
@@ -210,7 +210,7 @@ public class EnemyBossShooting : MonoBehaviour
         }
     }
 
-    void PlasmaAttackR1()
+    private void PlasmaAttackR1()
     {
         int i = 4;
         foreach(PlasmaShooting plasma in plasmaR1)
@@ -220,7 +220,7 @@ public class EnemyBossShooting : MonoBehaviour
         }
     }
 
-    void PlasmaAttackR2()
+    private void PlasmaAttackR2()
     {
         int i = 4;
         foreach(PlasmaShooting plasma in plasmaR2)

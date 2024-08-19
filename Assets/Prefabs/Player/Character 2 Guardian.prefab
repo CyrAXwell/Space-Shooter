@@ -245,7 +245,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4712229823008675169, guid: 4d592333432018e4b9c436b81c58281a, type: 3}
   skillBonusDamage: 25
   timeBetweenShot: 0.4
-  cooldown: 2
+  cooldown: 10
   duration: 5
   shootSound: {fileID: 0}
   upgrades:

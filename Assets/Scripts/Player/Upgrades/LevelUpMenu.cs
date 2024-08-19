@@ -56,7 +56,6 @@ public class LevelUpMenu : MonoBehaviour
         }
     }
 
-
     public void SelectRerollButton()
     {
         if(rerollButton.interactable)
