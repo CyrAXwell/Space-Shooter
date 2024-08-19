@@ -57,10 +57,10 @@ public class Shooting : MonoBehaviour
         
         foreach (Transform firePoint in firePoints)
         {
-            Bullet bullet = _objectPool.GetBullet(bulletPrefab);
+            Bullet bullet = _objectPool.GetObject(bulletPrefab).GetComponent<Bullet>();
             bullet.transform.position = firePoint.position;
             bullet.gameObject.name = bulletPrefab.name.ToString();
-            _objectPool.ReleaseBullet(bullet, 1f);
+            _objectPool.ReleaseObject(bullet, 1f);
             bullet.Initialize(_objectPool, _playerStats.GetActiveATK() + _skillBonusDamage, _playerStats.GetActiveCRITRate(), _playerStats.GetActiveCRITDMG());
         }
     }

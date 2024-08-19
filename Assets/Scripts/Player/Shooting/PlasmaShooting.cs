@@ -34,12 +34,12 @@ public class PlasmaShooting : MonoBehaviour
 
     private void Shoot()
     {
-        Bullet bullet = _objectPool.GetBullet(bulletPrefab);
+        Bullet bullet = _objectPool.GetObject(bulletPrefab).GetComponent<Bullet>();
         bullet.gameObject.name = bulletPrefab.name.ToString();
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
         bullet.Initialize(_objectPool, _bossStats.GetPlasmaDamage());
-        _objectPool.ReleaseBullet(bullet, 3f);
+        _objectPool.ReleaseObject(bullet, 3f);
     }
 
     private IEnumerator ReloadShot(float interval)

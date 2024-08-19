@@ -40,11 +40,11 @@ public class Bullet : MonoBehaviour
                     case "Shield" : hits[i].collider.GetComponent<Shield>().TakeDamage(_damage); break;
                 }                    
 
-                ExplosionEffect effect = _objectPool.GetEffect(hitEffect);
+                ExplosionEffect effect = _objectPool.GetObject(hitEffect).GetComponent<ExplosionEffect>();
                 effect.gameObject.name = hitEffect.name.ToString();
                 effect.transform.position = hits[i].point;
-                _objectPool.ReleaseEffect(effect, 1f);
-                _objectPool.ReleaseBullet(this);
+                _objectPool.ReleaseObject(effect, 1f);
+                _objectPool.ReleaseObject(this);
                 break;
             }
         }

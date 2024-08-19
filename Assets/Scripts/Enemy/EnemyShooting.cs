@@ -54,12 +54,12 @@ public class EnemyShooting : MonoBehaviour
 
     void Shoot()
     {
-        Bullet bullet = _objectPool.GetBullet(bulletPrefab);
+        Bullet bullet = _objectPool.GetObject(bulletPrefab).GetComponent<Bullet>();
 
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
         bullet.gameObject.name = bulletPrefab.name.ToString();
-        _objectPool.ReleaseBullet(bullet, 3f);
+        _objectPool.ReleaseObject(bullet, 3f);
 
         bullet.Initialize(_objectPool, _enemyStats.GetDamage());
         

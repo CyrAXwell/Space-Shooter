@@ -72,30 +72,30 @@ public class Enemy : MonoBehaviour
     private void Death()
     {
         _player.SetXP(dropXP);
-        ExplosionEffect effect = _objectPool.GetEffect(deathEffect);
+        ExplosionEffect effect = _objectPool.GetObject(deathEffect).GetComponent<ExplosionEffect>();
         effect.transform.position = transform.position;
         effect.gameObject.name = deathEffect.name.ToString();
-        _objectPool.ReleaseEffect(effect, 0.5f);
+        _objectPool.ReleaseObject(effect, 0.5f);
         _spawner.OnEnemyDeath(this);
     }
 
     public void DisplayTakenDamage(string text, bool crit)
     {
-        ExplosionEffect effect = _objectPool.GetEffect(damageText);
+        ExplosionEffect effect = _objectPool.GetObject(damageText).GetComponent<ExplosionEffect>();
         effect.transform.position = transform.position + offsetTextPosition;
         effect.gameObject.name = damageText.name.ToString();
-        _objectPool.ReleaseEffect(effect, 0.5f);
+        _objectPool.ReleaseObject(effect, 0.5f);
         effect.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
         if(crit)
             effect.transform.GetChild(0).GetComponent<TMP_Text>().color = critColor;   
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
         ActivatePowerUp(collider);
     }
 
-    void OnTriggerExit2D(Collider2D collider)
+    private void OnTriggerExit2D(Collider2D collider)
     {
         DeActivatePowerUp(collider);
     }
