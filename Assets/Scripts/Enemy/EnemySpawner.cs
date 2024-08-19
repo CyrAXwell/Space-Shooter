@@ -71,6 +71,7 @@ public class EnemySpawner : MonoBehaviour
         _isBossWave = true;
         Boss boss = Instantiate(bossPrefab.gameObject ,new Vector3(0f, 3.54f, 0f), Quaternion.identity).GetComponent<Boss>();
         boss.Initialize();
+        boss.GetComponent<EnemyBossShooting>().Initialize(_objectPoolManager);
         bossHealthBar.Initialize(boss);
 
         return boss;

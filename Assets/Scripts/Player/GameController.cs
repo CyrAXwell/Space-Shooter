@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour
         gameOverScreen.OpenGameOverMenu();
         PauseGame();
 
-        _waveManager.ClearObjects();
+        //_waveManager.ClearObjects();
     }
 
     private void GameWin()
@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour
         gameOverScreen.OpenGameWinMenu();
         PauseGame();
 
-        _waveManager.ClearObjects();
+        //_waveManager.ClearObjects();
     }
     
     private void CreatePlayer(Player character)

@@ -4,12 +4,18 @@ using UnityEngine;
 public class PlasmaShooting : MonoBehaviour
 {
     [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Bullet bulletPrefab;
 
     private EnemyBossShooting _bossStats;
+    private ObjectPoolManager _objectPool;
     private bool _canShoot = false;
     private bool _reload = false;
     private float _timeBetweenShot = 0f;
+
+    public void Initialize(ObjectPoolManager objectPool)
+    {
+        _objectPool = objectPool;
+    }
 
     private void Start()
     {
@@ -28,7 +34,12 @@ public class PlasmaShooting : MonoBehaviour
 
     private void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Bullet bullet = _objectPool.GetBullet(bulletPrefab);
+        bullet.gameObject.name = bulletPrefab.name.ToString();
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
+        bullet.Initialize(_objectPool, _bossStats.GetPlasmaDamage());
+        _objectPool.ReleaseBullet(bullet, 3f);
     }
 
     private IEnumerator ReloadShot(float interval)

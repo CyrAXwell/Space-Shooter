@@ -106,7 +106,7 @@ public class WaveManager : MonoBehaviour
         }
         _player.FullHeal();
 
-        ClearObjects(); //spawner
+        //ClearObjects(); //spawner
     }
 
     public void OnBossDeath()
@@ -133,7 +133,7 @@ public class WaveManager : MonoBehaviour
         waveCounter ++;
         GemPanelBlock.SetActive(true);
         
-        if(waveCounter == 20)
+        if(waveCounter == 2)
             BossWave();
         else
             enemySpawner.UpdateProbability(waveCounter);  
@@ -141,7 +141,7 @@ public class WaveManager : MonoBehaviour
         if(gemToolTip.activeInHierarchy)
             gemToolTip.SetActive(false);
 
-        ClearObjects();
+        //ClearObjects();
         _player.FullHeal();
 
         OnStartNewWave?.Invoke();

@@ -21,6 +21,23 @@ public class EnemyBossShooting : MonoBehaviour
     private bool _isCooldown = true;
     private float _timer;
     private int _attackID;
+    private ObjectPoolManager _objectPool;
+
+    public void Initialize(ObjectPoolManager objectPool)
+    {
+        _objectPool = objectPool;
+        InitializePlasmaGun(plasmaM);
+        InitializePlasmaGun(plasmaL1);
+        InitializePlasmaGun(plasmaL2);
+        InitializePlasmaGun(plasmaR1);
+        InitializePlasmaGun(plasmaR2);
+    }
+
+    private void InitializePlasmaGun(PlasmaShooting[] plasmaGuns)
+    {
+        foreach (var plasmaGun in plasmaGuns)
+            plasmaGun.Initialize(_objectPool);
+    }
 
     private void Start()
     {
