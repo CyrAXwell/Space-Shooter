@@ -2,23 +2,20 @@ using UnityEngine;
 
 public class ExplosionBullet : MonoBehaviour
 {
-    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private ExplosionEffect hitEffect;
     [SerializeField] private float speed;
     [SerializeField] private LayerMask whatIsSolid;
     [SerializeField] private float splashRange;
     [SerializeField] private float lifeTime;
 
+    private ObjectPoolManager _objectPool;
     private int _damage;
     private int _critChance;
     private int _critDamage;
 
-    private void Start()
+    public void Initialize(ObjectPoolManager objectPool, int damage, int critChance = 0,  int critDamage = 0)
     {
-        Invoke("DestroyBullet", lifeTime);
-    }
-
-    public void Initialize(int damage, int critChance = 0,  int critDamage = 0)
-    {
+        _objectPool = objectPool;
         _damage = damage;
         _critChance = critChance;
         _critDamage = critDamage;
@@ -37,34 +34,24 @@ public class ExplosionBullet : MonoBehaviour
         {
             if (hits[i].collider != null) 
             {
-                GameObject effect = Instantiate(hitEffect, hits[i].point, Quaternion.identity);
-                Destroy(effect,0.5f);
-                ExplosionDamage(hits[i].point);
+                var hitColliders = Physics2D.OverlapCircleAll(hits[i].point, splashRange);
+                foreach(var hitCollider in hitColliders)
+                {
+                    switch (hitCollider.tag)
+                    {
+                        case "Enemy" : hitCollider.GetComponent<Enemy>().TakeDamage(_damage, _critChance, _critDamage); break;
+                        case "EnemyShield" : hitCollider.GetComponent<EnemyShieldStats>().TakeDamage(_damage); break;
+                        case "Boss" : hitCollider.GetComponent<Boss>().TakeDamage(_damage, _critChance, _critDamage); break;
+                    }
+                }
+                ExplosionEffect effect = _objectPool.GetObject(hitEffect).GetComponent<ExplosionEffect>();
+                effect.gameObject.name = hitEffect.name.ToString();
+                effect.transform.position = hits[i].point;
+                _objectPool.ReleaseObject(effect, 0.5f);
+                _objectPool.ReleaseObject(this);
+                break;
             }
         }
         Debug.DrawLine(transform.position, mPrevPos);
-    }
-
-    private void DestroyBullet() 
-    {  
-        Destroy(gameObject);
-    }
-
-    private void ExplosionDamage(Vector2 point)
-    {
-        var hitColliders = Physics2D.OverlapCircleAll(point, splashRange);
-        foreach(var hitCollider in hitColliders)
-        {
-            if (hitCollider.CompareTag("Enemy")) {
-                hitCollider.GetComponent<Enemy>().TakeDamage(_damage, _critChance, _critDamage);
-            }
-            if (hitCollider.CompareTag("EnemyShield")) {
-                hitCollider.GetComponent<EnemyShieldStats>().TakeDamage(_damage);
-            }
-            if (hitCollider.CompareTag("Boss")) {
-                hitCollider.GetComponent<Boss>().TakeDamage(_damage, _critChance, _critDamage);
-            }
-        }
-        DestroyBullet();
     }
 }

@@ -25,7 +25,7 @@ public class EnemyShieldStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        _audioManager.PlaySFX(_audioManager.EnemyHit);
+        _audioManager.PlaySFX(_audioManager.EnemyHit, 0.3f);
 
         _health -= damage;
         transform.parent.GetComponent<Enemy>().DisplayTakenDamage(damage.ToString(), false);

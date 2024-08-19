@@ -15,10 +15,12 @@ public class GameController : MonoBehaviour
     private Player _player;
     private AudioManager _audioManager;
     private WaveManager _waveManager;
+    ObjectPoolManager _objectPool;
 
-    public void InitializePlayer(WaveManager waveManager)
+    public void InitializePlayer(WaveManager waveManager, ObjectPoolManager objectPool)
     {
         PauseGame();
+        _objectPool = objectPool;
         CreateCharacter();
         DisplayControlsTips();
 
@@ -38,7 +40,7 @@ public class GameController : MonoBehaviour
 
     public void CloseControlsTips()
     {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         ControlsTipsPanel.SetActive(false);
         ResumeGame();
         StateNameController.startTimers = true;
@@ -46,22 +48,18 @@ public class GameController : MonoBehaviour
 
     private void GameOver()
     {
-        _audioManager.PlaySFX(_audioManager.Lose);
+        _audioManager.PlaySFX(_audioManager.Lose, 0.7f);
 
         gameOverScreen.OpenGameOverMenu();
         PauseGame();
-
-        //_waveManager.ClearObjects();
     }
 
     private void GameWin()
     {
-        _audioManager.PlaySFX(_audioManager.Win);
+        _audioManager.PlaySFX(_audioManager.Win, 0.7f);
 
         gameOverScreen.OpenGameWinMenu();
         PauseGame();
-
-        //_waveManager.ClearObjects();
     }
     
     private void CreatePlayer(Player character)
@@ -69,6 +67,13 @@ public class GameController : MonoBehaviour
         GameObject playerObject = Instantiate(character.gameObject, new Vector3(0f, -4.5f, 0f), Quaternion.identity);
         _player = playerObject.GetComponent<Player>();
         _player.OnDeath += GameOver;
+
+        ExplosionBulletsSkill explosionSkill = playerObject.GetComponent<ExplosionBulletsSkill>();
+        if ( explosionSkill!= null)
+        {
+            explosionSkill.Initialize(_objectPool);
+            Debug.Log("Explosion skill");
+        }
 
         characterName.text = _player.GetName();
     }

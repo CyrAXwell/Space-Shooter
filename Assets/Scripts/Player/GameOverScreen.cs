@@ -30,14 +30,14 @@ public class GameOverScreen : MonoBehaviour
 
     public void MainMenu()
     {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         _gameController.ResumeGame();
         SceneManager.LoadScene(0);
     }
 
     public void GameQuit()
     {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         Application.Quit();
     }
     

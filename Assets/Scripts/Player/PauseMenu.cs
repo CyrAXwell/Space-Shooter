@@ -45,20 +45,20 @@ public class PauseMenu : MonoBehaviour
 
     public void OnResumeButton()
     {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         ResumeGame();
     }
 
     public void OnMainMenuButton()
     {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         _gameController.ResumeGame();
         SceneManager.LoadScene(0);
     }
 
     public void OnGameQuitButton()
     {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         Application.Quit();
     }
 

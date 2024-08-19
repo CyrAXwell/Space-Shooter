@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,7 +16,7 @@ public class CharacterSelactManager : MonoBehaviour
 
     public void StartButton()
     {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
         StateNameController.character = toggle.name;
         StateNameController.startTimers = false;

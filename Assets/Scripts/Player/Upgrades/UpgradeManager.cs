@@ -75,7 +75,7 @@ public class UpgradeManager : MonoBehaviour
         UpgradePlayer(upgradeSelector);
         uiUpgradeDisplay.UpdateDisplay(upgradeSelector.GetUpgradeSlot(), upgradeSelector.GetUpgradeLeds(), upgradeSelector.GetUpgradeTier());
 
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
     }
 
     private void UpgradePlayer(UpgradeSelector upgradeSelector)

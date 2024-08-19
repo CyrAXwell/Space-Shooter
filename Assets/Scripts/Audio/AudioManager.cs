@@ -6,16 +6,16 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource sFXSource;
 
     [Header("UI")]
-    public AudioClip ButtonClick;
-    public AudioClip BackButtonClick;
-    public AudioClip CharacterSelection;
+    public AudioClip ButtonClick; // 0.7f
+    public AudioClip BackButtonClick; // 1f?
+    public AudioClip CharacterSelection; // 1f? - 0.7f
     public AudioClip EnemyHit; // 0.3f
-    public AudioClip WaveComplete;
-    public AudioClip Lose;
-    public AudioClip Win;
-    public AudioClip PlayerHit;
+    public AudioClip WaveComplete; // 0.5f
+    public AudioClip Lose; // 0.7f
+    public AudioClip Win; // 0.7f
+    public AudioClip PlayerHit; // 0.7f
     public AudioClip Shoot; // 0.2f
-    public AudioClip LevleUp;
+    public AudioClip LevleUp; // 1f?
     public AudioClip UseSkill; // 0.5f
     public AudioClip TooltipButtonClick; // 0.7f
 

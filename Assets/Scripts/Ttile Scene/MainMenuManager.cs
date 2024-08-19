@@ -16,13 +16,13 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayButton()
     {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         SceneManager.LoadScene(1);
     }
 
     public void QuitButton()
     {
-        _audioManager.PlaySFX(_audioManager.ButtonClick);
+        _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         Application.Quit();
     }
 

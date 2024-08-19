@@ -167,9 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9dc437d89c8a14f8f72d1f057b8f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
   playerSO: {fileID: 11400000, guid: c0b6b1df2f2e9d1448c559175f61d8a0, type: 2}
-  hitSound: {fileID: 0}
   upgrades:
   - {fileID: 11400000, guid: 967ad022f7636ae4797a5c259e34ebb2, type: 2}
   - {fileID: 11400000, guid: 6f70464b35cb63545b6a02fc1a3f45c7, type: 2}
@@ -191,7 +189,7 @@ MonoBehaviour:
   firePoints:
   - {fileID: 6167659551740508186}
   - {fileID: 6167659552369845492}
-  bulletPrefab: {fileID: 7115516153618641995, guid: fc0edce69c2f8694d95602bfe4f559e2, type: 3}
+  bulletPrefab: {fileID: 5442169122191372094, guid: 4730f3bd96ccdd149b542cbbad3812f6, type: 3}
   cooldown: 0.19
   animator: {fileID: 6167659552546145144}
 --- !u!114 &6167659550603263515
@@ -244,10 +242,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 6167659552662074291}
-  bulletPrefab: {fileID: 7902670283811651914, guid: 4d592333432018e4b9c436b81c58281a, type: 3}
+  bulletPrefab: {fileID: 4712229823008675169, guid: 4d592333432018e4b9c436b81c58281a, type: 3}
   skillBonusDamage: 25
   timeBetweenShot: 0.4
-  cooldown: 10
+  cooldown: 2
   duration: 5
   shootSound: {fileID: 0}
   upgrades:

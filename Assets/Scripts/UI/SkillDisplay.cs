@@ -39,7 +39,7 @@ public class SkillDisplay : MonoBehaviour
 
     private void OnUseSkill()
     {
-        _audioManager.PlaySFX(_audioManager.UseSkill, 0.7f);
+        _audioManager.PlaySFX(_audioManager.UseSkill, 0.5f);
 
         DisplaySkillActive();
     }

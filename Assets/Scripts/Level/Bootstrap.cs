@@ -19,7 +19,7 @@ public class Bootstrap : MonoBehaviour
 
     private void InitializePlayer()
     {
-        gameController.InitializePlayer(waveManager);
+        gameController.InitializePlayer(waveManager, objectPoolManager);
 
         objectPoolManager.Initialize(waveManager);
 

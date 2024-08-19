@@ -6,6 +6,7 @@ public class ObjectPoolManager : MonoBehaviour
 {
     private Dictionary<string, CustoObjectmPool<Bullet>> _bulletsPools = new Dictionary<string, CustoObjectmPool<Bullet>>();
     private Dictionary<string, CustoObjectmPool<ExplosionEffect>> _effectsPool= new Dictionary<string, CustoObjectmPool<ExplosionEffect>>();
+    private Dictionary<string, CustoObjectmPool<MonoBehaviour>> _objecstPool = new Dictionary<string, CustoObjectmPool<MonoBehaviour>>();
     private WaveManager _waveManager;
     private Dictionary<GameObject, Coroutine> _courotines = new Dictionary<GameObject, Coroutine>();
 
@@ -40,6 +41,44 @@ public class ObjectPoolManager : MonoBehaviour
         {
             _effectsPool[key].ReleaseAll();
         }
+
+        foreach (var key in _objecstPool.Keys)
+        {
+            _objecstPool[key].ReleaseAll();
+        }
+    }
+
+    public MonoBehaviour GetObject(MonoBehaviour objectPrefab)
+    {
+        if (!_objecstPool.ContainsKey(objectPrefab.name.ToString()))
+            _objecstPool.Add(objectPrefab.name.ToString(), new CustoObjectmPool<MonoBehaviour>(objectPrefab, 0));
+
+        return _objecstPool[objectPrefab.name.ToString()].Get();
+    }
+
+    public void ReleaseObject(MonoBehaviour objectPrefab, float interval)
+    {
+        Coroutine coroutine = StartCoroutine(ReleaseObjectCourotine(objectPrefab, interval));
+        if (!_courotines.ContainsKey(objectPrefab.gameObject))
+            _courotines.Add(objectPrefab.gameObject, coroutine);
+    }
+
+    public void ReleaseObject(MonoBehaviour objectPrefab)
+    {
+        if (_courotines.ContainsKey(objectPrefab.gameObject))
+        {
+            StopCoroutine(_courotines[objectPrefab.gameObject]);
+            _courotines.Remove(objectPrefab.gameObject);
+        }
+        _objecstPool[objectPrefab.name.ToString()].Release(objectPrefab);
+    }
+
+    private IEnumerator ReleaseObjectCourotine(MonoBehaviour objectPrefab, float interval)
+    {
+        yield return new WaitForSeconds(interval);
+        if (_courotines.ContainsKey(objectPrefab.gameObject))
+            _courotines.Remove(objectPrefab.gameObject);
+        _objecstPool[objectPrefab.name.ToString()].Release(objectPrefab);
     }
 
     public Bullet GetBullet(Bullet bulletPrefab)

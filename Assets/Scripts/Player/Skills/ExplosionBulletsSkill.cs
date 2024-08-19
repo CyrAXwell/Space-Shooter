@@ -11,7 +11,7 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     public event Action<float> OnTimerUpdate;
 
     [SerializeField] private Transform firePoint;
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private ExplosionBullet bulletPrefab;
     [SerializeField] private int skillBonusDamage;
     [SerializeField] float timeBetweenShot;
     [SerializeField] private float cooldown;
@@ -27,7 +27,13 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
     private bool _reload = false;
     private Player _playerStats;
     private Shooting _shooting;
+    private ObjectPoolManager _objectPool;
     private AudioManager _audioManager;
+
+    public void Initialize(ObjectPoolManager objectPool)
+    {
+        _objectPool = objectPool;
+    }
 
     private void Start()
     {
@@ -78,9 +84,13 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
 
     private void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        ExplosionBullet bulletStats = bullet.GetComponent<ExplosionBullet>();
-        bulletStats.Initialize(_playerStats.GetActiveATK() + skillBonusDamage, _playerStats.GetActiveCRITRate(), _playerStats.GetActiveCRITDMG());
+        ExplosionBullet bullet = _objectPool.GetObject(bulletPrefab).GetComponent<ExplosionBullet>();
+        bullet.gameObject.name = bulletPrefab.name.ToString();
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
+        bullet.Initialize(_objectPool, _playerStats.GetActiveATK() + skillBonusDamage, _playerStats.GetActiveCRITRate(), _playerStats.GetActiveCRITDMG());
+
+        _objectPool.ReleaseObject(bullet, 2f);
     }
 
     public UpgradeSO[] GetUpgrades() => upgrades;
