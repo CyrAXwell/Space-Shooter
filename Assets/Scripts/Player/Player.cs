@@ -105,6 +105,7 @@ public class Player : MonoBehaviour, IUpgradeable
     public ISkillDisplayable[] GetSkills() => _skills;
     public UpgradeSO[] GetUpgrades() => upgrades;
     public Sprite GetUpgradesPanelSprite() => playerSO.UpgradesPanelSprite;
+    public PlayerSO GetPlayerSO() => playerSO;
     public string GetName() => playerSO.PlayerName;
 
     public void SetXP(int addXP)

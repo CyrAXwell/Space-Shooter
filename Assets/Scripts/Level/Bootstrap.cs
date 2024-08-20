@@ -35,6 +35,6 @@ public class Bootstrap : MonoBehaviour
         skillDisplayPanel.Initialize(player.GetSkills());
 
         gemManager.Initialize(player);
-        waveManager.Initialize(gemManager, player, objectPoolManager);
+        waveManager.Initialize(gemManager, player, objectPoolManager, gameController);
     }
 }

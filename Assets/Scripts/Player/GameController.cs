@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] private Player[] characters;
     [SerializeField] private Player character1;
     [SerializeField] private Player character2;
     [SerializeField] private Player character3;
@@ -61,10 +63,12 @@ public class GameController : MonoBehaviour
         gameOverScreen.OpenGameWinMenu();
         PauseGame();
     }
-    
-    private void CreatePlayer(Player character)
+
+    private void CreateCharacter()
     {
-        GameObject playerObject = Instantiate(character.gameObject, new Vector3(0f, -4.5f, 0f), Quaternion.identity);
+        Player playerPrefab = characters.Where(c => c.GetName() == StateNameController.character).FirstOrDefault();
+
+        GameObject playerObject = Instantiate(playerPrefab.gameObject, new Vector3(0f, -4.5f, 0f), Quaternion.identity);
         _player = playerObject.GetComponent<Player>();
         _player.OnDeath += GameOver;
 
@@ -76,25 +80,6 @@ public class GameController : MonoBehaviour
         }
 
         characterName.text = _player.GetName();
-    }
-
-    private void CreateCharacter()
-    {
-        switch(StateNameController.character)
-        {
-            default:
-                CreatePlayer(character1);
-                break;
-            case "Character 1":
-                CreatePlayer(character1);    
-                break;
-            case "Character 2":
-                CreatePlayer(character2); 
-                break;
-            case "Character 3":
-                CreatePlayer(character3); 
-                break;
-        }
     }
 
     public void PauseGame()

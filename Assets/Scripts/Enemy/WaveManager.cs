@@ -21,6 +21,7 @@ public class WaveManager : MonoBehaviour
     private GemManager _gemManager;
     private Player _player;
     private ObjectPoolManager _objectPoolManager;
+    private GameController _gameController;
     private float _timer; 
     private bool _stopTimer = true;
     private bool _isBossWave = false;
@@ -29,13 +30,14 @@ public class WaveManager : MonoBehaviour
     [HideInInspector] public int waveCounter;
     
 
-    public void Initialize(GemManager gemManager, Player player, ObjectPoolManager objectPoolManager)
+    public void Initialize(GemManager gemManager, Player player, ObjectPoolManager objectPoolManager, GameController gameController)
     {
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
         _gemManager = gemManager;
         _player = player;
         _objectPoolManager = objectPoolManager;
+        _gameController = gameController;
 
         _timer = waveDuration;
         _stopTimer = false;
@@ -68,7 +70,7 @@ public class WaveManager : MonoBehaviour
 
     private void WaveComplete()
     {
-        PauseGame(); // gameController
+        _gameController.PauseGame();
 
         if(!_isBossWave)
         {
@@ -85,39 +87,25 @@ public class WaveManager : MonoBehaviour
 
         _player.transform.position = new Vector3(0f, -4.5f, 0f);
 
-        switch(StateNameController.character)
+        ISkillDisplayable[] skills = _player.GetComponents<ISkillDisplayable>();
+        
+        foreach (ISkillDisplayable skill in skills)
         {
-            case "Character 1":
-                _player.GetComponent<ShieldSkill>().ResetSkill();
-                _player.GetComponent<RapidFireSkill>().ResetSkill(); 
-                break;
-            case "Character 2":
-                _player.GetComponent<ShieldSkill>().ResetSkill();
-                _player.GetComponent<ExplosionBulletsSkill>().ResetSkill(); 
-                break;
-            case "Character 3":
-                _player.GetComponent<RegenerationSkill>().ResetSkill();
-                _player.GetComponent<LaserSkill>().ResetSkill(); 
-                break;
-            default:
-                _player.GetComponent<ShieldSkill>().ResetSkill();
-                _player.GetComponent<RapidFireSkill>().ResetSkill(); 
-                break;
+            switch(skill)
+            {
+                case ShieldSkill shieldSkill: shieldSkill.ResetSkill(); break;
+                case RapidFireSkill rapidFireSkill: rapidFireSkill.ResetSkill(); break;
+                case ExplosionBulletsSkill explosionBulletsSkill: explosionBulletsSkill.ResetSkill(); break;
+                case RegenerationSkill regenerationSkill: regenerationSkill.ResetSkill(); break;
+                case LaserSkill laserSkill: laserSkill.ResetSkill(); break;
+            }
         }
         _player.FullHeal();
-
-        //ClearObjects(); //spawner
     }
 
     public void OnBossDeath()
     {
         OnGameWin?.Invoke();
-    }
-
-    private void PauseGame()
-    {
-        Time.timeScale = 0f;
-        StateNameController.isPaused = true;
     }
 
     private void UnPauseGame()
@@ -141,11 +129,11 @@ public class WaveManager : MonoBehaviour
         if(gemToolTip.activeInHierarchy)
             gemToolTip.SetActive(false);
 
-        //ClearObjects();
+
         _player.FullHeal();
 
         OnStartNewWave?.Invoke();
-        UnPauseGame();
+        _gameController.ResumeGame();
     }
 
     private void BossWave()

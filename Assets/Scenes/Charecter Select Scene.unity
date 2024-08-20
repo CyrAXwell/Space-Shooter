@@ -1228,7 +1228,7 @@ GameObject:
   - component: {fileID: 139079739}
   - component: {fileID: 139079738}
   m_Layer: 5
-  m_Name: Def
+  m_Name: Armor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1365,7 +1365,7 @@ GameObject:
   - component: {fileID: 260518731}
   - component: {fileID: 260518730}
   m_Layer: 5
-  m_Name: Def
+  m_Name: Armor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1637,6 +1637,7 @@ GameObject:
   - component: {fileID: 315803221}
   - component: {fileID: 315803220}
   - component: {fileID: 315803222}
+  - component: {fileID: 315803223}
   m_Layer: 5
   m_Name: Character 2
   m_TagString: Untagged
@@ -1767,6 +1768,25 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!114 &315803223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 315803218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7dc1d393bf3bd648b4bad3d32762a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 6167659550603263518, guid: 0bc2d27413b958b4b94b639d0f02148c, type: 3}
+  nameTMP: {fileID: 54857061}
+  healthTMP: {fileID: 1696161382}
+  damageTMP: {fileID: 1574243536}
+  armorTMP: {fileID: 139079738}
+  critDamageTMP: {fileID: 46091137}
+  critRateTMP: {fileID: 1390236975}
 --- !u!1 &332913340
 GameObject:
   m_ObjectHideFlags: 0
@@ -3485,6 +3505,7 @@ GameObject:
   - component: {fileID: 902373100}
   - component: {fileID: 902373099}
   - component: {fileID: 902373101}
+  - component: {fileID: 902373102}
   m_Layer: 5
   m_Name: Character 1
   m_TagString: Untagged
@@ -3615,6 +3636,25 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 1
+--- !u!114 &902373102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902373097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7dc1d393bf3bd648b4bad3d32762a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 3362027039017741205, guid: fb9cd5b1c1544c640b94d627cac80ca3, type: 3}
+  nameTMP: {fileID: 1326611565}
+  healthTMP: {fileID: 272004933}
+  damageTMP: {fileID: 1158952749}
+  armorTMP: {fileID: 83498786}
+  critDamageTMP: {fileID: 1312208862}
+  critRateTMP: {fileID: 876711749}
 --- !u!1 &905326622
 GameObject:
   m_ObjectHideFlags: 0
@@ -3943,7 +3983,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DESTROER
+  m_text: DESTROYER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74099fb89e2ecad4ea55bccfead29d47, type: 2}
   m_sharedMaterial: {fileID: -5185233710017829991, guid: 74099fb89e2ecad4ea55bccfead29d47, type: 2}
@@ -8101,6 +8141,7 @@ GameObject:
   - component: {fileID: 1996483070}
   - component: {fileID: 1996483069}
   - component: {fileID: 1996483071}
+  - component: {fileID: 1996483072}
   m_Layer: 5
   m_Name: Character 3
   m_TagString: Untagged
@@ -8231,6 +8272,25 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!114 &1996483072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996483067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7dc1d393bf3bd648b4bad3d32762a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 233630617473281685, guid: c98a001206ae33641b3bda6cdd97a7be, type: 3}
+  nameTMP: {fileID: 955344419}
+  healthTMP: {fileID: 1944007686}
+  damageTMP: {fileID: 1850203825}
+  armorTMP: {fileID: 260518730}
+  critDamageTMP: {fileID: 396366790}
+  critRateTMP: {fileID: 382827155}
 --- !u!1 &2016365481
 GameObject:
   m_ObjectHideFlags: 0

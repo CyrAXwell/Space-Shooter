@@ -18,7 +18,7 @@ public class CharacterSelactManager : MonoBehaviour
     {
         _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
-        StateNameController.character = toggle.name;
+        StateNameController.character = toggle.GetComponent<CharacterSelector>().GetPlayerName();
         StateNameController.startTimers = false;
         SceneManager.LoadScene(2);
     }
