@@ -6,9 +6,6 @@ using System.Linq;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private Player[] characters;
-    [SerializeField] private Player character1;
-    [SerializeField] private Player character2;
-    [SerializeField] private Player character3;
     [SerializeField] private TMP_Text characterName;
     [SerializeField] private GameObject ControlsTipsPanel;
     [SerializeField] private GameOverScreen gameOverScreen;
@@ -67,6 +64,8 @@ public class GameController : MonoBehaviour
     private void CreateCharacter()
     {
         Player playerPrefab = characters.Where(c => c.GetName() == StateNameController.character).FirstOrDefault();
+        if (playerPrefab == null)
+            playerPrefab = characters[0];
 
         GameObject playerObject = Instantiate(playerPrefab.gameObject, new Vector3(0f, -4.5f, 0f), Quaternion.identity);
         _player = playerObject.GetComponent<Player>();
@@ -76,7 +75,6 @@ public class GameController : MonoBehaviour
         if ( explosionSkill!= null)
         {
             explosionSkill.Initialize(_objectPool);
-            Debug.Log("Explosion skill");
         }
 
         characterName.text = _player.GetName();

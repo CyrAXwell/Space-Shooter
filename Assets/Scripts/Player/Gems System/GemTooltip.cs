@@ -20,10 +20,12 @@ public class GemTooltip : MonoBehaviour
 
     private GemStats _selectGem;
     private GemManager _gemManager;
+    private AudioManager _audioManager;
 
     public void Initialize(GemManager gemManager)
     {
         _gemManager = gemManager;
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     public void SelectGem(GemStats gem)
@@ -44,6 +46,8 @@ public class GemTooltip : MonoBehaviour
 
     public void OpenGemTooltip(GemStats gem, bool isReward)
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
+
         gameObject.SetActive(true); 
 
         if (isReward)
@@ -103,16 +107,19 @@ public class GemTooltip : MonoBehaviour
 
     public void OnEquipGemButton()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
         _gemManager.EquipGem(_selectGem);
     }
 
     public void OnUnequipGemButton()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
         _gemManager.UnequipGem(_selectGem);
     }
 
     public void BreakGemTip()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
         upgradeMenu.gameObject.SetActive(false);
         breakMenu.gameObject.SetActive(true);
         breakMenu.PrintText("+" + (500 + _selectGem.GetTotalExp() * 0.8f).ToString());
@@ -120,17 +127,20 @@ public class GemTooltip : MonoBehaviour
 
     public void BreakGemConfirm()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
         breakMenu.gameObject.SetActive(false);
         _gemManager.BreakGem(_selectGem);
     }
 
     public void BreakGemCancel()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
         breakMenu.gameObject.SetActive(false);
     }
 
     public void UpgradeGemTip()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
         breakMenu.gameObject.SetActive(false);
         upgradeMenu.gameObject.SetActive(true);
         upgradeMenu.PrintText("-" + (_selectGem.GetNeedExp()).ToString());
@@ -138,6 +148,7 @@ public class GemTooltip : MonoBehaviour
 
     public void UpgradeGemConfirm()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
         if(_selectGem.GetNeedExp() <= _gemManager.GetCurrentCoins())
             upgradeMenu.gameObject.SetActive(false);
 
@@ -146,11 +157,13 @@ public class GemTooltip : MonoBehaviour
 
     public void UpgradeGemCancel()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
        upgradeMenu.gameObject.SetActive(false);
     }
 
     public void CloseWindow()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
         if(_selectGem != null)
             UnselectGem();
 
