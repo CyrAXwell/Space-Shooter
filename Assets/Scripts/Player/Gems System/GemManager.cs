@@ -27,9 +27,12 @@ public class GemManager : MonoBehaviour
     private float _money;
     private List<GemStats> _rewardGems;
     private int[] _cumulativeProbability = {0, 0, 0, 0, 0};
+    private AudioManager _audioManager;
 
     public void Initialize(Player player)
     {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         _money = 500;
         _player = player;
         gemInfoPanel.Initialize(this);
@@ -57,6 +60,8 @@ public class GemManager : MonoBehaviour
 
     public void TakeGem()
     {
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
+
         for(int i = 0; i < _rewardGems.Count; i++)
         {   
             gemsInventory.CreateSlot(_rewardGems[i]);
