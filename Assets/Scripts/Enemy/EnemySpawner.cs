@@ -40,8 +40,8 @@ public class EnemySpawner : MonoBehaviour
     {
         _player = player;
         _waveManager = waveManager;
+        _waveManager.OnWaveComplete += OnWaveComplete;
         _objectPoolManager = objectPoolManager;
-        waveManager.OnWaveComplete += OnWaveComplete;
         _timer = spawnInterval - 2f;
 
         CreatePools();
@@ -70,24 +70,16 @@ public class EnemySpawner : MonoBehaviour
     {
         _isBossWave = true;
         Boss boss = Instantiate(bossPrefab.gameObject ,new Vector3(0f, 3.54f, 0f), Quaternion.identity).GetComponent<Boss>();
-        boss.Initialize();
+        boss.Initialize(_objectPoolManager);
         boss.GetComponent<EnemyBossShooting>().Initialize(_objectPoolManager);
         bossHealthBar.Initialize(boss);
 
         return boss;
     }
 
-    private void Update()
+    public void OnEnemyDeath(Enemy enemy)
     {
-        if (!_isBossWave)
-        {
-            _timer -= Time.deltaTime;
-            if(_timer <= 0)
-            {
-                _timer = spawnInterval;
-                SpawnEnemy(spawnEnemyAmount);
-            }
-        }
+        _enemiesPools[enemy.name.ToString()].Release(enemy);
     }
 
     public void UpdateProbability(int wave)
@@ -113,6 +105,58 @@ public class EnemySpawner : MonoBehaviour
         _timer = spawnInterval - 2f;
     }
 
+    private void OnDisable()
+    {
+        _waveManager.OnWaveComplete -= OnWaveComplete;
+    }
+
+    private void Update()
+    {
+        if (!_isBossWave)
+        {
+            _timer -= Time.deltaTime;
+            if(_timer <= 0)
+            {
+                _timer = spawnInterval;
+                SpawnEnemy(spawnEnemyAmount);
+            }
+        }
+    }
+
+    private void SpawnEnemy(float numOfEnemy)
+    {
+        for(var i = 1; i <= numOfEnemy; i++)
+        {
+            float delay = Random.Range(0.0f, 0.2f);
+            StartCoroutine(SpawnEnemyWithDelay(delay, GetEnemyByProbability(_cumulativeProbability)));
+        }
+    }
+
+    private void OnWaveComplete()
+    {
+        StopAllCoroutines();
+        ClearPools();
+    }
+
+    private void CreatePools()
+    {
+        _spawnPointsPool = new CustoObjectmPool<EnemySpawnPoint>(enemyMarkerPrefab, 0);
+
+        for (int i = 0; i < enemysPrefabs.Length; i++)
+        {
+            _enemiesPools.Add(enemysPrefabs[i].ToString(), new CustoObjectmPool<Enemy>(enemysPrefabs[i], 0));
+        }
+    }
+
+    private void ClearPools()
+    {
+        _spawnPointsPool.ReleaseAll();
+        for (int i = 0; i < enemysPrefabs.Length; i++)
+        {
+            _enemiesPools[enemysPrefabs[i].ToString()].ReleaseAll();
+        }
+    }
+
     private int GetEnemyByProbability(int[] probability)
     {
         int randomNumber = Random.Range(0, 10001);
@@ -134,22 +178,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy(float numOfEnemy)
-    {
-        for(var i = 1; i <= numOfEnemy; i++)
-        {
-            float delay = Random.Range(0.0f, 0.2f);
-            StartCoroutine(SpawnEnemyWithDelay(delay, enemyMarkerPrefab, GetEnemyByProbability(_cumulativeProbability)));
-        }
-    }
-
-    private void OnWaveComplete()
-    {
-        StopAllCoroutines();
-        ClearPools();
-    }
-
-    private IEnumerator SpawnEnemyWithDelay(float interval, EnemySpawnPoint marker, int enemyID)
+    private IEnumerator SpawnEnemyWithDelay(float interval, int enemyID)
     {
         float minXPos = 0;
         float maxXPos = 0;
@@ -187,37 +216,12 @@ public class EnemySpawner : MonoBehaviour
         
         yield return new WaitForSeconds(1.5f);
 
+        _spawnPointsPool.Release(enemySpawnPoint);
+
         Enemy newEnemy = _enemiesPools[enemysPrefabs[enemyID].ToString()].Get();
         newEnemy.Initialize(_player, _waveManager.GetWave(), _audioManager, this, _objectPoolManager);
         newEnemy.transform.position = enemySpawnPoint.transform.position;
         newEnemy.name = enemysPrefabs[enemyID].ToString();
-        newEnemy.GetComponent<EnemyShooting>().Initialize(_objectPoolManager);
-
-
-        _spawnPointsPool.Release(enemySpawnPoint);
-    }
-
-    private void CreatePools()
-    {
-        _spawnPointsPool = new CustoObjectmPool<EnemySpawnPoint>(enemyMarkerPrefab, 0);
-
-        for (int i = 0; i < enemysPrefabs.Length; i++)
-        {
-            _enemiesPools.Add(enemysPrefabs[i].ToString(), new CustoObjectmPool<Enemy>(enemysPrefabs[i], 0));
-        }
-    }
-
-    public void OnEnemyDeath(Enemy enemy)
-    {
-        _enemiesPools[enemy.name.ToString()].Release(enemy);
-    }
-
-    private void ClearPools()
-    {
-        _spawnPointsPool.ReleaseAll();
-        for (int i = 0; i < enemysPrefabs.Length; i++)
-        {
-            _enemiesPools[enemysPrefabs[i].ToString()].ReleaseAll();
-        }
+        newEnemy.GetComponent<EnemyShooting>().Initialize(_objectPoolManager);    
     }
 }

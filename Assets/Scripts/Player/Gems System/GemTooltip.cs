@@ -44,11 +44,25 @@ public class GemTooltip : MonoBehaviour
             _selectGem.HideStandartOutline();
     }
 
+    private void SetSubStatName(GemType type, int index)
+    {
+        switch (type)
+        {
+            case GemType.health: subStatsNamesTMP[index].text = "-" + "HP"; break;
+            case GemType.damage: subStatsNamesTMP[index].text = "-" + "ATK"; break;
+            case GemType.defense: subStatsNamesTMP[index].text = "-" + "DEF"; break;
+            case GemType.critDamage: subStatsNamesTMP[index].text = "-" + "CRIT DMG"; break;
+            case GemType.critRate: subStatsNamesTMP[index].text = "-" + "CRIT RATE"; break;
+        }
+    }
+
     public void OpenGemTooltip(GemStats gem, bool isReward)
     {
-        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
-
-        gameObject.SetActive(true); 
+        if (!gameObject.activeInHierarchy)
+        {
+            _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
+            gameObject.SetActive(true); 
+        }
 
         if (isReward)
             transform.localPosition = REWARD_PANEL_POS;
@@ -91,19 +105,6 @@ public class GemTooltip : MonoBehaviour
             subStatsNamesTMP[i].text = "";
         }
     }
-
-    private void SetSubStatName(GemType type, int index)
-    {
-        switch (type)
-        {
-            case GemType.health: subStatsNamesTMP[index].text = "-" + "HP"; break;
-            case GemType.damage: subStatsNamesTMP[index].text = "-" + "ATK"; break;
-            case GemType.defense: subStatsNamesTMP[index].text = "-" + "DEF"; break;
-            case GemType.critDamage: subStatsNamesTMP[index].text = "-" + "CRIT DMG"; break;
-            case GemType.critRate: subStatsNamesTMP[index].text = "-" + "CRIT RATE"; break;
-        }
-    }
-
 
     public void OnEquipGemButton()
     {

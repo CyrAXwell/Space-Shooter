@@ -21,8 +21,6 @@ public class Bootstrap : MonoBehaviour
     {
         gameController.InitializePlayer(waveManager, objectPoolManager);
 
-        objectPoolManager.Initialize(waveManager);
-
         Player player = gameController.GetPlayer();
         player.Initialize();
         player.GetComponent<Shooting>().Initialize(objectPoolManager);
@@ -30,11 +28,12 @@ public class Bootstrap : MonoBehaviour
         uIShipParameters.Initialize(player);
         uIHealthBar.Initialize(player);
         uIXPBar.Initialize(player);
+
         upgradeManager.Initialize(player, player.GetSkills());
-        
         skillDisplayPanel.Initialize(player.GetSkills());
 
-        gemManager.Initialize(player);
         waveManager.Initialize(gemManager, player, objectPoolManager, gameController);
+        gemManager.Initialize(player);
+        objectPoolManager.Initialize(waveManager);
     }
 }

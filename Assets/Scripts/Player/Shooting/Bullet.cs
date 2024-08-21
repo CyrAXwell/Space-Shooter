@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private ExplosionEffect hitEffect;
+    [SerializeField] private ObjectPoolObject hitEffect;
     [SerializeField] private float speed;
     [SerializeField] private LayerMask whatIsSolid;
 
@@ -40,7 +40,7 @@ public class Bullet : MonoBehaviour
                     case "Shield" : hits[i].collider.GetComponent<Shield>().TakeDamage(_damage); break;
                 }                    
 
-                ExplosionEffect effect = _objectPool.GetObject(hitEffect).GetComponent<ExplosionEffect>();
+                ObjectPoolObject effect = _objectPool.GetObject(hitEffect).GetComponent<ObjectPoolObject>();
                 effect.gameObject.name = hitEffect.name.ToString();
                 effect.transform.position = hits[i].point;
                 _objectPool.ReleaseObject(effect, 1f);

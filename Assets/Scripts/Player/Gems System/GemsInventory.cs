@@ -9,8 +9,6 @@ public class GemsInventory : MonoBehaviour
     
     private List<GemStats> _inventoryGems = new List<GemStats>();
 
-    private Transform GetSlot(int index) => invenoryContent.GetChild(index);
-
     public void SortInventory()
     {
         _inventoryGems = _inventoryGems.OrderBy(g => g.name).ToList();
@@ -32,5 +30,7 @@ public class GemsInventory : MonoBehaviour
         SortInventory();
         Destroy(invenoryContent.GetChild(_inventoryGems.Count).gameObject);
     }
+
+    private Transform GetSlot(int index) => invenoryContent.GetChild(index);
 
 }

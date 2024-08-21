@@ -8,7 +8,7 @@ public class MainMenuManager : MonoBehaviour
 
     private AudioManager _audioManager;
 
-    void Awake()
+    private void Awake()
     {
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         soundToggle.SetIsOnWithoutNotify(StateNameController.isSoundOff);

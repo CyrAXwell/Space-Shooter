@@ -18,23 +18,6 @@ public class ObjectPoolManager : MonoBehaviour
     {
         _waveManager.OnWaveComplete -= OnWaveComplete;
     }
-    
-    private void OnWaveComplete()
-    {
-        foreach (var key in _courotines.Keys)
-            StopCoroutine(_courotines[key]);
-        _courotines.Clear();
-
-        ClearPools();
-    }
-
-    private void ClearPools()
-    {
-        foreach (var key in _objecstPool.Keys)
-        {
-            _objecstPool[key].ReleaseAll();
-        }
-    }
 
     public MonoBehaviour GetObject(MonoBehaviour objectPrefab)
     {
@@ -67,5 +50,22 @@ public class ObjectPoolManager : MonoBehaviour
         if (_courotines.ContainsKey(objectPrefab.gameObject))
             _courotines.Remove(objectPrefab.gameObject);
         _objecstPool[objectPrefab.name.ToString()].Release(objectPrefab);
+    }
+    
+    private void OnWaveComplete()
+    {
+        foreach (var key in _courotines.Keys)
+            StopCoroutine(_courotines[key]);
+        _courotines.Clear();
+
+        ClearPools();
+    }
+
+    private void ClearPools()
+    {
+        foreach (var key in _objecstPool.Keys)
+        {
+            _objecstPool[key].ReleaseAll();
+        }
     }
 }

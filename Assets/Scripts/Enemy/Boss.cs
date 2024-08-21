@@ -10,20 +10,22 @@ public class Boss : MonoBehaviour
     [SerializeField] private int maxHp;
     [SerializeField] private int maxDef;
     [SerializeField] private GameObject deathEffect;
-    [SerializeField] private GameObject damageText;
+    [SerializeField] private ObjectPoolObject damageText;
     [SerializeField] private Vector3 offsetTextPosition;
     [SerializeField] private Color critColor;
 
-    private int health;
+    private int _health;
+    private ObjectPoolManager _objectPool;
     private AudioManager _audioManager;
 
-    public void Initialize()
+    public void Initialize(ObjectPoolManager objectPoolManager)
     {
+        _health = maxHp;
+        _objectPool = objectPoolManager;
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-        health = maxHp;
     }
 
-    public int GetHealth() => health;
+    public int GetHealth() => _health;
     public int GetMaxHealth() => maxHp;
 
     public void TakeDamage(int damage, int critChance, int critDamage)
@@ -36,33 +38,25 @@ public class Boss : MonoBehaviour
             isCrit = true;
         }
 
-        if(damage <= maxDef)
-        {
-            health -= 1;
-            DisplayTakenDamage("1", isCrit);
-        }
-        else
-        {
-            health -= damage - maxDef;
-            DisplayTakenDamage((damage - maxDef).ToString(), isCrit);
-        }
+        int takenDamage = damage <= maxDef ? 1 : damage - maxDef;
+        _health -= takenDamage;
+        DisplayTakenDamage(takenDamage.ToString(), isCrit);
         
         OnTakeDamage?.Invoke();
-        if(health <= 0)
+        if(_health <= 0)
             Death();
-        
     }
 
     public void DisplayTakenDamage(string text, bool crit)
     {
-        GameObject displayText = Instantiate(damageText, transform.position + offsetTextPosition, Quaternion.identity);
-        Destroy(displayText,0.5f);
+        ObjectPoolObject displayText = _objectPool.GetObject(damageText).GetComponent<ObjectPoolObject>();
+        displayText.gameObject.name = deathEffect.name.ToString();
+        displayText.transform.position = transform.position;
+
         displayText.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
-        if(crit)
-        {
-            displayText.transform.GetChild(0).GetComponent<TMP_Text>().color = critColor; 
-        } 
+        displayText.transform.GetChild(0).GetComponent<TMP_Text>().color = crit ? critColor : Color.white; 
         
+        _objectPool.ReleaseObject(displayText, 0.5f);
     }
 
     public void Death()

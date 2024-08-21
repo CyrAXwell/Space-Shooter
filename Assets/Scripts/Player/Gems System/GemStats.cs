@@ -46,6 +46,72 @@ public class GemStats : MonoBehaviour
         GetGemStats();
     }
 
+    public void DisplayStats()
+    {
+        SelectGem();
+        _gemInfoPanel.OpenGemTooltip(this, _gemRewardPanel.gameObject.activeInHierarchy);
+    }
+
+    public int GetLevel() => _level;
+    public string GetName() => gemList[_id].Name;
+    public Color GetColor() => gemList[_id].Color;
+    public int GetMainStat() => _mainStatValue;
+    public IEnumerable<int> GetSubStatsValues() => _subStatsVulues;
+    public IEnumerable<GemType> GetSubStatsTypes() => _subStats;
+    public int GetNeedExp() => _needExp;
+    public int GetTotalExp() => _totalExp;
+    public int GetHealth() => _health;
+    public int GetDamage() => _damage;
+    public int GetDefense() => _defense;
+    public int GetCritDamage() => _critDamage;
+    public int GetCritRate() => _critRate;
+    public int GetSlotIndex() => _slotIndex;
+    public GemState GetState() => _state;
+    public void SetSlotIndex(int index) => _slotIndex = index;
+    public void SetState(GemState state) => _state = state;
+    public void HideStandartOutline() => standardOutline.SetActive(false);
+    public void HideEquipedOutline() => equipedOutline.SetActive(false);
+
+    public void Upgrade()
+    {
+        if(_level < 15 && _gemManager.GetCurrentCoins() >= _needExp)
+        {
+            _gemManager.Spend(_needExp); 
+            _totalExp = _needExp;
+            _needExp += _addExp;
+            _level ++;
+            _mainStatValue += gemList[_id].MainStatIncreaseValue;
+            CalculeteStats(gemList[_id].Type, gemList[_id].MainStatIncreaseValue);
+
+            if(_state == GemState.equiped)
+                _gemManager.CalculeteStats();
+
+            if(_level % 3 == 0)
+            {
+                if(_subStatsAmount < 3)
+                {
+                    _subStatsAmount++;
+                    CreateRandomSubStat(_subStatsAmount);
+                    CalculeteStats(_subStats[_subStatsAmount], _subStatsVulues[_subStatsAmount]);
+
+                    if(_state == GemState.equiped)
+                        _gemManager.CalculeteStats();
+
+                }else
+                {
+                    int subStatIndex = Random.Range(0, _subStatsAmount + 1);
+                    UpgradeRandomSubStat(subStatIndex);
+                    CalculeteStats(_subStats[subStatIndex], _subStatsVulues[subStatIndex]);
+                    if(_state == GemState.equiped)
+                        _gemManager.CalculeteStats();
+                }
+            }
+            
+            DisplayStats();
+            _gemManager.UpdateFragmentsDisplay();
+        }
+    }
+
     private void GetGemStats()
     {
         _id = Random.Range(0,gemList.Count);
@@ -135,72 +201,5 @@ public class GemStats : MonoBehaviour
             equipedOutline.SetActive(true);
         else
             standardOutline.SetActive(true);    
-    }
-
-    public void DisplayStats()
-    {
-        SelectGem();
-        _gemInfoPanel.OpenGemTooltip(this, _gemRewardPanel.gameObject.activeInHierarchy);
-    }
-
-    public int GetLevel() => _level;
-    public string GetName() => gemList[_id].Name;
-    public Color GetColor() => gemList[_id].Color;
-    public int GetMainStat() => _mainStatValue;
-    public IEnumerable<int> GetSubStatsValues() => _subStatsVulues;
-    public IEnumerable<GemType> GetSubStatsTypes() => _subStats;
-    public int GetNeedExp() => _needExp;
-    public int GetTotalExp() => _totalExp;
-    public int GetHealth() => _health;
-    public int GetDamage() => _damage;
-    public int GetDefense() => _defense;
-    public int GetCritDamage() => _critDamage;
-    public int GetCritRate() => _critRate;
-    public int GetSlotIndex() => _slotIndex;
-    public GemState GetState() => _state;
-    public void SetSlotIndex(int index) => _slotIndex = index;
-    public void SetState(GemState state) => _state = state;
-    public void HideStandartOutline() => standardOutline.SetActive(false);
-    public void HideEquipedOutline() => equipedOutline.SetActive(false);
-
-    public void Upgrade()
-    {
-        if(_level < 15 && _gemManager.GetCurrentCoins() >= _needExp)
-        {
-            _gemManager.Spend(_needExp); 
-            _totalExp = _needExp;
-            _needExp += _addExp;
-            _level ++;
-            _mainStatValue += gemList[_id].MainStatIncreaseValue;
-            CalculeteStats(gemList[_id].Type, gemList[_id].MainStatIncreaseValue);
-
-            if(_state == GemState.equiped)
-                _gemManager.CalculeteStats();
-
-            if(_level % 3 == 0)
-            {
-                if(_subStatsAmount < 3)
-                {
-                    _subStatsAmount++;
-                    CreateRandomSubStat(_subStatsAmount);
-                    CalculeteStats(_subStats[_subStatsAmount], _subStatsVulues[_subStatsAmount]);
-
-                    if(_state == GemState.equiped)
-                        _gemManager.CalculeteStats();
-
-                }else
-                {
-                    int subStatIndex = Random.Range(0, _subStatsAmount + 1);
-                    UpgradeRandomSubStat(subStatIndex);
-                    CalculeteStats(_subStats[subStatIndex], _subStatsVulues[subStatIndex]);
-                    if(_state == GemState.equiped)
-                        _gemManager.CalculeteStats();
-                    
-                }
-            }
-            
-            DisplayStats();
-            _gemManager.UpdateFragmentsDisplay();
-        }
     }
 }

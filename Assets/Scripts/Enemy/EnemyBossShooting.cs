@@ -4,8 +4,8 @@ using UnityEngine;
 public class EnemyBossShooting : MonoBehaviour
 {
     [SerializeField] private float timeBetweenAttack; // 2.5
-    [SerializeField] private int laserDamage = 10; // 35
-    [SerializeField] private int plasmaDamage = 20; // 50
+    [SerializeField] private int laserDamage; // 35
+    [SerializeField] private int plasmaDamage; // 50
     [SerializeField] private float laserAttackDuration; // 3
     [SerializeField] private float plasmaShotsAmount; // 5
     [SerializeField] private float timeBetweenPlasmaShots; // 0.2
@@ -26,6 +26,8 @@ public class EnemyBossShooting : MonoBehaviour
     public void Initialize(ObjectPoolManager objectPool)
     {
         _objectPool = objectPool;
+        _timer = timeBetweenAttack;
+
         InitializePlasmaGun(plasmaM);
         InitializePlasmaGun(plasmaL1);
         InitializePlasmaGun(plasmaL2);
@@ -33,19 +35,14 @@ public class EnemyBossShooting : MonoBehaviour
         InitializePlasmaGun(plasmaR2);
     }
 
+    public int GetLaserDamage() => laserDamage;
+    public int GetPlasmaDamage() => plasmaDamage;
+
     private void InitializePlasmaGun(PlasmaShooting[] plasmaGuns)
     {
         foreach (var plasmaGun in plasmaGuns)
             plasmaGun.Initialize(_objectPool);
     }
-
-    private void Start()
-    {
-        _timer = timeBetweenAttack;
-    }
-
-    public int GetLaserDamage() => laserDamage;
-    public int GetPlasmaDamage() => plasmaDamage;
 
     private void Update()
     {
@@ -63,7 +60,7 @@ public class EnemyBossShooting : MonoBehaviour
 
     private void Attack()
     {
-        _attackID = Random.Range(1, 13);
+        _attackID = Random.Range(1, 14);
 
         switch(_attackID)
         {

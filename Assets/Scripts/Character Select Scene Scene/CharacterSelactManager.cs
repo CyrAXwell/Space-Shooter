@@ -9,7 +9,7 @@ public class CharacterSelactManager : MonoBehaviour
 
     private AudioManager _audioManager;
 
-    void Start()
+    private void Start()
     {
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
@@ -17,6 +17,7 @@ public class CharacterSelactManager : MonoBehaviour
     public void StartButton()
     {
         _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
+
         Toggle toggle = toggleGroup.ActiveToggles().FirstOrDefault();
         StateNameController.character = toggle.GetComponent<CharacterSelector>().GetPlayerName();
         StateNameController.startTimers = false;

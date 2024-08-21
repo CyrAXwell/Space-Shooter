@@ -78,9 +78,7 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     {
         yield return new WaitForSeconds(interval);
         if(_isSkillActive)
-        {
             StopSkill();
-        }
     }
 
     public void ResetSkill()
@@ -107,18 +105,15 @@ public class RegenerationSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
     public void UpgradeCooldown(float time)
     {
         cooldown -= time;
-        Debug.Log(cooldown);
     }
 
     public void UpgradeHealing(int hp)
     {
         regenerationValue += hp;
-        Debug.Log(regenerationValue);
     }
 
     public void UpgradeDurtion(float time)
     {
         duration += time;
-        Debug.Log(duration);
     }
 }

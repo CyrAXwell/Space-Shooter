@@ -6,7 +6,7 @@ public class GemSlot : MonoBehaviour
     private bool _isEmpty = true;
 
     public bool IsEmpty => _isEmpty;
-
+    
     public GemStats GetEquipedGem() => _equipedGem;
 
     public void EquipGem(GemStats gem)

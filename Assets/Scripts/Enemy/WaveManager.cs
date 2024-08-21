@@ -22,14 +22,13 @@ public class WaveManager : MonoBehaviour
     private Player _player;
     private ObjectPoolManager _objectPoolManager;
     private GameController _gameController;
+    private int _waveCounter;
     private float _timer; 
     private bool _stopTimer = true;
     private bool _isBossWave = false;
+    private Boss _boss;
     private AudioManager _audioManager;
-
-    [HideInInspector] public int waveCounter;
     
-
     public void Initialize(GemManager gemManager, Player player, ObjectPoolManager objectPoolManager, GameController gameController)
     {
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -42,15 +41,35 @@ public class WaveManager : MonoBehaviour
         _timer = waveDuration;
         _stopTimer = false;
 
-        waveCounter = 1;
+        _waveCounter = 1;
 
         uIWavePanel.Initialize(this, gemManager);
         enemySpawner.Initialize(_player, this, _objectPoolManager);
     }
-    
-    public int GetWave() => waveCounter;
-    public float GetTimer() => _timer;
 
+    public void StartNextWave()
+    {
+        _timer = _timer > maxWaveTime ? maxWaveTime : waveDuration +  _waveCounter * newWaveTimeIncrease;
+        _stopTimer = false;
+        _waveCounter ++;
+        GemPanelBlock.SetActive(true);
+        
+        if(_waveCounter == 2)
+            BossWave();
+        else
+            enemySpawner.UpdateProbability(_waveCounter);  
+
+        if(gemToolTip.activeInHierarchy)
+            gemToolTip.SetActive(false);
+
+        _player.FullHeal();
+
+        OnStartNewWave?.Invoke();
+        _gameController.ResumeGame();
+    }
+
+    public int GetWave() => _waveCounter;
+    public float GetTimer() => _timer;
 
     private void Update()
     {
@@ -103,54 +122,23 @@ public class WaveManager : MonoBehaviour
         _player.FullHeal();
     }
 
-    public void OnBossDeath()
-    {
-        OnGameWin?.Invoke();
-    }
-
-    private void UnPauseGame()
-    {
-        Time.timeScale = 1f;
-        StateNameController.isPaused = false;
-    }
-
-    public void StartNextWave()
-    {
-        _timer = _timer > maxWaveTime ? maxWaveTime : waveDuration +  waveCounter * newWaveTimeIncrease;
-        _stopTimer = false;
-        waveCounter ++;
-        GemPanelBlock.SetActive(true);
-        
-        if(waveCounter == 2)
-            BossWave();
-        else
-            enemySpawner.UpdateProbability(waveCounter);  
-
-        if(gemToolTip.activeInHierarchy)
-            gemToolTip.SetActive(false);
-
-
-        _player.FullHeal();
-
-        OnStartNewWave?.Invoke();
-        _gameController.ResumeGame();
-    }
-
     private void BossWave()
     {
         _timer = 90f;
         _isBossWave = true;
-        Boss boss = enemySpawner.BossSpawn(bossHealtBar);
-        boss.OnDeath += OnBossDeath;
+        _boss = enemySpawner.BossSpawn(bossHealtBar);
+        _boss.OnDeath += OnBossDeath;
         enemySpawner.gameObject.SetActive(false);
     }
 
-    public void ClearObjects()
+    private void OnBossDeath()
     {
-        GameObject[] entities =  GameObject.FindGameObjectsWithTag("Entity");
-        foreach(GameObject entity in entities)
-        {
-            Destroy(entity);
-        }
+        OnGameWin?.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        if (_boss != null)
+            _boss.OnDeath -= OnBossDeath;
     }
 }

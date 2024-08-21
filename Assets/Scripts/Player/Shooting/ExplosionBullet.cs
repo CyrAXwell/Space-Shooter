@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ExplosionBullet : MonoBehaviour
 {
-    [SerializeField] private ExplosionEffect hitEffect;
+    [SerializeField] private ObjectPoolObject hitEffect;
     [SerializeField] private float speed;
     [SerializeField] private LayerMask whatIsSolid;
     [SerializeField] private float splashRange;
@@ -44,7 +44,7 @@ public class ExplosionBullet : MonoBehaviour
                         case "Boss" : hitCollider.GetComponent<Boss>().TakeDamage(_damage, _critChance, _critDamage); break;
                     }
                 }
-                ExplosionEffect effect = _objectPool.GetObject(hitEffect).GetComponent<ExplosionEffect>();
+                ObjectPoolObject effect = _objectPool.GetObject(hitEffect).GetComponent<ObjectPoolObject>();
                 effect.gameObject.name = hitEffect.name.ToString();
                 effect.transform.position = hits[i].point;
                 _objectPool.ReleaseObject(effect, 0.5f);

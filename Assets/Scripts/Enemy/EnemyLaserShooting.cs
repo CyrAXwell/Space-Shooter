@@ -46,15 +46,18 @@ public class EnemyLaserShooting : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             
-            if (hits[i].collider != null) 
+            if (hits[i].collider != null && _canDamage) 
             {
-                if (hits[i].collider.CompareTag("Player") && _canDamage) {
-                    hits[i].collider.GetComponent<Player>().TakeDamage(_enemyStats.GetDamage()); 
-                    StartCoroutine(CanLaserDamage(timeBetweenTakeDamage));  
-                }
-                if (hits[i].collider.CompareTag("Shield") && _canDamage) {
-                    hits[i].collider.GetComponent<Shield>().TakeDamage(_enemyStats.GetDamage());
-                    StartCoroutine(CanLaserDamage(timeBetweenTakeDamage)); 
+                switch (hits[i].collider.tag)
+                {
+                    case "Player":
+                        hits[i].collider.GetComponent<Player>().TakeDamage(_enemyStats.GetDamage()); 
+                        StartCoroutine(CanLaserDamage(timeBetweenTakeDamage));  
+                        break;
+                    case "Shield":
+                        hits[i].collider.GetComponent<Shield>().TakeDamage(_enemyStats.GetDamage()); 
+                        StartCoroutine(CanLaserDamage(timeBetweenTakeDamage));  
+                        break;
                 }
                 
                 laserLine.size = new Vector2(laserLine.size.x, firePoint.position.y - hits[i].point.y);
@@ -65,8 +68,7 @@ public class EnemyLaserShooting : MonoBehaviour
 
         if (!isHit)
             laserLine.size = new Vector2(laserLine.size.x, maxDistance); 
-    }
-    
+    }  
 
     private IEnumerator EndShooting(float interval)
     {
@@ -81,7 +83,4 @@ public class EnemyLaserShooting : MonoBehaviour
         yield return new WaitForSeconds(interval);
         _canDamage = true;
     }
-
-
-
 }

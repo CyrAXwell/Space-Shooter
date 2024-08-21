@@ -92,9 +92,6 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
         _objectPool.ReleaseObject(bullet, 2f);
     }
 
-    public UpgradeSO[] GetUpgrades() => upgrades;
-    public Sprite GetSkillIcon() => icon;
-
     private IEnumerator ReloadShot(float interval)
     {
         yield return new WaitForSeconds(interval);
@@ -124,6 +121,9 @@ public class ExplosionBulletsSkill : MonoBehaviour, ISkillDisplayable, IUpgradea
         _shooting.ResumeShooting();
         _cooldownTimer = cooldown;
     }
+
+    public UpgradeSO[] GetUpgrades() => upgrades;
+    public Sprite GetSkillIcon() => icon;
 
     public void UpgradeDuration(float time)
     {

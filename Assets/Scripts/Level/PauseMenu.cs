@@ -19,29 +19,6 @@ public class PauseMenu : MonoBehaviour
 
         soundToggle.SetIsOnWithoutNotify(StateNameController.isSoundOff);
     }
-    
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (StateNameController.startTimers && !StateNameController.isPaused && !pauseMenuUI.activeInHierarchy)
-                PauseGame();
-            else if (StateNameController.startTimers && StateNameController.isPaused && pauseMenuUI.activeInHierarchy)
-                ResumeGame();
-        }
-    }
-
-    private void PauseGame()
-    {
-        _gameController.PauseGame();
-        pauseMenuUI.SetActive(true);
-    }
-
-    private void ResumeGame()
-    {
-        _gameController.ResumeGame();
-        pauseMenuUI.SetActive(false);
-    }
 
     public void OnResumeButton()
     {
@@ -67,5 +44,28 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("mute");
         StateNameController.isSoundOff = !StateNameController.isSoundOff;
         _audioManager.MuteSound(StateNameController.isSoundOff);
+    }
+    
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (StateNameController.startTimers && !StateNameController.isPaused && !pauseMenuUI.activeInHierarchy)
+                PauseGame();
+            else if (StateNameController.startTimers && StateNameController.isPaused && pauseMenuUI.activeInHierarchy)
+                ResumeGame();
+        }
+    }
+
+    private void PauseGame()
+    {
+        _gameController.PauseGame();
+        pauseMenuUI.SetActive(true);
+    }
+
+    private void ResumeGame()
+    {
+        _gameController.ResumeGame();
+        pauseMenuUI.SetActive(false);
     }
 }

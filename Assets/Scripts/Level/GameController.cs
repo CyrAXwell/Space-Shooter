@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
@@ -37,28 +36,24 @@ public class GameController : MonoBehaviour
         return _player;
     }
 
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        StateNameController.isPaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        StateNameController.isPaused = false;
+    }
+
     public void CloseControlsTips()
     {
         _audioManager.PlaySFX(_audioManager.ButtonClick, 0.7f);
         ControlsTipsPanel.SetActive(false);
         ResumeGame();
         StateNameController.startTimers = true;
-    }
-
-    private void GameOver()
-    {
-        _audioManager.PlaySFX(_audioManager.Lose, 0.7f);
-
-        gameOverScreen.OpenGameOverMenu();
-        PauseGame();
-    }
-
-    private void GameWin()
-    {
-        _audioManager.PlaySFX(_audioManager.Win, 0.7f);
-
-        gameOverScreen.OpenGameWinMenu();
-        PauseGame();
     }
 
     private void CreateCharacter()
@@ -80,16 +75,20 @@ public class GameController : MonoBehaviour
         characterName.text = _player.GetName();
     }
 
-    public void PauseGame()
+    private void GameOver()
     {
-        Time.timeScale = 0f;
-        StateNameController.isPaused = true;
+        _audioManager.PlaySFX(_audioManager.Lose, 0.7f);
+
+        gameOverScreen.OpenGameOverMenu();
+        PauseGame();
     }
 
-    public void ResumeGame()
+    private void GameWin()
     {
-        Time.timeScale = 1f;
-        StateNameController.isPaused = false;
+        _audioManager.PlaySFX(_audioManager.Win, 0.7f);
+
+        gameOverScreen.OpenGameWinMenu();
+        PauseGame();
     }
 
     private void DisplayControlsTips()

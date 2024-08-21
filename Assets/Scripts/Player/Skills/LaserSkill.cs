@@ -84,19 +84,22 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         for (int i = 0; i < hits.Length; i++)
         {
             
-            if (hits[i].collider != null) 
+            if (hits[i].collider != null && _canDamage) 
             {
-                if (hits[i].collider.CompareTag("Enemy") && _canDamage) {
-                    hits[i].collider.GetComponent<Enemy>().TakeDamage(_player.GetActiveATK() + skillBonusDamage, _player.GetActiveCRITRate(), _player.GetActiveCRITDMG());
-                    StartCoroutine(CanLaserDamage(timeBetweenDamage)); 
-                }
-                if (hits[i].collider.CompareTag("EnemyShield") && _canDamage) {
-                    hits[i].collider.GetComponent<EnemyShieldStats>().TakeDamage(_player.GetActiveATK() + skillBonusDamage);
-                    StartCoroutine(CanLaserDamage(timeBetweenDamage));
-                }
-                if (hits[i].collider.CompareTag("Boss") && _canDamage) {
-                    hits[i].collider.GetComponent<Boss>().TakeDamage(_player.GetActiveATK() + skillBonusDamage, _player.GetActiveCRITRate(), _player.GetActiveCRITDMG());
-                    StartCoroutine(CanLaserDamage(timeBetweenDamage));
+                switch (hits[i].collider.tag)
+                {
+                    case "Enemy": 
+                        hits[i].collider.GetComponent<Enemy>().TakeDamage(_player.GetActiveATK() + skillBonusDamage, _player.GetActiveCRITRate(), _player.GetActiveCRITDMG());
+                        StartCoroutine(CanLaserDamage(timeBetweenDamage)); 
+                        break;
+                    case "EnemyShield": 
+                        hits[i].collider.GetComponent<EnemyShieldStats>().TakeDamage(_player.GetActiveATK() + skillBonusDamage);
+                        StartCoroutine(CanLaserDamage(timeBetweenDamage)); 
+                        break;
+                    case "Boss": 
+                        hits[i].collider.GetComponent<Boss>().TakeDamage(_player.GetActiveATK() + skillBonusDamage, _player.GetActiveCRITRate(), _player.GetActiveCRITDMG());
+                        StartCoroutine(CanLaserDamage(timeBetweenDamage)); 
+                        break;
                 }
                 
                 laserSprite.size = new Vector2(laserSprite.size.x, hits[i].point.y - laserSprite.transform.position.y);
@@ -104,10 +107,9 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
                 break;
             }
         }
+        
         if(!isHit)
-        {
             laserSprite.size = new Vector2(laserSprite.size.x, maxLaserDistance); 
-        }
     }
 
     private IEnumerator CanLaserDamage(float interval)

@@ -68,6 +68,5 @@ public class LaserShooting : MonoBehaviour
     {
         laserRender.gameObject.SetActive(false);
         _canShoot = false;
-        
     }
 }

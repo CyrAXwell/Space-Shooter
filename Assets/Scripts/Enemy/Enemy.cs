@@ -1,17 +1,14 @@
 using UnityEngine;
 using TMPro;
-using System;
 
 public class Enemy : MonoBehaviour
 {
-    public event Action OnDeath;
-
     [SerializeField] private EnemySO enemySO;
-    [SerializeField] private ExplosionEffect damageText;
+    [SerializeField] private ObjectPoolObject damageText;
     [SerializeField] private Vector3 offsetTextPosition;
     [SerializeField] private Color critColor;
     [SerializeField] private GameObject powerUpIcon;
-    [SerializeField] private ExplosionEffect deathEffect;
+    [SerializeField] private ObjectPoolObject deathEffect;
     [SerializeField] private int dropXP;
     
     private Player _player;
@@ -37,13 +34,6 @@ public class Enemy : MonoBehaviour
     public int GetDamage() => _damage;
     public int GetWave() => _wave;
 
-    private void GetStatsByWave(int wave)
-    {
-        _health = enemySO.Health + enemySO.HealthIncrease * (wave - 1);
-        _defense = enemySO.Defense + enemySO.DefenseIncrease * (wave - 1);
-        _damage = enemySO.Damage + enemySO.DamageIncrease * (wave - 1);
-    }
-
     public void TakeDamage(int damage, int critChance, int critDamage)
     {
         bool isCrit = false;
@@ -54,40 +44,43 @@ public class Enemy : MonoBehaviour
             isCrit = true;
         }
 
-        if(damage <= _defense)
-        {
-            _health -= 1;
-            DisplayTakenDamage("1", isCrit);
-        }
-        else
-        {
-            _health -= damage - _defense;
-            DisplayTakenDamage((damage - _defense).ToString(), isCrit);
-        }
+        int takenDamage = damage <= _defense ? 1 : damage - _defense;
+        _health -= takenDamage;
+        DisplayTakenDamage(takenDamage.ToString(), isCrit);
         
         if(_health <= 0)
             Death();
     }
 
+    private void GetStatsByWave(int wave)
+    {
+        _health = enemySO.Health + enemySO.HealthIncrease * (wave - 1);
+        _defense = enemySO.Defense + enemySO.DefenseIncrease * (wave - 1);
+        _damage = enemySO.Damage + enemySO.DamageIncrease * (wave - 1);
+    }
+
     private void Death()
     {
         _player.SetXP(dropXP);
-        ExplosionEffect effect = _objectPool.GetObject(deathEffect).GetComponent<ExplosionEffect>();
-        effect.transform.position = transform.position;
+
+        ObjectPoolObject effect = _objectPool.GetObject(deathEffect).GetComponent<ObjectPoolObject>();
         effect.gameObject.name = deathEffect.name.ToString();
+        effect.transform.position = transform.position;
         _objectPool.ReleaseObject(effect, 0.5f);
+
         _spawner.OnEnemyDeath(this);
     }
 
     public void DisplayTakenDamage(string text, bool crit)
     {
-        ExplosionEffect effect = _objectPool.GetObject(damageText).GetComponent<ExplosionEffect>();
-        effect.transform.position = transform.position + offsetTextPosition;
-        effect.gameObject.name = damageText.name.ToString();
-        _objectPool.ReleaseObject(effect, 0.5f);
-        effect.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
-        if(crit)
-            effect.transform.GetChild(0).GetComponent<TMP_Text>().color = critColor;   
+        ObjectPoolObject displayText = _objectPool.GetObject(damageText).GetComponent<ObjectPoolObject>();
+        displayText.transform.position = transform.position + offsetTextPosition;
+        displayText.gameObject.name = damageText.name.ToString();
+
+        displayText.transform.GetChild(0).GetComponent<TMP_Text>().text = text;
+        displayText.transform.GetChild(0).GetComponent<TMP_Text>().color = crit ? critColor : Color.white;  
+
+        _objectPool.ReleaseObject(displayText, 0.5f);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

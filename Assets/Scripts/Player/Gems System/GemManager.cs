@@ -55,7 +55,6 @@ public class GemManager : MonoBehaviour
             gem.SetState(GemStats.GemState.reward);
             _rewardGems.Add(gem);
         }
-        gemRewardPanel.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
     }   
 
     public void TakeGem()
@@ -200,5 +199,4 @@ public class GemManager : MonoBehaviour
         }
         return -1;
     }
-
 }

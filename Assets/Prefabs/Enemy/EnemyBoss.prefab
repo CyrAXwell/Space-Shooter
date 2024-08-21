@@ -2002,7 +2002,7 @@ MonoBehaviour:
   maxHp: 80000
   maxDef: 15
   deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
-  damageText: {fileID: 6092821241365917679, guid: de6c549acf4874b438543e2d81f3a77b, type: 3}
+  damageText: {fileID: -6221629207355615793, guid: de6c549acf4874b438543e2d81f3a77b, type: 3}
   offsetTextPosition: {x: 0, y: 0, z: 0}
   critColor: {r: 1, g: 0.69411767, b: 0.07058824, a: 0}
 --- !u!114 &4554473404926664083
