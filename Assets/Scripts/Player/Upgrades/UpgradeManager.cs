@@ -17,13 +17,14 @@ public class UpgradeManager : MonoBehaviour
     private int[] _upgradeProbability; //{7000, 1500, 1000, 500}; #ffffff #286ad5 #76428a #b52a2a
     private AudioManager _audioManager;
 
-    public void Initialize(Player player, ISkillDisplayable[] skills)
+    public void Initialize(Player player, ISkillDisplayable[] skills, GameController gameController)
     {
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
         _player = player;
         _skills = skills;
         _player.OnLevelUp += OnLevelUp;
+        levelUpMenu.Initialize(gameController);
         levelUpMenu.OnRerollButton += OnRerollUpgrades;
 
         _upgrades.AddRange(_player.GetUpgrades());
@@ -38,7 +39,7 @@ public class UpgradeManager : MonoBehaviour
         foreach (Transform slot in upgradeSlots)
         {
             UpgradeSelector upgrade = Instantiate(upgradeSelectorPrefab, slot);
-            upgrade.Initialize(_player, _upgrades, tierUpgrade, _upgradeProbability);
+            upgrade.Initialize(_upgrades, tierUpgrade, _upgradeProbability);
             upgrade.OnClick += OnSelectorClick;
             _upgradeSelectors.Add(upgrade);
         }   
@@ -50,6 +51,9 @@ public class UpgradeManager : MonoBehaviour
     {
         _player.OnLevelUp -= OnLevelUp;
         levelUpMenu.OnRerollButton -= OnRerollUpgrades;
+
+        foreach (UpgradeSelector selector in _upgradeSelectors)
+            selector.OnClick -= OnSelectorClick;
     }
 
     private void OnLevelUp()
@@ -176,6 +180,5 @@ public class UpgradeManager : MonoBehaviour
             case UpgradeType.duration: regenerationSkill.UpgradeDurtion((float)value / 100); break;
             case UpgradeType.healing: regenerationSkill.UpgradeHealing(value); break;
         }
-    }
-    
+    }  
 }

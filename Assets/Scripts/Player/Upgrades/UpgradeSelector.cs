@@ -22,15 +22,11 @@ public class UpgradeSelector : MonoBehaviour, IPointerClickHandler
     private int[] _cumulativeProbability = {0, 0, 0, 0};
     private int _tier = 0;
     private int _upgradeIndex = 0;
-    private Player _player;
 
-    public void Initialize(Player player, List<UpgradeSO> upgrades, TierUpgrade[] tierUpgrade, int[] upgradeProbability)
+    public void Initialize(List<UpgradeSO> upgrades, TierUpgrade[] tierUpgrade, int[] upgradeProbability)
     {
-        _player = player;
         _upgradeList = new List<UpgradeSO>(upgrades);
-
         _tierUpgrade = tierUpgrade;
-
         GetProbability(upgradeProbability);
         _upgradeIndex = GetRandomUpgrade();
     }
@@ -60,6 +56,19 @@ public class UpgradeSelector : MonoBehaviour, IPointerClickHandler
         outline.color = _tierUpgrade[_tier].Color; 
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnClick?.Invoke(this);
+    }
+
+    public SkillType GetSkillType() => _upgradeList[_upgradeIndex].SkillType;
+    public UpgradeType GeUpgradeType() => _upgradeList[_upgradeIndex].UpgradeType;
+    public int GetUpgradeValue() => _upgradeList[_upgradeIndex].UpgradeValues.ToArray()[_tier];
+    public int GetUpgradeSlot() =>  _upgradeList[_upgradeIndex].Slot;
+    public int GetUpgradeLeds() =>  _upgradeList[_upgradeIndex].Leds;
+    public int GetUpgradeTier() =>  _tier;
+    private int GetRandomUpgrade() => UnityRandom.Range(0, _upgradeList.Count);
+
     private void GetProbability(int[] upgradeProbability)
     {
         int probabilitySum = 0;
@@ -81,17 +90,4 @@ public class UpgradeSelector : MonoBehaviour, IPointerClickHandler
 
         return -1;
     }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        OnClick?.Invoke(this);
-    }
-
-    public SkillType GetSkillType() => _upgradeList[_upgradeIndex].SkillType;
-    public UpgradeType GeUpgradeType() => _upgradeList[_upgradeIndex].UpgradeType;
-    public int GetUpgradeValue() => _upgradeList[_upgradeIndex].UpgradeValues.ToArray()[_tier];
-    public int GetUpgradeSlot() =>  _upgradeList[_upgradeIndex].Slot;
-    public int GetUpgradeLeds() =>  _upgradeList[_upgradeIndex].Leds;
-    public int GetUpgradeTier() =>  _tier;
-    private int GetRandomUpgrade() => UnityRandom.Range(0, _upgradeList.Count);
 }

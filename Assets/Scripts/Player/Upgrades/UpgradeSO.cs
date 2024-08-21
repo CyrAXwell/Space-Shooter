@@ -17,7 +17,6 @@ public class UpgradeSO : ScriptableObject
     [SerializeField, Range(0, 2)] private int slot;
     [SerializeField, Range(0, 6)] private int leds;
     
-
     public string Name => nameUpgrade;
     public IEnumerable<int> UpgradeValues => value;
     public bool IsPercentageValue => percentage;

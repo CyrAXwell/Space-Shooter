@@ -14,12 +14,12 @@ public class LevelUpMenu : MonoBehaviour
     [SerializeField] private GameObject levelUpPanel;
 
     private float _rerollCounter;
+    private GameController _gameController;
     private AudioManager _audioManager;
 
-    private void DisableUpgradesOutline()
-    {
-        foreach (GameObject highlight in upgradesHighlights)
-            highlight.SetActive(false);
+    public void Initialize(GameController gameController)
+    {   
+        _gameController = gameController;
     }
 
     public void OpenLevelUpMenu()
@@ -34,15 +34,13 @@ public class LevelUpMenu : MonoBehaviour
         _rerollCounter = rerollUpgradeAmount;
         rerollButtonHighlight.SetActive(false);
         
-        Time.timeScale = 0f;
-        StateNameController.isPaused = true;
+        _gameController.PauseGame();
     }
 
     public void CloseLevelUpMenu()
     {
         levelUpPanel.SetActive(false);
-        Time.timeScale = 1f;
-        StateNameController.isPaused = false;
+        _gameController.ResumeGame();
     }
 
     public void RerollUpgrades()
@@ -66,5 +64,11 @@ public class LevelUpMenu : MonoBehaviour
     {
         if(rerollButtonHighlight.activeInHierarchy)
             rerollButtonHighlight.SetActive(false);
+    }
+
+    private void DisableUpgradesOutline()
+    {
+        foreach (GameObject highlight in upgradesHighlights)
+            highlight.SetActive(false);
     }
 }

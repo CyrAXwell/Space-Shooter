@@ -7,7 +7,7 @@ public class PowerUp : MonoBehaviour
     [SerializeField] private GameObject powerUpArea;
     [SerializeField] private float ActivationTime;
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(ActivatePowerUp(ActivationTime));
     }

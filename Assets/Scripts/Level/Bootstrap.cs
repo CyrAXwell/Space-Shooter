@@ -29,7 +29,7 @@ public class Bootstrap : MonoBehaviour
         uIHealthBar.Initialize(player);
         uIXPBar.Initialize(player);
 
-        upgradeManager.Initialize(player, player.GetSkills());
+        upgradeManager.Initialize(player, player.GetSkills(), gameController);
         skillDisplayPanel.Initialize(player.GetSkills());
 
         waveManager.Initialize(gemManager, player, objectPoolManager, gameController);
