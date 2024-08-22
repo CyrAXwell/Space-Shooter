@@ -437,9 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9dc437d89c8a14f8f72d1f057b8f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathEffect: {fileID: 1788796544592844804, guid: 5a2313c5b8cd9854b9783c9bef3eb3df, type: 3}
   playerSO: {fileID: 11400000, guid: 67cd4655a857e4944a41ae75c66a8547, type: 2}
-  hitSound: {fileID: 0}
   upgrades:
   - {fileID: 11400000, guid: 967ad022f7636ae4797a5c259e34ebb2, type: 2}
   - {fileID: 11400000, guid: 6f70464b35cb63545b6a02fc1a3f45c7, type: 2}
@@ -478,7 +476,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   acceleration: 50
-  currentSpeed: 0
 --- !u!114 &3362027039017741202
 MonoBehaviour:
   m_ObjectHideFlags: 0

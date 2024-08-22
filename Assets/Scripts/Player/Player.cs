@@ -16,7 +16,6 @@ public class Player : MonoBehaviour, IUpgradeable
     private int _level = 1;
     private int _exp = 0;
     private int _maxExp = 1;
-    // private int _health;
     private int _maxHealth;
     private int _def;
     private int _damage;
@@ -39,13 +38,12 @@ public class Player : MonoBehaviour, IUpgradeable
     private void Start()
     {
         _maxHealth = playerSO.Health;
-        // _health = _maxHealth;
         _def = playerSO.Defense;
         _damage = playerSO.Damage;
         _critChance = playerSO.CritChance;
         _critDamage = playerSO.CritDamage;
 
-        _activeHP = _maxHealth; // _health
+        _activeHP = _maxHealth;
         _activeMaxHP = _maxHealth;
         _activeATK = _damage;
         _activeDEF = _def;
