@@ -58,11 +58,8 @@ public class GemTooltip : MonoBehaviour
 
     public void OpenGemTooltip(GemStats gem, bool isReward)
     {
-        if (!gameObject.activeInHierarchy)
-        {
-            _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
-            gameObject.SetActive(true); 
-        }
+        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
+        gameObject.SetActive(true); 
 
         if (isReward)
             transform.localPosition = REWARD_PANEL_POS;
@@ -149,7 +146,7 @@ public class GemTooltip : MonoBehaviour
 
     public void UpgradeGemConfirm()
     {
-        _audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
+        //_audioManager.PlaySFX(_audioManager.TooltipButtonClick, 0.7f);
         if(_selectGem.GetNeedExp() <= _gemManager.GetCurrentCoins())
             upgradeMenu.gameObject.SetActive(false);
 

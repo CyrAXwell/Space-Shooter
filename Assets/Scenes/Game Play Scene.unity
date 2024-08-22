@@ -16291,7 +16291,6 @@ MonoBehaviour:
   GemPanelBlock: {fileID: 1454581689}
   enemySpawner: {fileID: 785566033}
   gemToolTip: {fileID: 908919756}
-  waveCounter: 0
 --- !u!82 &523118910
 AudioSource:
   m_ObjectHideFlags: 0
