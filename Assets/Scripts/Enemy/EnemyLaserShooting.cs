@@ -46,18 +46,21 @@ public class EnemyLaserShooting : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             
-            if (hits[i].collider != null && _canDamage) 
+            if (hits[i].collider != null) 
             {
-                switch (hits[i].collider.tag)
+                if (_canDamage)
                 {
-                    case "Player":
-                        hits[i].collider.GetComponent<Player>().TakeDamage(_enemyStats.GetDamage()); 
-                        StartCoroutine(CanLaserDamage(timeBetweenTakeDamage));  
-                        break;
-                    case "Shield":
-                        hits[i].collider.GetComponent<Shield>().TakeDamage(_enemyStats.GetDamage()); 
-                        StartCoroutine(CanLaserDamage(timeBetweenTakeDamage));  
-                        break;
+                    switch (hits[i].collider.tag)
+                    {
+                        case "Player":
+                            hits[i].collider.GetComponent<Player>().TakeDamage(_enemyStats.GetDamage()); 
+                            StartCoroutine(CanLaserDamage(timeBetweenTakeDamage));  
+                            break;
+                        case "Shield":
+                            hits[i].collider.GetComponent<Shield>().TakeDamage(_enemyStats.GetDamage()); 
+                            StartCoroutine(CanLaserDamage(timeBetweenTakeDamage));  
+                            break;
+                    }
                 }
                 
                 laserLine.size = new Vector2(laserLine.size.x, firePoint.position.y - hits[i].point.y);

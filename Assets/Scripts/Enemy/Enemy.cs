@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class Enemy : MonoBehaviour
     private int _damage;
     private int _wave;
     private bool _powerUp = false;
+    private List<Collider2D> powerUpAreas = new List<Collider2D>();
     private AudioManager _audioManager;
 
     public void Initialize(Player player, int wave, AudioManager audioManager, EnemySpawner spawner, ObjectPoolManager objectPool)
@@ -29,6 +31,9 @@ public class Enemy : MonoBehaviour
         _objectPool = objectPool;
         _audioManager = audioManager;
         GetStatsByWave(wave);
+        powerUpIcon.SetActive(false);
+        powerUpAreas.Clear();
+        _powerUp = false; 
     }
 
     public int GetDamage() => _damage;
@@ -85,11 +90,13 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        powerUpAreas.Add(collider);
         ActivatePowerUp(collider);
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
+        powerUpAreas.Remove(collider);
         DeActivatePowerUp(collider);
     }
 
@@ -106,7 +113,7 @@ public class Enemy : MonoBehaviour
 
     private void DeActivatePowerUp(Collider2D collider)
     {
-        if (collider.gameObject.tag == "PowerUp")
+        if (collider.gameObject.tag == "PowerUp" && powerUpAreas.Count == 0)
         {
             powerUpIcon.SetActive(false);
             _defense = enemySO.Defense + enemySO.DefenseIncrease * (_wave - 1);

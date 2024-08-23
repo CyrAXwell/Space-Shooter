@@ -8,7 +8,6 @@ public class EnemyShieldStats : MonoBehaviour
 
     private int _health;
     private EnemyShield _enemyShield;
-    private Animator _animator;
     private AudioManager _audioManager;
 
     public void Initialize(int wave, EnemyShield enemyShield)

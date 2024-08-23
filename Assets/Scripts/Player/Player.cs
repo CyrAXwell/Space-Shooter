@@ -15,7 +15,7 @@ public class Player : MonoBehaviour, IUpgradeable
     private ISkillDisplayable[] _skills;
     private int _level = 1;
     private int _exp = 0;
-    private int _maxExp = 1;
+    private int _maxExp = 10;
     private int _maxHealth;
     private int _def;
     private int _damage;
@@ -115,7 +115,7 @@ public class Player : MonoBehaviour, IUpgradeable
 
     private int GetTargetExperience(int level)
     {
-        return (_level + 3) * (_level + 3);
+        return (level + 3) * (level + 3);
     }
 
     public void lvlUP()

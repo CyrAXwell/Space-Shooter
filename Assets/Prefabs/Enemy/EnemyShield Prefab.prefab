@@ -687,6 +687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySO: {fileID: 11400000, guid: 64cd7002aa48196479750f55419173dd, type: 2}
+  shooting: {fileID: 9208478285584071759, guid: 3dc447cf87b03434d8409d1bc0aab063, type: 3}
   damageText: {fileID: -6221629207355615793, guid: de6c549acf4874b438543e2d81f3a77b, type: 3}
   offsetTextPosition: {x: 0, y: 0.35, z: 0}
   critColor: {r: 1, g: 0.69411767, b: 0.07058824, a: 0}
@@ -746,7 +747,7 @@ MonoBehaviour:
   activationTime: 1
   recoveryTime: 3
   shield: {fileID: 1886187814}
-  animator: {fileID: 77225211}
+  animator: {fileID: 879750025}
 --- !u!60 &1239810988
 PolygonCollider2D:
   m_ObjectHideFlags: 0

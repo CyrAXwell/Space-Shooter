@@ -453,6 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySO: {fileID: 11400000, guid: c73afbc935679bc45ad93b227171b77d, type: 2}
+  shooting: {fileID: 9208478285584071759, guid: 3dc447cf87b03434d8409d1bc0aab063, type: 3}
   damageText: {fileID: -6221629207355615793, guid: de6c549acf4874b438543e2d81f3a77b, type: 3}
   offsetTextPosition: {x: 0, y: 0.6, z: 0}
   critColor: {r: 1, g: 0.69411767, b: 0.07058824, a: 0}

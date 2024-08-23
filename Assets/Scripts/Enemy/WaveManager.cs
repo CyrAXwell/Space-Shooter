@@ -49,12 +49,13 @@ public class WaveManager : MonoBehaviour
 
     public void StartNextWave()
     {
-        _timer = _timer > maxWaveTime ? maxWaveTime : waveDuration +  _waveCounter * newWaveTimeIncrease;
+        float newWaveDuration = waveDuration +  _waveCounter * newWaveTimeIncrease;
+        _timer = newWaveDuration > maxWaveTime ? maxWaveTime : newWaveDuration;
         _stopTimer = false;
         _waveCounter ++;
         GemPanelBlock.SetActive(true);
         
-        if(_waveCounter == 2)
+        if(_waveCounter == 20)
             BossWave();
         else
             enemySpawner.UpdateProbability(_waveCounter);  
@@ -76,6 +77,7 @@ public class WaveManager : MonoBehaviour
         if(!_stopTimer)
         {
             _timer -= Time.deltaTime;
+
             OnTimerUpdate?.Invoke();
             if(_timer <= 0f)
             {

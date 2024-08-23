@@ -206,7 +206,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   acceleration: 50
-  currentSpeed: 0
 --- !u!114 &6167659550603263969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 10
-  health: 50
+  health: 150
   heal: 30
   iconColor: 
   shield: {fileID: 6167659551992010643}
@@ -247,7 +246,6 @@ MonoBehaviour:
   timeBetweenShot: 0.4
   cooldown: 10
   duration: 5
-  shootSound: {fileID: 0}
   upgrades:
   - {fileID: 11400000, guid: 4be4438abdb39354a8c8a1bdb623d737, type: 2}
   - {fileID: 11400000, guid: 438ce987b0c508b4cb47715f7409cb7d, type: 2}

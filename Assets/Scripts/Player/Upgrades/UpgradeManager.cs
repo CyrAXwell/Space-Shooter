@@ -34,7 +34,7 @@ public class UpgradeManager : MonoBehaviour
         
         _upgradeProbability = new int[tierUpgrade.Length];
         for (int i = 0; i < tierUpgrade.Length; i++)
-            _upgradeProbability[i] = tierUpgrade[0].Probability;
+            _upgradeProbability[i] = tierUpgrade[i].Probability;
 
         foreach (Transform slot in upgradeSlots)
         {

@@ -7,7 +7,7 @@ public class PowerUp : MonoBehaviour
     [SerializeField] private GameObject powerUpArea;
     [SerializeField] private float ActivationTime;
 
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(ActivatePowerUp(ActivationTime));
     }
@@ -18,6 +18,13 @@ public class PowerUp : MonoBehaviour
     {
         yield return new WaitForSeconds(interval);
         powerUpArea.SetActive(true);
+        Debug.Log(powerUpArea.GetComponent<Collider2D>().CompareTag("PowerUp"));
         GetComponent<Enemy>().ActivatePowerUp(powerUpArea.GetComponent<Collider2D>());//transform.GetChild(4).GetComponent<Collider2D>());
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        powerUpArea.SetActive(false);
     }
 }

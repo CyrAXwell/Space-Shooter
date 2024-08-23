@@ -86,7 +86,7 @@ public class EnemySpawner : MonoBehaviour
     {
         switch(wave)
         {
-            case 1: _enemySpawnProbability = new int[] {8000, 2000, 0, 0, 0, 0}; break;          //{8000, 2000, 0, 0, 0, 0}                  
+            case 1: _enemySpawnProbability = new int[] {8000, 2000, 0, 0, 0, 0}; break;          //{8000, 2000, 0, 0, 0, 0}               
             case 2: _enemySpawnProbability = new int[] {8000, 2000, 0, 0, 0, 0}; break;          //{7000, 3000, 0, 0, 0, 0} 
             case 3: _enemySpawnProbability = new int[] {6200, 2000, 1800, 0, 0, 0}; break;       //{6000, 2500, 1500, 0, 0, 0}  
             case 4: _enemySpawnProbability = new int[] {6200, 2000, 1800, 0, 0, 0}; break;       //{5500, 2500, 2000, 0, 0, 0}  
@@ -222,6 +222,7 @@ public class EnemySpawner : MonoBehaviour
         newEnemy.Initialize(_player, _waveManager.GetWave(), _audioManager, this, _objectPoolManager);
         newEnemy.transform.position = enemySpawnPoint.transform.position;
         newEnemy.name = enemysPrefabs[enemyID].ToString();
-        newEnemy.GetComponent<EnemyShooting>().Initialize(_objectPoolManager);    
+        if (enemyID != 3)
+            newEnemy.GetComponent<EnemyShooting>().Initialize(_objectPoolManager);    
     }
 }

@@ -14,6 +14,14 @@ public class EnemyShield : MonoBehaviour
     private void OnEnable()
     {
         _timer = activationTime;
+        _shieldIsActive = false;
+        animator.Play("Entry", 0);
+        shield.gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     private void Update()
