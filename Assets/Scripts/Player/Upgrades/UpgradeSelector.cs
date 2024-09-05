@@ -39,7 +39,6 @@ public class UpgradeSelector : MonoBehaviour, IPointerClickHandler
     public void SetUpgrade()
     {
         _tier = GetTierUpgardeByProbability(_cumulativeProbability);
-        Debug.Log(_tier);
         _upgradeIndex = GetRandomUpgrade();
 
         nameTMP.text = _upgradeList[_upgradeIndex].Name.ToString();

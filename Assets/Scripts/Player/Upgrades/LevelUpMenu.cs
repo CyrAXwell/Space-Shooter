@@ -24,6 +24,7 @@ public class LevelUpMenu : MonoBehaviour
 
     public void OpenLevelUpMenu()
     {
+        _gameController.PauseGame();
         _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         _audioManager.PlaySFX(_audioManager.LevleUp);
 
@@ -34,7 +35,6 @@ public class LevelUpMenu : MonoBehaviour
         _rerollCounter = rerollUpgradeAmount;
         rerollButtonHighlight.SetActive(false);
         
-        _gameController.PauseGame();
     }
 
     public void CloseLevelUpMenu()

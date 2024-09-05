@@ -13,16 +13,17 @@ public class GameController : MonoBehaviour
     private Player _player;
     private AudioManager _audioManager;
     private WaveManager _waveManager;
-    ObjectPoolManager _objectPool;
-
+    private ObjectPoolManager _objectPool;
+    
     public void InitializePlayer(WaveManager waveManager, ObjectPoolManager objectPool)
     {
         PauseGame();
         _objectPool = objectPool;
+        _waveManager = waveManager;
+        
         CreateCharacter();
         DisplayControlsTips();
 
-        _waveManager = waveManager;
         _waveManager.OnGameWin += GameWin;
         _waveManager.OnBossWaveComplete += GameOver;
         gameOverScreen.Initialize(this);

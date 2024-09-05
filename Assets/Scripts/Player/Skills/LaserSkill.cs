@@ -77,8 +77,6 @@ public class LaserSkill : MonoBehaviour, ISkillDisplayable, IUpgradeable
         Vector2 startPoint = new Vector2(laserSprite.transform.position.x, laserSprite.transform.position.y);
         Vector2 endPoint = new Vector2(laserSprite.transform.position.x, laserSprite.transform.position.y + maxLaserDistance);
         RaycastHit2D[] hits = Physics2D.RaycastAll(startPoint, (endPoint - startPoint).normalized, (endPoint - startPoint).magnitude, whatIsEnemy);
-        Debug.Log((endPoint - startPoint).normalized);
-        Debug.Log((endPoint - startPoint).magnitude);
 
         bool isHit = false;
         for (int i = 0; i < hits.Length; i++)
